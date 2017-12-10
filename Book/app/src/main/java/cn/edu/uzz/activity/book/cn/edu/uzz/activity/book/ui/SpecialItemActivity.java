@@ -1,0 +1,471 @@
+package cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.ui;
+
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import cn.edu.uzz.activity.book.DemoApplication;
+import cn.edu.uzz.activity.book.R;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Books;
+
+/**
+ * Created by 10616 on 2017/12/8.
+ */
+
+public class SpecialItemActivity extends Activity implements View.OnClickListener {
+	private ImageView book_pic;
+	private TextView book_name;
+	private TextView book_writer;
+	private TextView book_publish;
+	private TextView book_version;
+	private TextView book_isbn;
+	private TextView book_price;
+	private TextView book_time;
+	private ImageView item_return;
+	private TextView like_word;
+	String image_name;
+	private LinearLayout book_like;
+	private ImageButton book_like_image;
+	private TextView book_like_word;
+	private Button book_sub;
+	private Button book_rent;
+	int type;
+	int id;
+	String account;
+	String bookname;
+	Books book=new Books();
+	private static String  substatus;
+	private static String rentstatus;
+	StringBuffer time;
+
+	@Override
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.item);
+		initView();
+
+	}
+
+	private void initView() {
+		book_pic = findViewById(R.id.item_image);
+		book_name = findViewById(R.id.item_name);
+		book_writer = findViewById(R.id.item_writer);
+		book_publish = findViewById(R.id.item_publish);
+		book_version = findViewById(R.id.item_version);
+		book_isbn = findViewById(R.id.item_isbn);
+		book_price = findViewById(R.id.item_price);
+		book_time = findViewById(R.id.item_time);
+		item_return = findViewById(R.id.item_return);
+		book_like = findViewById(R.id.item_like);
+		book_like_word = findViewById(R.id.item_like_word);
+		book_like_image = findViewById(R.id.item_like_image);
+		book_sub = findViewById(R.id.item_subscribe);
+		book_rent = findViewById(R.id.item_rent);
+		like_word=findViewById(R.id.item_like_word);
+
+		Intent intent=getIntent();
+		type=intent.getIntExtra("type",0);
+		id=intent.getIntExtra("id",0);
+		SharedPreferences pre=getSharedPreferences("user",MODE_PRIVATE);
+		account=pre.getString("account","");
+
+		getBook(type,id);
+
+
+
+		//设置点击监听
+		item_return.setOnClickListener(this);
+		book_like.setOnClickListener(this);
+		book_rent.setOnClickListener(this);
+		book_sub.setOnClickListener(this);
+
+
+		//1.检测该用户是否收藏此书，若已收藏，则显示已收藏
+		//2.检测书籍状态，显示是否被借阅或被预定
+		check();
+	}
+
+	private void getBook(int type,int id) {
+		//1创建请求队列
+		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+		//2创建请求
+		final JsonObjectRequest request = new JsonObjectRequest(
+				"http://123.206.230.120/Book/getbookServ?bookid=" +id+ "&booktype=" + type, null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					int resultCode = response.getInt("resultCode");
+					JSONObject books=response.getJSONObject("books");
+					if (resultCode ==0) {
+						book_name.setText("书名：" + books.getString("name"));
+						bookname=books.getString("name");
+						book_writer.setText("作者：" + books.getString("writer"));
+						book_publish.setText("出版社：" + books.getString("publish"));
+						book_version.setText(books.getString("version"));
+						book_isbn.setText(books.getString("ISBN"));
+						book_price.setText("价格：" + books.getString("price"));
+						book_time.setText("日期：" + books.getString("time"));
+						image_name = "http://123.206.230.120/Book/images/img/"+books.getString("picture");
+						getImage(image_name);//获取照片
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+
+			}
+
+
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+
+				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+			}
+		});
+		//3请求加入队列
+		queue.add(request);
+
+	}
+
+
+	private void check() {
+		//1创建请求队列
+		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+		//2创建请求
+		JsonObjectRequest request = new JsonObjectRequest(
+				"http://123.206.230.120/Book/checklikeServ?account=" + account +"&type=" + type+"&id="+id, null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					int resultCode = response.getInt("resultCode");
+					substatus=response.getString("subscribe");
+					rentstatus=response.getString("rentstatus");
+					if (resultCode == 1) {
+						book_like_image.setImageResource(R.drawable.book_like_selected);
+						book_like_word.setText("已收藏");
+						book_sub.setText(substatus);
+						book_rent.setText(rentstatus);
+					}else if (resultCode==2){
+						book_like_image.setImageResource(R.drawable.book_like_normal);
+						book_like_word.setText("收藏");
+						book_sub.setText(substatus);
+						book_rent.setText(rentstatus);
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+
+				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+			}
+		});
+		//3请求加入队列
+		queue.add(request);
+
+	}
+
+	private void getImage(String image_name) {
+		ImageRequest request = new ImageRequest(image_name, new Response.Listener<Bitmap>() {
+			@Override
+			public void onResponse(Bitmap bitmap) {
+				book_pic.setImageBitmap(bitmap);
+			}
+		}, 500, 200, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+				book_pic.setBackgroundResource(R.drawable.ic_launcher);
+			}
+		});
+		DemoApplication.getHttpQueues().add(request);
+	}
+
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.item_return:
+				finish();
+				break;
+			case R.id.item_like:
+				if(like_word.getText().toString().equals("收藏")){getLikeBook();}
+				else {cancelLikeBook();}
+				break;
+			case R.id.item_rent:
+				if (book_rent.getText().toString().equals("已借阅")){
+					Toast.makeText(SpecialItemActivity.this,"对不起，此书已被借阅",Toast.LENGTH_SHORT).show();
+				}else {
+					Rent();
+				}
+				break;
+			case R.id.item_subscribe:
+				if(checksub()==1){
+					Toast.makeText(SpecialItemActivity.this,"预定成功，请在24小时内借阅此书",Toast.LENGTH_SHORT).show();
+				}else if(checksub()==2){
+					Toast.makeText(SpecialItemActivity.this,"抱歉，此书已被预订",Toast.LENGTH_SHORT).show();
+				}else if(checksub()==3){
+					Toast.makeText(SpecialItemActivity.this,"抱歉，此书正在被借阅",Toast.LENGTH_SHORT).show();
+				}
+				break;
+			default:
+				break;
+		}
+	}
+
+	private void Rent() {
+		if (book_sub.getText().toString().equals("预定")){
+			showDatePickDlg();
+		}else {
+			checkRent();
+		}
+	}
+
+	protected void showDatePickDlg() {
+		Calendar calendar = Calendar.getInstance();
+		DatePickerDialog datePickerDialog = new DatePickerDialog(SpecialItemActivity.this, new DatePickerDialog.OnDateSetListener() {
+			@Override
+			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+				time=new StringBuffer().append(year).append("-").append(monthOfYear+1).append("-").append(dayOfMonth);
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					Date dateend=sdf.parse(String.valueOf(time));
+					String now=sdf.format(new java.util.Date());
+					Date datenow=sdf.parse(now);
+					if (dateend.getTime()<datenow.getTime()){
+						Toast.makeText(SpecialItemActivity.this,"请选择正确的日期",Toast.LENGTH_SHORT).show();
+					}else{
+						Toast.makeText(SpecialItemActivity.this,"您选择的时间为："+time,Toast.LENGTH_SHORT).show();//测试阶段使用 ，成功后注释掉
+						rentBook();
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+		}, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+		datePickerDialog.show();
+
+	}
+
+	private void checkRent() {
+		//1创建请求队列
+		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+		//2创建请求
+		JsonObjectRequest request = new JsonObjectRequest(
+				"http://123.206.230.120/Book/checksubServ?account=" + account +  "&bookid=" +id+ "&booktype=" + type, null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					int resultCode = response.getInt("resultCode");
+					if (resultCode == 1) {
+						showDatePickDlg();
+					}else if (resultCode==2){
+						Toast.makeText(SpecialItemActivity.this,"此书已被其他用户预定，请等候",Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+
+			}
+
+
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+
+				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+			}
+		});
+		//3请求加入队列
+		queue.add(request);
+	}
+
+	private void rentBook() {
+		String  timeend=time.toString();
+		//1创建请求队列
+		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+		//2创建请求
+		JsonObjectRequest request = new JsonObjectRequest(
+				"http://123.206.230.120/Book/rentcarServ?account=" + account +  "&bookid=" +id+ "&booktype=" + type+"&bookname="+bookname+"&timeend="+timeend+"&picture="+image_name, null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					int resultCode = response.getInt("resultCode");
+					if (resultCode == 1) {
+						Toast.makeText(SpecialItemActivity.this,"已添加到借阅车，请在30分钟内确认借阅",Toast.LENGTH_SHORT).show();
+					}else if (resultCode==2){
+						Toast.makeText(SpecialItemActivity.this,"添加到借阅车失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+					}else if (resultCode==3){
+						Toast.makeText(SpecialItemActivity.this,"此书已被添加，勿重复添加",Toast.LENGTH_SHORT).show();
+					}
+
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+
+			}
+
+
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+
+				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+			}
+		});
+		//3请求加入队列
+		queue.add(request);
+	}
+
+	private int checksub() {
+		if(book_sub.getText().toString().equals("已预订")){
+			return 2;
+		}else if (book_rent.getText().toString().equals("已借阅")){
+			return 3;
+		}else {
+			getSubscribe();//此书未被预定，进行预定操作
+			return 1;
+		}
+	}
+
+	private void getSubscribe() {
+		//1创建请求队列
+		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+		//2创建请求
+		JsonObjectRequest request = new JsonObjectRequest(
+				"http://123.206.230.120/Book/subscribeServ?account=" + account +  "&bookid=" +id+ "&booktype=" + type+"&bookname="+bookname+"&picture="+image_name, null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					int resultCode = response.getInt("resultCode");
+					if (resultCode == 1||resultCode==2) {
+						book_sub.setText("已预订");
+					}else if (resultCode==3){
+						Toast.makeText(SpecialItemActivity.this,"预定失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+					}
+
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+
+			}
+
+
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+
+				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+			}
+		});
+		//3请求加入队列
+		queue.add(request);
+	}
+
+	private void cancelLikeBook() {
+		//1创建请求队列
+		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+		//2创建请求
+		JsonObjectRequest request = new JsonObjectRequest(
+				"http://123.206.230.120/Book/cancellikeServ?account=" + account +  "&bookid=" +id+ "&booktype=" + type, null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					int resultCode = response.getInt("resultCode");
+					if (resultCode == 1||resultCode==3) {
+						Toast.makeText(SpecialItemActivity.this,"取消收藏成功",Toast.LENGTH_SHORT).show();
+						book_like_image.setImageResource(R.drawable.book_like_normal);
+						book_like_word.setText("收藏");
+					}else if (resultCode==2){
+						Toast.makeText(SpecialItemActivity.this,"取消收藏失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+					}
+
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+
+			}
+
+
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+
+				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+			}
+		});
+		//3请求加入队列
+		queue.add(request);
+
+	}
+
+	public boolean getLikeBook() {
+		//1创建请求队列
+		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+		//2创建请求
+		JsonObjectRequest request = new JsonObjectRequest(
+				"http://123.206.230.120/Book/likeServ?account=" + account + "&bookname=" + bookname + "&bookid=" +id+ "&booktype=" + type+"&picture="+image_name, null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					int resultCode = response.getInt("resultCode");
+					if (resultCode == 1) {
+						Toast.makeText(SpecialItemActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
+						book_like_image.setImageResource(R.drawable.book_like_selected);
+						book_like_word.setText("已收藏");
+					}else if (resultCode==2){
+						Toast.makeText(SpecialItemActivity.this,"收藏失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+					}
+
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+
+				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+			}
+		});
+		//3请求加入队列
+		queue.add(request);
+		return true;
+	}
+}

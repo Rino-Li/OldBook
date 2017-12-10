@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:style/Theme.Holo.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="maleRadioButtonStyles">
+        <item name="android:button">@drawable/male_selector_radio_bg</item>
+    </style>
+    <style name="femaleRadioButtonStyles">
+        <item name="android:button">@drawable/female_selector_radio_bg</item>
+    </style>
+
+
+</resources>

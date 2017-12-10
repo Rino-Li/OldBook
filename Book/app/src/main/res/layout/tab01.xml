@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/standardwhite">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/standardgreen"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/title">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="书城"
+            android:textColor="@color/standardwhite"
+            android:textSize="20dp"
+            />
+
+    </LinearLayout>
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/title">
+    <LinearLayout
+        android:id="@+id/icons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        >
+
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@color/standardwhite"
+            >
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="wrap_content"
+            android:background="@color/standardwhite"
+            android:id="@+id/phb"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/paihangbang"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/book_paihangbang"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="排行榜"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="3dp"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@color/standardwhite"
+            >
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="wrap_content"
+            android:background="@color/standardwhite"
+            android:id="@+id/types"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/booktypes"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/book_booktype"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分类"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="3dp"
+                />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@color/standardwhite"
+            >
+        </LinearLayout>
+
+
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:background="@color/standardwhite"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/newbook"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/book_newbook"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新书上架"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="3dp"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@color/standardwhite"
+            >
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+<!--<cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.ReFlashListView
+    android:id="@+id/listview"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/standardwhite"
+    android:cacheColorHint="#00000000"
+    android:dividerHeight="1dip"
+    android:layout_below="@+id/icons"
+    android:layout_marginTop="20dp"
+    android:divider="@color/standardgreen"
+    />-->
+    <ListView
+        android:id="@+id/listviewmain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/icons"
+        android:divider="@color/grey"
+        android:layout_marginTop="10dp"
+        android:cacheColorHint="#00000000"
+        android:scrollbars="none"
+        android:padding="5dp"
+        ></ListView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -32,7 +32,7 @@
         android:padding="5dp">
     </ListView>
     <Button
-        android:id="@+id/erweima"
+        android:id="@+id/jinruerweima"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:text="点击生成二维码"

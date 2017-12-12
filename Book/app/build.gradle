@@ -5,7 +5,7 @@ android {
 
     defaultConfig {
         applicationId "cn.edu.uzz.activity.book"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -36,6 +36,7 @@ dependencies {
     compile 'com.jude:rollviewpager:1.2.9'
     compile 'com.facebook.fresco:fresco:0.11.0'
     compile 'com.alibaba:fastjson:1.1.46.android'
+    implementation project(':libzxing')
 }
 
 

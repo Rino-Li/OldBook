@@ -81,6 +81,9 @@
         <activity android:name=".cn.edu.uzz.activity.book.ui.NoLoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             />
+        <activity android:name=".cn.edu.uzz.activity.book.ui.ErweimaActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            />
         <meta-data android:name="Mob-AppKey" android:value="2216245c23ed4"/>
         <meta-data android:name="Mob-AppSecret" android:value="8407c2da25d4cdfcdbad0043b99907c4"/>
     </application>

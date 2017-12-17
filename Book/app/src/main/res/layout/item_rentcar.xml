@@ -5,22 +5,20 @@
     android:layout_height="70dp"
     android:background="@drawable/layout_background"
     >
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"/>
     <ImageView
-        android:id="@+id/bookpic"
+        android:id="@+id/car_bookpic"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginLeft="30dp"/>
+        android:layout_marginLeft="10dp"/>
     <TextView
-        android:id="@+id/bookname"
+        android:id="@+id/car_bookname"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="123"
-        android:layout_toRightOf="@+id/bookpic"
+        android:layout_toRightOf="@+id/car_bookpic"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:textSize="20dp"
         android:lines="1"
         android:ellipsize="end"
         android:textColor="@drawable/item_color"
@@ -40,37 +38,14 @@
         android:layout_marginRight="10dp"
         />
 
+
     <TextView
-        android:id="@+id/bookwriter"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:textSize="8dp"
-        android:text="123232331232"
-        android:textColor="#505050"
-        android:layout_below="@+id/bookname"
-        android:layout_alignLeft="@+id/bookname"
-        android:layout_marginTop="5dp"
-        android:lines="1"
-        android:ellipsize="end"
-        />
-    <TextView
-        android:id="@+id/bookpublish"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="8dp"
-        android:text="555"
-        android:layout_below="@+id/bookwriter"
-        android:layout_alignLeft="@+id/bookname"
-        />
-    <TextView
-        android:id="@+id/bookversion"
+        android:id="@+id/car_endtime"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bookpublish"
+        android:layout_alignLeft="@+id/car_bookname"
+        android:layout_alignStart="@+id/car_bookname"
+        android:layout_below="@+id/cancel_like"
         android:text="暂无"
-        android:layout_alignLeft="@+id/bookwriter"
-        android:layout_marginTop="5dp"
-        android:textSize="8dp"
-        />
+        android:textSize="8dp" />
 </RelativeLayout>

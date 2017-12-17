@@ -1,7 +1,6 @@
 package cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 /**
  * Created by 10616 on 2017/12/3.
@@ -10,8 +9,8 @@ import java.sql.Date;
 public class RentCar implements Serializable{
 	private String account;
 	private String bookanme;
-	private Date nowdate;
-	private Date endtime;
+	private String nowdate;
+	private String endtime;
 	private String picture;
 	private int bookid;
 	private int booktype;
@@ -32,19 +31,19 @@ public class RentCar implements Serializable{
 		this.bookanme = bookanme;
 	}
 
-	public Date getNowdate() {
+	public String getNowdate() {
 		return nowdate;
 	}
 
-	public void setNowdate(Date nowdate) {
+	public void setNowdate(String nowdate) {
 		this.nowdate = nowdate;
 	}
 
-	public Date getEndtime() {
+	public String getEndtime() {
 		return endtime;
 	}
 
-	public void setEndtime(Date endtime) {
+	public void setEndtime(String endtime) {
 		this.endtime = endtime;
 	}
 

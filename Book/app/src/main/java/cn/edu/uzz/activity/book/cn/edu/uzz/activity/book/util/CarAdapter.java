@@ -19,7 +19,7 @@ import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.RentCar;
  * Created by 10616 on 2017/12/16.
  */
 
-public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListener{
+public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListener,View.OnClickListener{
 	private List<RentCar> mList;
 	private LayoutInflater inflater;
 	private ViewHolder viewHolder;
@@ -27,9 +27,11 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 	private int mStart,mEnd;
 	public static String[] URLS;
 	private boolean mFirstIn;
+	private CallBack mcallBack;
 
-	public CarAdapter(Context context, List<RentCar> data, ListView listView){
+	public CarAdapter(Context context, List<RentCar> data, ListView listView,CallBack callBack){
 		this.mList = data;
+		mcallBack=callBack;
 		this.inflater = LayoutInflater.from(context);
 		imageLoader=new CarImageLoader(listView);
 		URLS=new String[data.size()];
@@ -40,6 +42,12 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 		//注册对应的事件
 		listView.setOnScrollListener(this);
 	}
+
+	//定义一个接口用于回调点击事件
+	public interface CallBack{
+		public void click(View v);
+	}
+
 	@Override
 	public int getCount() {
 		return mList.size();
@@ -64,6 +72,7 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 			viewHolder.car_book_name=view.findViewById(R.id.car_bookname);
 			viewHolder.car_bookpic=view.findViewById(R.id.car_bookpic);
 			viewHolder.car_endtime=view.findViewById(R.id.car_endtime);
+			viewHolder.cancelBtn=view.findViewById(R.id.cancel_car);
 			view.setTag(viewHolder);
 		}else {
 			viewHolder = (ViewHolder) view.getTag();
@@ -74,6 +83,8 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 		imageLoader.showImageByAsyncTask(viewHolder.car_bookpic,url);
 		viewHolder.car_book_name.setText(mList.get(position).getBookanme());
 		viewHolder.car_endtime.setText(mList.get(position).getEndtime());
+		viewHolder.cancelBtn.setOnClickListener(this);
+		viewHolder.cancelBtn.setTag(position);
 		return view;
 	}
 
@@ -99,11 +110,22 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 		}
 	}
 
+	public void refresh(List<RentCar> list) {
+		mList = list;//传入list，然后调用notifyDataSetChanged方法
+		notifyDataSetChanged();
+	}
+
+
+	@Override
+	public void onClick(View view) {
+		mcallBack.click(view);
+	}
+
 	class ViewHolder {
 
 		TextView car_book_name;
 		TextView car_endtime;
 		ImageView car_bookpic;
-
+		private TextView cancelBtn;
 	}
 }

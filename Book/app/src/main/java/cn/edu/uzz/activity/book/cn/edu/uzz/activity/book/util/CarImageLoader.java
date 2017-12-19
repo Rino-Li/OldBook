@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -54,7 +53,6 @@ public class CarImageLoader {
 	}
 
 	public Bitmap getBitmapFromCache(String url){
-		Log.e("BBB",url);
 		return mCaches.get(url);
 	}
 

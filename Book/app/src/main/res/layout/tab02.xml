@@ -39,7 +39,38 @@
         android:background="@drawable/buttonshape"
         android:textColor="@color/standardwhite"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        />
+    <ImageView
+        android:id="@+id/fail_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/book_fail"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
+    <TextView
+        android:id="@+id/fail_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/standardgreen"
+        android:text="！借阅车空空如也！"
+        android:textSize="30sp"
+        android:layout_below="@+id/fail_img"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        />
+    <Button
+        android:id="@+id/fresh"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="刷新"
+        android:background="@drawable/buttonshape"
+        android:textColor="@color/standardwhite"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
         />

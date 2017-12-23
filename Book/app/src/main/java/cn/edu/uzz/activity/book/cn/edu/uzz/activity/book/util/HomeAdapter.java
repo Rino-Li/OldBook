@@ -1,7 +1,6 @@
 package cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -70,9 +69,5 @@ public class HomeAdapter extends BaseAdapter {
     private static class ViewHold {
         private GridViewForScrollView gridView;
         private TextView blank;
-    }
-
-    public void getUrl(Context context,int position,int po){
-        Log.e("BBBBBBBBB",position+"++++");
     }
 }

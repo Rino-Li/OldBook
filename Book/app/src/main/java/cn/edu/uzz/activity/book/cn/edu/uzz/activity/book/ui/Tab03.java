@@ -22,6 +22,7 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 	private LinearLayout myLike;
 	private LinearLayout mysub;
 	private Button loginBtn;
+	private LinearLayout myCar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -39,6 +40,7 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 		myLike=getView().findViewById(R.id.layout2);
 		mysub=getView().findViewById(R.id.layout3);
 		loginBtn=getView().findViewById(R.id.logout_btn);
+		myCar=getView().findViewById(R.id.layout7);
 		File file= new File("/data/data/cn.edu.uzz.activity.book/shared_prefs","user.xml");
 		if(file.exists())
 		{
@@ -49,6 +51,7 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 		loginBtn.setOnClickListener(this);
 		myLike.setOnClickListener(this);
 		mysub.setOnClickListener(this);
+		myCar.setOnClickListener(this);
     }
 
 	@Override
@@ -72,6 +75,8 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 					startActivity(new Intent(getActivity(),LoginActivity.class));
 				}
 				break;
+			case R.id.layout7:
+				startActivity(new Intent(getActivity(),CarActivity.class));
 			default:
 				break;
 		}

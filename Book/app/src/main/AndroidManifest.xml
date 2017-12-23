@@ -51,9 +51,6 @@
         <activity android:name=".cn.edu.uzz.activity.book.ui.BookItemActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             />
-        <activity android:name=".cn.edu.uzz.activity.book.ui.TypesActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            />
         <activity android:name=".cn.edu.uzz.activity.book.ui.ForgetPwdActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             />
@@ -82,6 +79,9 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             />
         <activity android:name=".cn.edu.uzz.activity.book.ui.ErweimaActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            />
+        <activity android:name=".cn.edu.uzz.activity.book.ui.CarActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             />
         <meta-data android:name="Mob-AppKey" android:value="2216245c23ed4"/>

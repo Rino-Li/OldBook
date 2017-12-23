@@ -88,7 +88,7 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.booktypes:
-                startActivity(new Intent(getActivity(),TypesActivity.class));
+                startActivity(new Intent(getActivity(),LoginActivity.class));
                 break;
             case R.id.newbook:
                 startActivity(new Intent(getActivity(),LoginActivity.class));

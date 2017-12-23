@@ -36,7 +36,7 @@
         android:orientation="horizontal">
 
         <ListView
-            android:id="@+id/lv_menu"
+            android:id="@+id/lv_typemenu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

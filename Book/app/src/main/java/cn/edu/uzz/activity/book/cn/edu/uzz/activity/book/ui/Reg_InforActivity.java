@@ -78,7 +78,6 @@ public class Reg_InforActivity extends Activity{
                 Toast.makeText(Reg_InforActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
                 Infor();
                 startActivity(new Intent(Reg_InforActivity.this,MainActivity.class));
-
                 finish();
             }
         }, new Response.ErrorListener() {

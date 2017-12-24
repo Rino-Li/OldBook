@@ -127,5 +127,6 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 		TextView car_endtime;
 		ImageView car_bookpic;
 		private TextView cancelBtn;
+
 	}
 }

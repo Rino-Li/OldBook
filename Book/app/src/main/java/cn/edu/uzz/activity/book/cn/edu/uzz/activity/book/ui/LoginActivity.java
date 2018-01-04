@@ -65,7 +65,6 @@ public class LoginActivity extends Activity {
                                 getInfor();
                                 Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finish();
                             } else if (resultCode == 4) {
                                 Toast.makeText(LoginActivity.this, "密码错误，请重新输入！", Toast.LENGTH_SHORT).show();
                             } else if (resultCode == 2) {

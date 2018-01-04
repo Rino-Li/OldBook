@@ -52,11 +52,7 @@ public class Tab02 extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState)
 	{
-		View view=inflater.inflate(R.layout.tab02, container, false);
-		lv_menu = view. findViewById(R.id.lv_typemenu);
-		tv_title =view. findViewById(R.id.tv_titile);
-		lv_home = view. findViewById(R.id.lv_home);
-		return view;
+		return inflater.inflate(R.layout.tab02, container, false);
 	}
 
 	@Override
@@ -84,13 +80,13 @@ public class Tab02 extends Fragment{
 	}
 
 	private void initView() {
-		/*lv_menu = getView(). findViewById(R.id.lv_typemenu);
-		tv_title = getView(). findViewById(R.id.tv_titile);
-		lv_home = getView(). findViewById(R.id.lv_home);*/
-		menuAdapter = new MenuAdapter(getActivity(),menuList);
-		if (lv_menu!=null){
+		lv_menu = getView(). findViewById(R.id.lv_typemenu);
+		if (lv_menu==null){
 			Log.e("BBBB","null");
 		}
+		tv_title = getView(). findViewById(R.id.tv_titile);
+		lv_home = getView(). findViewById(R.id.lv_home);
+		menuAdapter = new MenuAdapter(getActivity(),menuList);
 		lv_menu.setAdapter(menuAdapter);
 
 		homeAdapter = new HomeAdapter(getActivity(), homeList);

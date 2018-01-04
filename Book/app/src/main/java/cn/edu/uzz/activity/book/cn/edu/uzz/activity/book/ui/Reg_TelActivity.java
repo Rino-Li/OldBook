@@ -132,6 +132,8 @@ public class Reg_TelActivity extends AppCompatActivity implements View.OnClickLi
                         intent.setClass(Reg_TelActivity.this,
                                 RegistActivity.class);
                         startActivity(intent);
+
+
                         finish();
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         Toast.makeText(getApplicationContext(), "正在获取验证码",

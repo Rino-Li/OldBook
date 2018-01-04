@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -18,9 +19,8 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
@@ -31,16 +31,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Books;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.BitmapCache;
 
 /**
  * Created by 10616 on 2017/12/8.
  */
 
 public class SpecialItemActivity extends Activity implements View.OnClickListener {
-	private NetworkImageView book_pic;
+	private ImageView book_pic;
 	private TextView book_name;
 	private TextView book_writer;
 	private TextView book_publish;
@@ -198,12 +198,18 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 	}
 
 	private void getImage(String image_name) {
-		RequestQueue mQueue = Volley.newRequestQueue(getApplicationContext());
-		ImageLoader imageLoader = new ImageLoader(mQueue, new BitmapCache());
-		book_pic.setDefaultImageResId(R.drawable.ic_launcher);
-		book_pic.setErrorImageResId(R.drawable.ic_launcher);
-		book_pic.setImageUrl(image_name,
-				imageLoader);
+		ImageRequest request = new ImageRequest(image_name, new Response.Listener<Bitmap>() {
+			@Override
+			public void onResponse(Bitmap bitmap) {
+				book_pic.setImageBitmap(bitmap);
+			}
+		}, 500, 200, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+				book_pic.setBackgroundResource(R.drawable.ic_launcher);
+			}
+		});
+		DemoApplication.getHttpQueues().add(request);
 	}
 
 	@Override

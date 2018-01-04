@@ -9,16 +9,16 @@
         android:id="@+id/car_bookpic"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginLeft="20dp"/>
+        android:layout_marginLeft="10dp"/>
     <TextView
         android:id="@+id/car_bookname"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="123"
         android:layout_toRightOf="@+id/car_bookpic"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:lines="1"
         android:ellipsize="end"
         android:textColor="@drawable/item_color"
@@ -47,5 +47,5 @@
         android:layout_alignStart="@+id/car_bookname"
         android:layout_below="@+id/cancel_car"
         android:text="暂无"
-        android:textSize="8sp" />
+        android:textSize="8dp" />
 </RelativeLayout>

@@ -98,12 +98,12 @@ public class CarActivity extends Activity implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()){
 			case R.id.jinruerweima:
-				if (length>2){
+				/*if (length>1){
 					Toast.makeText(CarActivity.this,"一次只能借阅两本书",Toast.LENGTH_SHORT).show();
 				}else{
 					if(length==1){
 						Intent intent=new Intent();
-						RentCar rentCar=book_list.get(0);
+						RentCar rentCar=book_list.get(1);
 						intent.putExtra("length",length);
 						intent.putExtra("type1",rentCar.getBooktype());
 						intent.putExtra("id1",rentCar.getBookid());
@@ -121,8 +121,7 @@ public class CarActivity extends Activity implements View.OnClickListener {
 						intent.setClass(CarActivity.this,ErweimaActivity.class);
 						startActivity(intent);
 					}
-				}
-
+				}*/
 				break;
 			case R.id.car_return:
 				finish();

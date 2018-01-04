@@ -3,7 +3,6 @@ package cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.ui;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -18,8 +17,9 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
@@ -30,16 +30,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Books;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.BitmapCache;
 
 /**
  * Created by 10616 on 2017/11/25.
  */
 
 public class BookItemActivity extends Activity implements View.OnClickListener {
-    private ImageView book_pic;
+    private NetworkImageView book_pic;
     private TextView book_name;
     private TextView book_writer;
     private TextView book_publish;
@@ -157,7 +157,13 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
     }
 
     private void getImage(String image_name) {
-        ImageRequest request = new ImageRequest(image_name, new Response.Listener<Bitmap>() {
+		RequestQueue mQueue = Volley.newRequestQueue(getApplicationContext());
+		ImageLoader imageLoader = new ImageLoader(mQueue, new BitmapCache());
+		book_pic.setDefaultImageResId(R.drawable.ic_launcher);
+		book_pic.setErrorImageResId(R.drawable.ic_launcher);
+		book_pic.setImageUrl(image_name,
+				imageLoader);
+        /*ImageRequest request = new ImageRequest(image_name, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap bitmap) {
                 book_pic.setImageBitmap(bitmap);
@@ -168,7 +174,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
                 book_pic.setBackgroundResource(R.drawable.ic_launcher);
             }
         });
-        DemoApplication.getHttpQueues().add(request);
+        mQueue.add(request);*/
     }
 
     @Override
@@ -195,7 +201,9 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
                     Toast.makeText(BookItemActivity.this,"抱歉，此书已被预订",Toast.LENGTH_SHORT).show();
                 }else if(checksub()==3){
                     Toast.makeText(BookItemActivity.this,"抱歉，此书正在被借阅",Toast.LENGTH_SHORT).show();
-                }
+                }else if (checksub()==4){
+					Toast.makeText(BookItemActivity.this,"请先登录",Toast.LENGTH_SHORT).show();
+				}
                 break;
             default:
                 break;
@@ -211,6 +219,10 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
     }
 
     protected void showDatePickDlg() {
+		if (account==""){
+			Toast.makeText(BookItemActivity.this,"请先登录",Toast.LENGTH_SHORT).show();
+			return;
+		}
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog datePickerDialog = new DatePickerDialog(BookItemActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -314,12 +326,18 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
         }else if (book_rent.getText().toString().equals("已借阅")){
             return 3;
         }else {
-            getSubscribe();//此书未被预定，进行预定操作
-            return 1;
+			if (account==""){
+				return 4;
+			}else{
+				getSubscribe();//此书未被预定，进行预定操作
+				return 1;
+			}
+
         }
     }
 
     private void getSubscribe() {
+
         //1创建请求队列
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         //2创建请求
@@ -393,6 +411,10 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
     }
 
     public boolean getLikeBook() {
+		if (account==""){
+			Toast.makeText(BookItemActivity.this,"请先登录",Toast.LENGTH_SHORT).show();
+			return false;
+		}
         //1创建请求队列
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         //2创建请求

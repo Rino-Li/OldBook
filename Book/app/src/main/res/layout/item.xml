@@ -29,14 +29,23 @@
             />
 
     </RelativeLayout>
-    <ImageView
+    <!--<ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
         android:id="@+id/item_image"
         android:layout_below="@+id/item_title"
         android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"/>-->
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/item_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:layout_below="@+id/item_title"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        />
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"

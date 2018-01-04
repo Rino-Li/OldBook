@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Book.iml" filepath="$PROJECT_DIR$/Book.iml" />
+      <module fileurl="file://F:\迅雷下载\Book\Book.iml" filepath="F:\迅雷下载\Book\Book.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://F:\迅雷下载\Book\app\app.iml" filepath="F:\迅雷下载\Book\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/libzxing/libzxing.iml" filepath="$PROJECT_DIR$/libzxing/libzxing.iml" />
+      <module fileurl="file://F:\迅雷下载\Book\libzxing\libzxing.iml" filepath="F:\迅雷下载\Book\libzxing\libzxing.iml" />
     </modules>
   </component>
 </project>

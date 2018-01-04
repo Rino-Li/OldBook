@@ -23,7 +23,6 @@ import com.mob.MobSDK;
 
 import org.json.JSONObject;
 
-import cn.edu.uzz.activity.book.MainActivity;
 import cn.edu.uzz.activity.book.R;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;

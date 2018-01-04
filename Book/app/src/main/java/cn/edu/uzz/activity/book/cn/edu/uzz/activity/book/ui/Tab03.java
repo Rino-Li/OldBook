@@ -1,5 +1,8 @@
 package cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.ui;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -71,6 +74,12 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 				{
 					file.delete();
 					loginBtn.setText("登录");
+					Intent intent = getActivity().getPackageManager()
+							.getLaunchIntentForPackage(getActivity().getPackageName());
+					PendingIntent restartIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+					AlarmManager mgr = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+					mgr.set(AlarmManager.RTC, System.currentTimeMillis()+500 , restartIntent); // 1秒钟后重启应用
+					System.exit(0);
 				}else{
 					startActivity(new Intent(getActivity(),LoginActivity.class));
 				}

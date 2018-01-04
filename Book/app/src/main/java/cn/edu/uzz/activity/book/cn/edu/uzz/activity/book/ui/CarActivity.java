@@ -31,9 +31,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.net.URL;
 
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.RentCar;
@@ -55,6 +55,7 @@ public class CarActivity extends Activity implements View.OnClickListener {
 	private ImageView fail_img;
 	NewsAsyncTask newsAsyncTask;
 	private ImageView car_return;
+	private int length;
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,6 +63,13 @@ public class CarActivity extends Activity implements View.OnClickListener {
 		initView();
 		SharedPreferences pre=getSharedPreferences("user",MODE_PRIVATE);
 		account=pre.getString("account","");
+		if(account.equals("")){
+			Intent intent=new Intent();
+			intent.putExtra("title","借阅小车");
+			intent.setClass(CarActivity.this,NoLoginActivity.class);
+			startActivity(intent);
+			finish();
+		}
 		newsAsyncTask.execute(URL+account);
 	}
 
@@ -90,13 +98,12 @@ public class CarActivity extends Activity implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()){
 			case R.id.jinruerweima:
-<<<<<<< HEAD
-				/*if (length>1){
+				if (length>2){
 					Toast.makeText(CarActivity.this,"一次只能借阅两本书",Toast.LENGTH_SHORT).show();
 				}else{
 					if(length==1){
 						Intent intent=new Intent();
-						RentCar rentCar=book_list.get(1);
+						RentCar rentCar=book_list.get(0);
 						intent.putExtra("length",length);
 						intent.putExtra("type1",rentCar.getBooktype());
 						intent.putExtra("id1",rentCar.getBookid());
@@ -114,14 +121,8 @@ public class CarActivity extends Activity implements View.OnClickListener {
 						intent.setClass(CarActivity.this,ErweimaActivity.class);
 						startActivity(intent);
 					}
-				}*/
-=======
-				Intent intent=new Intent();
-				/*intent.putExtra("type",1);
-				intent.putExtra("id",1);*/
-				intent.setClass(CarActivity.this,ErweimaActivity.class);
-				startActivity(intent);
->>>>>>> parent of 38e023c... 6
+				}
+
 				break;
 			case R.id.car_return:
 				finish();
@@ -207,6 +208,7 @@ public class CarActivity extends Activity implements View.OnClickListener {
 			try {
 				jsonObject=new JSONObject(jsonString);
 				JSONArray jsonArray=jsonObject.getJSONArray("json");
+				length=jsonArray.length();
 				if (jsonArray.length()!=0){
 					new Thread(new Runnable() {
 						@Override

@@ -23,7 +23,6 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.edu.uzz.activity.book.MainActivity;
 import cn.edu.uzz.activity.book.R;
 
 /**
@@ -78,7 +77,6 @@ public class Reg_InforActivity extends Activity{
                 Toast.makeText(Reg_InforActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
                 Infor();
                 startActivity(new Intent(Reg_InforActivity.this,MainActivity.class));
-
                 finish();
             }
         }, new Response.ErrorListener() {

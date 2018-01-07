@@ -1,6 +1,7 @@
 package cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.uzz.activity.book.R;
@@ -22,25 +24,36 @@ import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.RentCar;
 public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListener,View.OnClickListener{
 	private List<RentCar> mList;
 	private LayoutInflater inflater;
-	private ViewHolder viewHolder;
-	private CarImageLoader imageLoader;
+	private CarAdapter.ViewHolder viewHolder;
+	private CarImageLoader mImageLoader;
 	private int mStart,mEnd;
 	public static String[] URLS;
 	private boolean mFirstIn;
 	private CallBack mcallBack;
 
-	public CarAdapter(Context context, List<RentCar> data, ListView listView,CallBack callBack){
+	public CarAdapter(Context context, List<RentCar> data, ListView listView, CallBack callBack) {
 		this.mList = data;
 		mcallBack=callBack;
 		this.inflater = LayoutInflater.from(context);
-		imageLoader=new CarImageLoader(listView);
+		mImageLoader=new CarImageLoader(listView);
 		URLS=new String[data.size()];
 		for (int i=0;i<data.size();i++){
 			URLS[i]=data.get(i).getPicture();
 		}
+		Log.e("BBBB","123");
 		mFirstIn=true;
 		//注册对应的事件
 		listView.setOnScrollListener(this);
+	}
+
+	public void refresh(List<RentCar> list) {
+		mList = list;//传入list，然后调用notifyDataSetChanged方法
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public void onClick(View view) {
+		mcallBack.click(view);
 	}
 
 	//定义一个接口用于回调点击事件
@@ -48,54 +61,65 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 		public void click(View v);
 	}
 
+	public void onDateChange(ArrayList<RentCar> like_list) {
+		this.mList = like_list;
+		this.notifyDataSetChanged();
+	}
+
 	@Override
 	public int getCount() {
 		return mList.size();
+
 	}
 
 	@Override
 	public Object getItem(int position) {
+		// TODO Auto-generated method stub
 		return mList.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
+		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
-	public View getView(int position, View view, ViewGroup viewGroup) {
-		RentCar rentCar=mList.get(position);
-		if(view==null){
-			viewHolder=new ViewHolder();
-			view=inflater.inflate(R.layout.item_rentcar,null);
-			viewHolder.car_book_name=view.findViewById(R.id.car_bookname);
-			viewHolder.car_bookpic=view.findViewById(R.id.car_bookpic);
-			viewHolder.car_endtime=view.findViewById(R.id.car_endtime);
-			viewHolder.cancelBtn=view.findViewById(R.id.cancel_car);
-			view.setTag(viewHolder);
-		}else {
-			viewHolder = (ViewHolder) view.getTag();
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		// TODO Auto-generated method stub
+		Log.e("BBBB","可以了");
+		RentCar car = mList.get(position);
+		if (convertView == null) {
+			viewHolder = new ViewHolder();
+			convertView = inflater.inflate(R.layout.item_rentcar, null);
+			viewHolder.car_book_name=convertView.findViewById(R.id.car_bookname);
+			viewHolder.car_bookpic=convertView.findViewById(R.id.car_bookpic);
+			viewHolder.cancelBtn=convertView.findViewById(R.id.cancel_car);
+			viewHolder.car_endtime=convertView.findViewById(R.id.car_endtime);
+			convertView.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		viewHolder.car_bookpic.setImageResource(R.mipmap.ic_launcher);
 		String url=mList.get(position).getPicture();
 		viewHolder.car_bookpic.setTag(url);
-		imageLoader.showImageByAsyncTask(viewHolder.car_bookpic,url);
+		//new ImageLoader().showImageByAsyncTask(viewHolder.ivIcon,url);
+		mImageLoader.showImageByAsyncTask(viewHolder.car_bookpic,url);
 		viewHolder.car_book_name.setText(mList.get(position).getBookanme());
 		viewHolder.car_endtime.setText(mList.get(position).getEndtime());
 		viewHolder.cancelBtn.setOnClickListener(this);
 		viewHolder.cancelBtn.setTag(position);
-		return view;
+		return convertView;
 	}
 
 	@Override
 	public void onScrollStateChanged(AbsListView absListView, int i) {
 		if (i==SCROLL_STATE_IDLE){
 			//加载可见项
-			imageLoader.loadImages(mStart,mEnd);
+			mImageLoader.loadImages(mStart,mEnd);
 		}else{
 			//停止加载任务
-			imageLoader.cancelAllTasks();
+			mImageLoader.cancelAllTasks();
 		}
 	}
 
@@ -105,28 +129,18 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 		mEnd=firstVisibleItem+visibleItemCount;
 		//第一次现实的时候调用
 		if(mFirstIn&&visibleItemCount>0){
-			imageLoader.loadImages(mStart,mEnd);
+			mImageLoader.loadImages(mStart,mEnd);
 			mFirstIn=false;
 		}
 	}
 
-	public void refresh(List<RentCar> list) {
-		mList = list;//传入list，然后调用notifyDataSetChanged方法
-		notifyDataSetChanged();
-	}
-
-
-	@Override
-	public void onClick(View view) {
-		mcallBack.click(view);
-	}
-
 	class ViewHolder {
-
 		TextView car_book_name;
 		TextView car_endtime;
 		ImageView car_bookpic;
 		private TextView cancelBtn;
-
 	}
+
+
+
 }

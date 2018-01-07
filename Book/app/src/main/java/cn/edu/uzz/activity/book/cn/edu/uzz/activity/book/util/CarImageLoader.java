@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -95,6 +96,7 @@ public class CarImageLoader {
 	public void showImageByAsyncTask(ImageView imageView, final String url){
 		mImageView=imageView;
 		mUrl=url;
+		Log.e("BBBB","也运行到这了");
 		//从缓存中取出对应图片
 		Bitmap bitmap=getBitmapFromCache(url);
 		//若缓存没有，则加载

@@ -122,7 +122,6 @@ public class CarActivity extends Activity implements View.OnClickListener {
 						startActivity(intent);
 					}
 				}
-
 				break;
 			case R.id.car_return:
 				finish();
@@ -231,7 +230,7 @@ public class CarActivity extends Activity implements View.OnClickListener {
 					books.setBookid(jsonObject.getInt("bookid"));
 					books.setBooktype(jsonObject.getInt("booktype"));
 					books.setBookanme(jsonObject.getString("bookname"));
-					books.setEndtime(jsonObject.getString("willtime"));
+					books.setEndtime(jsonObject.getString("enddate"));
 					books.setNowdate(jsonObject.getString("nowdate"));
 					book_list.add(books);
 				}

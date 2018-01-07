@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -47,7 +46,6 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
     private static  String URL="http://123.206.230.120/Book/getlikeServ?account=";
     String account;
     private ImageView like_return;
-    private TextView cancel_like;
 	LikeAdapter adapter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

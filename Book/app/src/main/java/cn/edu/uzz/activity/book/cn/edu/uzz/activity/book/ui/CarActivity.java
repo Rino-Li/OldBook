@@ -56,6 +56,8 @@ public class CarActivity extends Activity implements View.OnClickListener {
 	NewsAsyncTask newsAsyncTask;
 	private ImageView car_return;
 	private int length;
+	private JSONArray jsonArray;
+	private String jsonString;
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,7 +91,6 @@ public class CarActivity extends Activity implements View.OnClickListener {
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			if (msg.what == 100) {
-
 			}
 		}
 	};
@@ -98,30 +99,10 @@ public class CarActivity extends Activity implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()){
 			case R.id.jinruerweima:
-				if (length>2){
-					Toast.makeText(CarActivity.this,"一次只能借阅两本书",Toast.LENGTH_SHORT).show();
-				}else{
-					if(length==1){
 						Intent intent=new Intent();
-						RentCar rentCar=book_list.get(0);
-						intent.putExtra("length",length);
-						intent.putExtra("type1",rentCar.getBooktype());
-						intent.putExtra("id1",rentCar.getBookid());
+						intent.putExtra("booklist",jsonString);
 						intent.setClass(CarActivity.this,ErweimaActivity.class);
 						startActivity(intent);
-					}else{
-						Intent intent=new Intent();
-						RentCar rentCar1=book_list.get(0);
-						RentCar rentCar2=book_list.get(1);
-						intent.putExtra("length",length);
-						intent.putExtra("type1",rentCar1.getBooktype());
-						intent.putExtra("id1",rentCar1.getBookid());
-						intent.putExtra("type2",rentCar2.getBooktype());
-						intent.putExtra("id2",rentCar2.getBookid());
-						intent.setClass(CarActivity.this,ErweimaActivity.class);
-						startActivity(intent);
-					}
-				}
 				break;
 			case R.id.car_return:
 				finish();
@@ -201,12 +182,12 @@ public class CarActivity extends Activity implements View.OnClickListener {
 
 		book_list=new ArrayList<>();
 		try {
-			String jsonString=readStream(new URL(URL).openStream());
+			jsonString=readStream(new URL(URL).openStream());
 			JSONObject jsonObject;
 			RentCar books;
 			try {
 				jsonObject=new JSONObject(jsonString);
-				JSONArray jsonArray=jsonObject.getJSONArray("json");
+				jsonArray=jsonObject.getJSONArray("json");
 				length=jsonArray.length();
 				if (jsonArray.length()!=0){
 					new Thread(new Runnable() {

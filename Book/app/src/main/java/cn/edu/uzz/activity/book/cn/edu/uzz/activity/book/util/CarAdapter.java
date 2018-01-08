@@ -1,7 +1,6 @@
 package cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,6 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 		for (int i=0;i<data.size();i++){
 			URLS[i]=data.get(i).getPicture();
 		}
-		Log.e("BBBB","123");
 		mFirstIn=true;
 		//注册对应的事件
 		listView.setOnScrollListener(this);
@@ -87,7 +85,6 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		Log.e("BBBB","可以了");
 		RentCar car = mList.get(position);
 		if (convertView == null) {
 			viewHolder = new ViewHolder();

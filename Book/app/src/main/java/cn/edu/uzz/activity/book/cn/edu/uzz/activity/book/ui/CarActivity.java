@@ -103,6 +103,7 @@ public class CarActivity extends Activity implements View.OnClickListener {
 						intent.putExtra("booklist",jsonString);
 						intent.setClass(CarActivity.this,ErweimaActivity.class);
 						startActivity(intent);
+						finish();
 				break;
 			case R.id.car_return:
 				finish();

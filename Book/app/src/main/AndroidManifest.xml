@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -31,7 +32,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme"
         >
-        <activity android:name=".cn.edu.uzz.activity.book.ui.MainActivity"
+        <activity android:name=".MainActivity"
             android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

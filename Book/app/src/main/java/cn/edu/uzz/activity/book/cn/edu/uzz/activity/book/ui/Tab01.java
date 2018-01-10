@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.youth.banner.Banner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +31,7 @@ import java.util.Random;
 
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Books;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.GlideImageLoader;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.MyAdapter;
 
 /**
@@ -42,6 +46,9 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
     private ImageView booktypesBtn;
     private ImageView newbookBtn;
     int type1;
+    private Banner banner;
+    private List<String> images=new ArrayList<>();
+	private List<String> titles=new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,9 +71,19 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
         pahhangbangBtn=getView().findViewById(R.id.paihangbang);
         booktypesBtn=getView().findViewById(R.id.booktypes);
         newbookBtn=getView().findViewById(R.id.newbook);
+        banner=getView().findViewById(R.id.banner);
         pahhangbangBtn.setOnClickListener(this);
         booktypesBtn.setOnClickListener(this);
         newbookBtn.setOnClickListener(this);
+		images.add("http://123.206.230.120/Book/images/lbt/1.jpg");
+		images.add("http://123.206.230.120/Book/images/lbt/3.jpg");
+		images.add("http://123.206.230.120/Book/images/lbt/2.jpg");
+		//设置图片加载器
+		banner.setImageLoader(new GlideImageLoader());
+		//设置图片集合
+		banner.setImages(images);
+		//banner设置方法全部调用完毕时最后调用
+		banner.start();
     }
 
     @Override
@@ -114,6 +131,7 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
             super.onPostExecute(book);
             MyAdapter adapter=new MyAdapter(getActivity(),book,mListView);
             mListView.setAdapter(adapter);
+            setListViewHeightBasedOnChildren(mListView);
         }
     }
 
@@ -179,6 +197,31 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
         int s = random.nextInt(max)%(max-min+1) + min;
         return s;
     }
+
+    //计算listview高度
+	public void setListViewHeightBasedOnChildren(ListView listView) {
+		// 获取ListView对应的Adapter
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter == null) {
+			return;
+		}
+
+		int totalHeight = 0;
+		for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
+			// listAdapter.getCount()返回数据项的数目
+			View listItem = listAdapter.getView(i, null, listView);
+			// 计算子项View 的宽高
+			listItem.measure(0, 0);
+			// 统计所有子项的总高度
+			totalHeight += listItem.getMeasuredHeight();
+		}
+
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		// listView.getDividerHeight()获取子项间分隔符占用的高度
+		// params.height最后得到整个ListView完整显示需要的高度
+		listView.setLayoutParams(params);
+	}
 }
 
 

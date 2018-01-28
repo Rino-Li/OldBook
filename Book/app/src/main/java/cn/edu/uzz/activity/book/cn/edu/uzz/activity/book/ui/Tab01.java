@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.xys.libzxing.zxing.activity.CaptureActivity;
 import com.youth.banner.Banner;
 
 import org.json.JSONArray;
@@ -34,6 +35,8 @@ import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Books;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.GlideImageLoader;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.MyAdapter;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by 10616 on 2017/11/17.
  */
@@ -42,7 +45,7 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 	private ListView mListView;
 	private static  String URL="http://123.206.230.120/Book/getoldlistServ?type1=";
 	List<Books> book_list;
-	private ImageView pahhangbangBtn;
+	private ImageView saomaBtn;
 	private ImageView booktypesBtn;
 	private ImageView newbookBtn;
 	int type1;
@@ -67,11 +70,11 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 	}
 
 	private void initView() {
-		pahhangbangBtn=getView().findViewById(R.id.paihangbang);
+		saomaBtn=getView().findViewById(R.id.saoyisao);
 		booktypesBtn=getView().findViewById(R.id.booktypes);
 		newbookBtn=getView().findViewById(R.id.newbook);
 		banner=getView().findViewById(R.id.banner);
-		pahhangbangBtn.setOnClickListener(this);
+		saomaBtn.setOnClickListener(this);
 		booktypesBtn.setOnClickListener(this);
 		newbookBtn.setOnClickListener(this);
 		images.add("http://123.206.230.120/Book/images/lbt/1.jpg");
@@ -109,8 +112,8 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 			case R.id.newbook:
 				startActivity(new Intent(getActivity(),LoginActivity.class));
 				break;
-			case R.id.paihangbang:
-				startActivity(new Intent(getActivity(),LikeListAvtivity.class));
+			case R.id.saoyisao:
+				startActivityForResult(new Intent(getActivity(), CaptureActivity.class),0);
 				break;
 			default:
 				break;
@@ -219,6 +222,28 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 		// listView.getDividerHeight()获取子项间分隔符占用的高度
 		// params.height最后得到整个ListView完整显示需要的高度
 		listView.setLayoutParams(params);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		JSONObject jsonObject;
+		if(resultCode==RESULT_OK){
+			Bundle bundle=data.getExtras();
+			String result=bundle.getString("result");
+			try {
+				jsonObject=new JSONObject(result);
+				int booktype=jsonObject.getInt("booktype");
+				int bookid=jsonObject.getInt("bookid");
+				Intent intent=new Intent();
+				intent.putExtra("type",booktype);
+				intent.putExtra("id",bookid);
+				intent.setClass(getActivity(),SpecialItemActivity.class);
+				startActivity(intent);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
 

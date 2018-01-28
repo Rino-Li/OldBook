@@ -68,7 +68,7 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/paihangbang"
+                            android:id="@+id/saoyisao"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_marginTop="6dp"

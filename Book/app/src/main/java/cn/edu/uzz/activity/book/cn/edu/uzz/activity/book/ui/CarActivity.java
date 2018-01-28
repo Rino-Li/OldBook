@@ -35,6 +35,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.RentCar;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.CarAdapter;
@@ -100,6 +101,8 @@ public class CarActivity extends Activity implements View.OnClickListener {
 		switch (view.getId()){
 			case R.id.jinruerweima:
 						Intent intent=new Intent();
+						/*intent.putExtra("idlist",getId());
+						intent.putExtra("typelist",getType());*/
 						intent.putExtra("booklist",jsonString);
 						intent.setClass(CarActivity.this,ErweimaActivity.class);
 						startActivity(intent);
@@ -112,6 +115,8 @@ public class CarActivity extends Activity implements View.OnClickListener {
 				break;
 		}
 	}
+
+
 
 	class NewsAsyncTask extends AsyncTask<String, Void, List<RentCar>> implements CarAdapter.CallBack ,AdapterView.OnItemClickListener{
 
@@ -176,6 +181,7 @@ public class CarActivity extends Activity implements View.OnClickListener {
 			}
 		});
 		//3请求加入队列
+		request.setTag("car");
 		queue.add(request);
 	}
 
@@ -240,7 +246,12 @@ public class CarActivity extends Activity implements View.OnClickListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return result;
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		DemoApplication.getHttpQueues().cancelAll("car");
 	}
 }

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,8 +22,8 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
-import cn.edu.uzz.activity.book.MainActivity;
 
 /**
  * Created by 10616 on 2017/11/4.
@@ -83,7 +82,7 @@ public class Reg_InforActivity extends Activity{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("lsls====",volleyError.getMessage(),volleyError);
+                Toast.makeText(Reg_InforActivity.this,"提交失败",Toast.LENGTH_SHORT).show();
             }
         }){
             protected Map<String,String> getParams(){
@@ -97,6 +96,7 @@ public class Reg_InforActivity extends Activity{
                 return map;
             }
         };
+        stringrequest.setTag("reg_infor");
         requestQueue.add(stringrequest);
     }
 
@@ -112,4 +112,10 @@ public class Reg_InforActivity extends Activity{
         editor.putString("age",user_age.getText().toString());
         editor.commit();
     }
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		DemoApplication.getHttpQueues().cancelAll("reg_infor");
+	}
 }

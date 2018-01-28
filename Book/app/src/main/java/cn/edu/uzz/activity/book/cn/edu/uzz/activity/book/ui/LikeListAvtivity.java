@@ -31,6 +31,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Like;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.LikeAdapter;
@@ -214,9 +215,13 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
 			}
 		});
 		//3请求加入队列
+		request.setTag("likelist");
 		queue.add(request);
-
 	}
 
-
+	@Override
+	protected void onStop() {
+		super.onStop();
+		DemoApplication.getHttpQueues().cancelAll("likelist");
+	}
 }

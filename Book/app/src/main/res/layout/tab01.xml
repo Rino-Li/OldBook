@@ -36,7 +36,8 @@
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                app:banner_default_image="@drawable/book_fail"/>
+                app:banner_default_image="@drawable/book_fail"
+                />
             <RelativeLayout
                 android:layout_below="@+id/banner"
                 android:layout_width="wrap_content"
@@ -71,12 +72,12 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_marginTop="6dp"
-                            android:src="@drawable/book_paihangbang"
+                            android:src="@drawable/book_saoma"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="排行榜"
+                            android:text="扫一扫"
                             android:layout_marginTop="2dp"
                             android:layout_marginBottom="3dp"
                             />

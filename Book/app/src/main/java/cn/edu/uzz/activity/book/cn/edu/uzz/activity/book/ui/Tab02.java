@@ -1,156 +1,69 @@
 package cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.ui;
 
-import android.content.Context;
-import android.content.res.AssetManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.facebook.drawee.backends.pipeline.Fresco;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cn.edu.uzz.activity.book.R;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.CategoryBean;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.HomeAdapter;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.MenuAdapter;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.mSearchLayout;
 
 /**
  * Created by 10616 on 2017/11/17.
  */
 
 public class Tab02 extends Fragment{
-	private List<String> menuList = new ArrayList<>();
-	private List<String> typeList=new ArrayList<>();
-	private List<CategoryBean.DataBean> homeList = new ArrayList<>();
-	private List<Integer> showTitle;
-
-	private ListView lv_menu;
-	private ListView lv_home;
-
-	private MenuAdapter menuAdapter;
-	private HomeAdapter homeAdapter;
-	private int currentItem;
-
-	private TextView tv_title;
-	int po=0;
-
+	private mSearchLayout msearchLy;
+	private static  String URL="http://123.206.230.120/Book/searchServ?searchName=";
+	@Nullable
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState)
-	{
-		View view=inflater.inflate(R.layout.tab02, container, false);
-		lv_menu = view. findViewById(R.id.lv_typemenu);
-		tv_title =view. findViewById(R.id.tv_titile);
-		lv_home = view. findViewById(R.id.lv_home);
-		return view;
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.tab02, container, false);
 	}
 
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		Fresco.initialize(getActivity());
-		initView();
-		loadData();
+		msearchLy=getView().findViewById(R.id.msearchlayout);
+		initData();
 	}
 
-	private void loadData() {
-		String json = getJson(getActivity(), "category.json");
-		CategoryBean categoryBean = JSONObject.parseObject(json, CategoryBean.class);
-		showTitle = new ArrayList<>();
-		for (int i = 0; i < categoryBean.getData().size(); i++) {
-			CategoryBean.DataBean dataBean = categoryBean.getData().get(i);
-			menuList.add(dataBean.getModuleTitle());
-			showTitle.add(i);
-			homeList.add(dataBean);
-		}
-		tv_title.setText(categoryBean.getData().get(0).getModuleTitle());
+	protected void initData() {
+		String shareData = "";
+		List<String> skills = Arrays.asList(shareData.split(","));
 
-		menuAdapter.notifyDataSetChanged();
-		homeAdapter.notifyDataSetChanged();
-	}
+		String shareHotData ="使女的故事,基因传,2018年养生台历";
+		List<String> skillHots = Arrays.asList(shareHotData.split(","));
 
-	private void initView() {
-		/*lv_menu = getView(). findViewById(R.id.lv_typemenu);
-		tv_title = getView(). findViewById(R.id.tv_titile);
-		lv_home = getView(). findViewById(R.id.lv_home);*/
-		menuAdapter = new MenuAdapter(getActivity(),menuList);
-		if (lv_menu!=null){
-			Log.e("BBBB","null");
-		}
-		lv_menu.setAdapter(menuAdapter);
-
-		homeAdapter = new HomeAdapter(getActivity(), homeList);
-		lv_home.setAdapter(homeAdapter);
-
-		lv_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		msearchLy.initData(skills, skillHots, new mSearchLayout.setSearchCallBackListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				po=position;
-				menuAdapter.setSelectItem(position);
-				menuAdapter.notifyDataSetInvalidated();
-				tv_title.setText(menuList.get(position));
-				lv_home.setSelection(showTitle.get(position));
+			public void Search(String str) {
+				//进行或联网搜索
+				Intent intent=new Intent();
+				intent.putExtra("searchName",str);
+				intent.setClass(getActivity(),SearchResultActivity.class);
+				startActivity(intent);
+			}
+			@Override
+			public void Back() {
+				//finish();
+			}
+
+			@Override
+			public void ClearOldData() {
+				//清除历史搜索记录  更新记录原始数据
+			}
+			@Override
+			public void SaveOldData(ArrayList<String> AlloldDataList) {
+				//保存所有的搜索记录
 			}
 		});
-
-
-
-
-		lv_home.setOnScrollListener(new AbsListView.OnScrollListener() {
-			private int scrollState;
-
-			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				this.scrollState = scrollState;
-			}
-
-			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem,
-								 int visibleItemCount, int totalItemCount) {
-				if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-					return;
-				}
-				int current = showTitle.indexOf(firstVisibleItem);
-//				lv_home.setSelection(current);
-				if (currentItem != current && current >= 0) {
-					currentItem = current;
-					tv_title.setText(menuList.get(currentItem));
-					menuAdapter.setSelectItem(currentItem);
-					menuAdapter.notifyDataSetInvalidated();
-				}
-			}
-		});
-	}
-
-	public static String getJson(Context context, String fileName) {
-		StringBuilder stringBuilder = new StringBuilder();
-		//获得assets资源管理器
-		AssetManager assetManager = context.getAssets();
-		//使用IO流读取json文件内容
-		try {
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-					assetManager.open(fileName), "utf-8"));
-			String line;
-			while ((line = bufferedReader.readLine()) != null) {
-				stringBuilder.append(line);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return stringBuilder.toString();
 	}
 }

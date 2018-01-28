@@ -96,7 +96,7 @@ public class ImageLoader {
     }
 
     public void showImageByAsyncTask(ImageView imageView, final String url){
-        mImageView=imageView;
+		mImageView=imageView;
         mUrl=url;
         //从缓存中取出对应图片
         Bitmap bitmap=getBitmapFromCache(url);

@@ -32,6 +32,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Subscribe;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.SubAdapter;
@@ -215,9 +216,13 @@ public class MySubActivity extends Activity implements AdapterView.OnItemClickLi
 			}
 		});
 		//3请求加入队列
+		request.setTag("mysub");
 		queue.add(request);
-
 	}
 
-
+	@Override
+	protected void onStop() {
+		super.onStop();
+		DemoApplication.getHttpQueues().cancelAll("mysub");
+	}
 }

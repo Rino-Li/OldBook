@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Books;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.BitmapCache;
@@ -151,6 +152,7 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			}
 		});
 		//3请求加入队列
+		request.setTag("specialbook");
 		queue.add(request);
 
 	}
@@ -193,6 +195,7 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			}
 		});
 		//3请求加入队列
+		request.setTag("specialbook");
 		queue.add(request);
 
 	}
@@ -302,6 +305,7 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			}
 		});
 		//3请求加入队列
+		request.setTag("specialbook");
 		queue.add(request);
 	}
 
@@ -340,6 +344,7 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			}
 		});
 		//3请求加入队列
+		request.setTag("specialbook");
 		queue.add(request);
 	}
 
@@ -386,6 +391,7 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			}
 		});
 		//3请求加入队列
+		request.setTag("specialbook");
 		queue.add(request);
 	}
 
@@ -423,6 +429,7 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			}
 		});
 		//3请求加入队列
+		request.setTag("specialbook");
 		queue.add(request);
 
 	}
@@ -459,7 +466,14 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			}
 		});
 		//3请求加入队列
+		request.setTag("specialbook");
 		queue.add(request);
 		return true;
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		DemoApplication.getHttpQueues().cancelAll("specialbook");
 	}
 }

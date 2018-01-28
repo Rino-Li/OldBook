@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -8,73 +8,22 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/standardgreen"
-        android:orientation="vertical"
-        android:id="@+id/title">
+        android:orientation="vertical" >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="借阅小车"
+            android:text="图书分类"
             android:textColor="@color/standardwhite"
             android:textSize="20dp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             />
-
     </RelativeLayout>
-    <ListView
-        android:id="@+id/car_list"
+    <cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.mSearchLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/msearchlayout"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/title"
-        android:choiceMode="multipleChoice"
-        android:padding="5dp">
-    </ListView>
-    <Button
-        android:id="@+id/jinruerweima"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="点击生成二维码"
-        android:background="@drawable/buttonshape"
-        android:textColor="@color/standardwhite"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        />
-    <ImageView
-        android:id="@+id/fail_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/book_fail"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        />
-    <TextView
-        android:id="@+id/fail_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/standardgreen"
-        android:text="！借阅车空空如也！"
-        android:textSize="30sp"
-        android:layout_below="@+id/fail_img"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        />
-    <Button
-        android:id="@+id/fresh"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="刷新"
-        android:background="@drawable/buttonshape"
-        android:textColor="@color/standardwhite"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="60dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        />
-
-
-
-</RelativeLayout>
+        ></cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.mSearchLayout>
+</LinearLayout>

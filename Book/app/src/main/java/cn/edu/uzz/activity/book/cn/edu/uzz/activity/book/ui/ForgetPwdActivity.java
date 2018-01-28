@@ -23,8 +23,8 @@ import com.mob.MobSDK;
 
 import org.json.JSONObject;
 
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
-import cn.edu.uzz.activity.book.MainActivity;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
@@ -306,6 +306,13 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
                 Toast.makeText(ForgetPwdActivity.this,"获取失败",Toast.LENGTH_SHORT).show();
             }
         });
+        request.setTag("forgetpwd");
         queue.add(request);
     }
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		DemoApplication.getHttpQueues().cancelAll("forgetpwd");
+	}
 }

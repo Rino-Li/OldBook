@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 
 /**
@@ -92,6 +93,7 @@ public class RegistActivity extends Activity{
 
                 }
             });
+            request.setTag("regist");
             queue.add(request);
         }
     }
@@ -115,4 +117,10 @@ public class RegistActivity extends Activity{
 
         return true;
     }
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		DemoApplication.getHttpQueues().cancelAll("regist");
+	}
 }

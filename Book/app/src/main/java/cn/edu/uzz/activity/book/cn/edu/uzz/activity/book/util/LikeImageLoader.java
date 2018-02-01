@@ -32,7 +32,7 @@ public class LikeImageLoader {
 	private ListView mListView;
 	private Set<NewsAsyncTask> mTask;
 
-	public LikeImageLoader(ListView listView){
+	public LikeImageLoader(ReFlashListView listView){
 		mListView=listView;
 		mTask=new HashSet<>();
 		int maxMemory= (int) Runtime.getRuntime().maxMemory();
@@ -110,7 +110,7 @@ public class LikeImageLoader {
 	}
 
 	public void loadImages(int start,int end){
-		for (int i=start;i<end;i++){
+		for (int i=start;i<end-1;i++){
 			String url= LikeAdapter.URLS[i];
 			//从缓存中取出对应图片
 			Bitmap bitmap=getBitmapFromCache(url);
@@ -121,7 +121,7 @@ public class LikeImageLoader {
 				mTask.add(task);
 
 			}else {
-				ImageView imageView=mListView.findViewWithTag(url);
+				ImageView imageView= (ImageView) mListView.findViewWithTag(url);
 				imageView.setImageBitmap(bitmap);
 			}
 		}
@@ -159,7 +159,7 @@ public class LikeImageLoader {
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
 			super.onPostExecute(bitmap);
-			ImageView imageView=mListView.findViewWithTag(mUrl);
+			ImageView imageView= (ImageView) mListView.findViewWithTag(mUrl);
 			if(imageView!=null&&bitmap!=null){
 				imageView.setImageBitmap(bitmap);
 			}

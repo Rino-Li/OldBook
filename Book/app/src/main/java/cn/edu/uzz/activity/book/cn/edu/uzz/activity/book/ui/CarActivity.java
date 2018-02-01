@@ -35,7 +35,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.RentCar;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.CarAdapter;
@@ -77,13 +76,13 @@ public class CarActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void initView() {
-		makeBtn=findViewById(R.id.jinruerweima);
+		makeBtn= (Button) findViewById(R.id.jinruerweima);
 		makeBtn.setOnClickListener(this);
-		car_return=findViewById(R.id.car_return);
+		car_return= (ImageView) findViewById(R.id.car_return);
 		car_return.setOnClickListener(this);
-		mListView=findViewById(R.id.car_list);
-		fail_text=findViewById(R.id.fail_text);
-		fail_img=findViewById(R.id.fail_img);
+		mListView= (ListView) findViewById(R.id.car_list);
+		fail_text= (TextView) findViewById(R.id.fail_text);
+		fail_img= (ImageView) findViewById(R.id.fail_img);
 		newsAsyncTask=new NewsAsyncTask();
 	}
 
@@ -107,9 +106,11 @@ public class CarActivity extends Activity implements View.OnClickListener {
 						intent.setClass(CarActivity.this,ErweimaActivity.class);
 						startActivity(intent);
 						finish();
+				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				break;
 			case R.id.car_return:
 				finish();
+				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				break;
 			default:
 				break;
@@ -141,6 +142,7 @@ public class CarActivity extends Activity implements View.OnClickListener {
 			intent.putExtra("id",obj.getBookid());
 			intent.setClass(CarActivity.this,SpecialItemActivity.class);//后期改成特殊的 book页面
 			startActivity(intent);
+			overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 		}
 
 		@Override

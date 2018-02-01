@@ -5,10 +5,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import cn.edu.uzz.activity.book.R;
 
@@ -25,6 +27,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private Fragment mTab01;
     private Fragment mTab02;
     private Fragment mTab03;
+
+	private long mExitTime;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -147,4 +151,24 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mImgAddress.setImageResource(R.drawable.book_tabthree_normal);
 
     }
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		//判断用户是否点击了“返回键”
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			//与上次点击返回键时刻作差
+			if ((System.currentTimeMillis() - mExitTime) > 2000) {
+				//大于2000ms则认为是误操作，使用Toast进行提示
+				Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+				//并记录下本次点击“返回键”的时刻，以便下次进行判断
+				mExitTime = System.currentTimeMillis();
+			} else {
+				//小于2000ms则认为是用户确实希望退出程序-调用System.exit()方法进行退出
+				System.exit(0);
+				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+			}
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 }

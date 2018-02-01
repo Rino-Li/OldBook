@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,7 +34,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Subscribe;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.SubAdapter;
@@ -49,6 +50,8 @@ public class MySubActivity extends Activity implements AdapterView.OnItemClickLi
 	private ImageView sub_return;
 	private TextView cancel_sub;
 	SubAdapter adapter;
+	private TextView sub_fail_text;
+	private ImageView sub_fail_img;
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,8 +71,10 @@ public class MySubActivity extends Activity implements AdapterView.OnItemClickLi
 	}
 
 	private void initView() {
-		sub_return=findViewById(R.id.sub_return);
-		listView=findViewById(R.id.sublist);
+		sub_return= (ImageView) findViewById(R.id.sub_return);
+		listView= (ListView) findViewById(R.id.sublist);
+		sub_fail_text=findViewById(R.id.sub_fail_text);
+		sub_fail_img=findViewById(R.id.sub_fail_img);
 		sub_return.setOnClickListener(this);
 	}
 
@@ -78,6 +83,7 @@ public class MySubActivity extends Activity implements AdapterView.OnItemClickLi
 		switch (view.getId()){
 			case R.id.sub_return:
 				finish();
+				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				break;
 			default:
 				break;
@@ -92,6 +98,7 @@ public class MySubActivity extends Activity implements AdapterView.OnItemClickLi
 		intent.putExtra("id",obj.getBookid());
 		intent.setClass(MySubActivity.this,SpecialItemActivity.class);//后期改成特殊的 book页面
 		startActivity(intent);
+		overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 	}
 
 	class NewsAsyncTask extends AsyncTask<String, Void, List<Subscribe>> implements SubAdapter.CallBack ,AdapterView.OnItemClickListener{
@@ -140,13 +147,19 @@ public class MySubActivity extends Activity implements AdapterView.OnItemClickLi
 			try {
 				jsonObject=new JSONObject(jsonString);
 				JSONArray jsonArray=jsonObject.getJSONArray("json");
-				if (jsonArray.length()==0){
-					Intent intent=new Intent();
-					intent.putExtra("title","我的预定");
-					intent.putExtra("main","预定");
-					intent.setClass(MySubActivity.this,NullActivity.class);
-					startActivity(intent);
-					finish();
+				if (jsonArray.length()!=0){
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							mHandler.post(new Runnable() {
+								@Override
+								public void run() {
+									sub_fail_img.setVisibility(View.INVISIBLE);
+									sub_fail_text.setVisibility(View.INVISIBLE);
+								}
+							});
+						}
+					}).start();
 				}
 				for (int i=0;i<jsonArray.length();i++){
 					jsonObject=jsonArray.getJSONObject(i);
@@ -219,6 +232,15 @@ public class MySubActivity extends Activity implements AdapterView.OnItemClickLi
 		request.setTag("mysub");
 		queue.add(request);
 	}
+
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if (msg.what == 100) {
+			}
+		}
+	};
 
 	@Override
 	protected void onStop() {

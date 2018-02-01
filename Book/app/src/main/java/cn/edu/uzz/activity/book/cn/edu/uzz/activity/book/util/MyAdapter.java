@@ -68,12 +68,12 @@ public class MyAdapter extends BaseAdapter implements AbsListView.OnScrollListen
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = inflater.inflate(R.layout.bookitem, null);
-            viewHolder.book_name=convertView.findViewById(R.id.bookname);
-            viewHolder.book_status=convertView.findViewById(R.id.bookstatus);
-            viewHolder.book_writer=convertView.findViewById(R.id.bookwriter);
-            viewHolder.book_version=convertView.findViewById(R.id.bookversion);
-            viewHolder.book_pic=convertView.findViewById(R.id.bookpic);
-            viewHolder.book_publish=convertView.findViewById(R.id.bookpublish);
+            viewHolder.book_name= (TextView) convertView.findViewById(R.id.bookname);
+            viewHolder.book_status= (TextView) convertView.findViewById(R.id.bookstatus);
+            viewHolder.book_writer= (TextView) convertView.findViewById(R.id.bookwriter);
+            viewHolder.book_version= (TextView) convertView.findViewById(R.id.bookversion);
+            viewHolder.book_pic= (ImageView) convertView.findViewById(R.id.bookpic);
+            viewHolder.book_publish= (TextView) convertView.findViewById(R.id.bookpublish);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();

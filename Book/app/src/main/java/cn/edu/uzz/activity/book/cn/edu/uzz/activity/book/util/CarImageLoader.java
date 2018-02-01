@@ -117,7 +117,7 @@ public class CarImageLoader {
 				mTask.add(task);
 
 			}else {
-				ImageView imageView=mListView.findViewWithTag(url);
+				ImageView imageView= (ImageView) mListView.findViewWithTag(url);
 				imageView.setImageBitmap(bitmap);
 			}
 		}
@@ -153,7 +153,7 @@ public class CarImageLoader {
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
 			super.onPostExecute(bitmap);
-			ImageView imageView=mListView.findViewWithTag(mUrl);
+			ImageView imageView= (ImageView) mListView.findViewWithTag(mUrl);
 			if(imageView!=null&&bitmap!=null){
 				imageView.setImageBitmap(bitmap);
 			}

@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class LikeAdapter extends BaseAdapter implements AbsListView.OnScrollList
 	private boolean mFirstIn;
 	private CallBack mcallBack;
 
-	public LikeAdapter(Context context, List<Like> data, ListView listView,CallBack callBack) {
+	public LikeAdapter(Context context, List<Like> data, ReFlashListView listView,CallBack callBack) {
 		this.mList = data;
 		mcallBack=callBack;
 		this.inflater = LayoutInflater.from(context);
@@ -89,9 +88,9 @@ public class LikeAdapter extends BaseAdapter implements AbsListView.OnScrollList
 		if (convertView == null) {
 			viewHolder = new LikeAdapter.ViewHolder();
 			convertView = inflater.inflate(R.layout.activity_likelist, null);
-			viewHolder.book_name=convertView.findViewById(R.id.like_name);
-			viewHolder.book_pic=convertView.findViewById(R.id.like_pic);
-			viewHolder.cancelBtn=convertView.findViewById(R.id.cancel_like);
+			viewHolder.book_name= (TextView) convertView.findViewById(R.id.like_name);
+			viewHolder.book_pic= (ImageView) convertView.findViewById(R.id.like_pic);
+			viewHolder.cancelBtn= (TextView) convertView.findViewById(R.id.cancel_like);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (LikeAdapter.ViewHolder) convertView.getTag();

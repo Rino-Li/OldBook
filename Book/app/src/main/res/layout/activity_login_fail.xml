@@ -44,9 +44,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/fail_img"
         android:layout_centerHorizontal="true"
-        android:text="！请先登录哟！"
+        android:text="请先登录哟"
         android:textColor="@color/standardgreen"
         android:textSize="30dp"
         android:layout_marginTop="10dp"
         android:textStyle="bold"/>
+    <Button
+        android:id="@+id/goto_login"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/buttonshape"
+        android:text="现在登录"
+        android:textColor="@color/standardwhite"
+        android:layout_marginLeft="24.3dp"
+        android:layout_marginRight="24.3dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"/>
 </RelativeLayout>

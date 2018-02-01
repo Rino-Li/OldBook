@@ -20,7 +20,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 
 /**
@@ -41,11 +40,11 @@ public class LoginActivity extends Activity {
 	}
 
 	private void init() {
-		user_account=findViewById(R.id.user_account);
-		user_pwd=findViewById(R.id.user_pwd);
-		loginBtn=findViewById(R.id.login);
-		forgetBtn=findViewById(R.id.forget);
-		registBtn=findViewById(R.id.regist);
+		user_account= (EditText) findViewById(R.id.user_account);
+		user_pwd= (EditText) findViewById(R.id.user_pwd);
+		loginBtn= (Button) findViewById(R.id.login);
+		forgetBtn= (TextView) findViewById(R.id.forget);
+		registBtn= (TextView) findViewById(R.id.regist);
 		loginBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -65,6 +64,7 @@ public class LoginActivity extends Activity {
 								Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
 								startActivity(new Intent(LoginActivity.this, MainActivity.class));
 								finish();
+								overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 							} else if (resultCode == 4) {
 								Toast.makeText(LoginActivity.this, "密码错误，请重新输入！", Toast.LENGTH_SHORT).show();
 							} else if (resultCode == 2) {
@@ -95,12 +95,14 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				startActivity(new Intent(LoginActivity.this,ForgetPwdActivity.class));
+				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 			}
 		});
 		registBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				startActivity(new Intent(LoginActivity.this,Reg_TelActivity.class));
+				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 			}
 		});
 	}

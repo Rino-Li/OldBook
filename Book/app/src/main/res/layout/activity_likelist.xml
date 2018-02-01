@@ -34,41 +34,4 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         />
-    <!--<TextView
-        android:id="@+id/like_writer"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:textSize="8dp"
-        android:text="123232331232"
-        android:textColor="#505050"
-        android:layout_below="@+id/like_name"
-        android:layout_alignLeft="@+id/like_name"
-        android:layout_marginTop="5dp"
-        android:lines="1"
-        android:ellipsize="end"
-        />
-    <TextView
-        android:id="@+id/like_publish"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="8dp"
-        android:text="555"
-        android:layout_below="@+id/like_writer"
-        android:layout_alignLeft="@+id/like_name"
-        android:lines="1"
-        android:ellipsize="end"
-        />
-    <TextView
-        android:id="@+id/like_version"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/like_publish"
-        android:text="暂无"
-        android:layout_alignLeft="@+id/like_writer"
-        android:layout_marginTop="5dp"
-        android:textSize="8dp"
-        android:lines="1"
-        android:ellipsize="end"
-        />-->
 </RelativeLayout>

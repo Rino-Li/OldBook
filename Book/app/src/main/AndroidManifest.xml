@@ -25,7 +25,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".DemoApplication"
+        android:name=".cn.edu.uzz.activity.book.ui.DemoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/book_icon"
         android:label="@string/app_name"
@@ -36,11 +36,6 @@
         <activity
             android:name=".cn.edu.uzz.activity.book.ui.MainActivity"
             android:launchMode="standard">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.mob.tools.MobUIShell"
@@ -75,9 +70,6 @@
             android:name=".cn.edu.uzz.activity.book.ui.MySubActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.NullActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
             android:name=".cn.edu.uzz.activity.book.ui.NoLoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
@@ -100,6 +92,12 @@
             android:name="Mob-AppSecret"
             android:value="8407c2da25d4cdfcdbad0043b99907c4" />
 
+        <activity android:name=".cn.edu.uzz.activity.book.ui.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

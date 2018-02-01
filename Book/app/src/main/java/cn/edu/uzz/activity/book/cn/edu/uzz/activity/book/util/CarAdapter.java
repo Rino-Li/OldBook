@@ -89,10 +89,10 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 		if (convertView == null) {
 			viewHolder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.item_rentcar, null);
-			viewHolder.car_book_name=convertView.findViewById(R.id.car_bookname);
-			viewHolder.car_bookpic=convertView.findViewById(R.id.car_bookpic);
-			viewHolder.cancelBtn=convertView.findViewById(R.id.cancel_car);
-			viewHolder.car_endtime=convertView.findViewById(R.id.car_endtime);
+			viewHolder.car_book_name= (TextView) convertView.findViewById(R.id.car_bookname);
+			viewHolder.car_bookpic= (ImageView) convertView.findViewById(R.id.car_bookpic);
+			viewHolder.cancelBtn= (TextView) convertView.findViewById(R.id.cancel_car);
+			viewHolder.car_endtime= (TextView) convertView.findViewById(R.id.car_endtime);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();

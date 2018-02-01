@@ -89,9 +89,9 @@ public interface CallBack{
 		if (convertView == null) {
 			viewHolder = new SubAdapter.ViewHolder();
 			convertView = inflater.inflate(R.layout.item_sub, null);
-			viewHolder.book_name=convertView.findViewById(R.id.sub_name);
-			viewHolder.book_pic=convertView.findViewById(R.id.sub_pic);
-			viewHolder.cancelBtn=convertView.findViewById(R.id.cancel_sub);
+			viewHolder.book_name= (TextView) convertView.findViewById(R.id.sub_name);
+			viewHolder.book_pic= (ImageView) convertView.findViewById(R.id.sub_pic);
+			viewHolder.cancelBtn= (TextView) convertView.findViewById(R.id.cancel_sub);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (SubAdapter.ViewHolder) convertView.getTag();

@@ -22,7 +22,6 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 
 /**

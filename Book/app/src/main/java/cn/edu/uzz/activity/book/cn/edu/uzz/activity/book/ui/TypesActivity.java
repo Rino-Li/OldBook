@@ -73,10 +73,10 @@ public class TypesActivity extends Activity{
 	}
 
 	private void initview() {
-		lv_menu =  findViewById(R.id.lv_typemenu);
-		tv_title =  findViewById(R.id.tv_titile);
-		lv_home =  findViewById(R.id.lv_home);
-		returnBtn=findViewById(R.id.book_return);
+		lv_menu = (ListView) findViewById(R.id.lv_typemenu);
+		tv_title = (TextView) findViewById(R.id.tv_titile);
+		lv_home = (ListView) findViewById(R.id.lv_home);
+		returnBtn= (ImageView) findViewById(R.id.book_return);
 		menuAdapter = new MenuAdapter(this,menuList);
 		Log.e("BBBB",this+"");
 		lv_menu.setAdapter(menuAdapter);
@@ -87,6 +87,8 @@ public class TypesActivity extends Activity{
 			@Override
 			public void onClick(View view) {
 				finish();
+				overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 			}
 		});
 

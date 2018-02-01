@@ -44,8 +44,8 @@ public class ErweimaActivity extends Activity{
 	}
 
 	private void initView() {
-		ewm=findViewById(R.id.ewm);
-		ewm_return=findViewById(R.id.ewm_return);
+		ewm= (ImageView) findViewById(R.id.ewm);
+		ewm_return= (ImageView) findViewById(R.id.ewm_return);
 		ewm_return.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

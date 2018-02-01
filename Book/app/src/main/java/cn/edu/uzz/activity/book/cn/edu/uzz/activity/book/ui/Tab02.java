@@ -1,5 +1,6 @@
 package cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,7 +32,7 @@ public class Tab02 extends Fragment{
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		msearchLy=getView().findViewById(R.id.msearchlayout);
+		msearchLy= (mSearchLayout) getView().findViewById(R.id.msearchlayout);
 		initData();
 	}
 
@@ -50,6 +51,7 @@ public class Tab02 extends Fragment{
 				intent.putExtra("searchName",str);
 				intent.setClass(getActivity(),SearchResultActivity.class);
 				startActivity(intent);
+				((Activity) getContext()).overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 			}
 			@Override
 			public void Back() {

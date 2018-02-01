@@ -1,5 +1,6 @@
 package cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.ui;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -40,10 +41,10 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 	}
 
 	private void initView() {
-		myLike=getView().findViewById(R.id.layout2);
-		mysub=getView().findViewById(R.id.layout3);
-		loginBtn=getView().findViewById(R.id.logout_btn);
-		myCar=getView().findViewById(R.id.layout7);
+		myLike= (LinearLayout) getView().findViewById(R.id.layout2);
+		mysub= (LinearLayout) getView().findViewById(R.id.layout3);
+		loginBtn= (Button) getView().findViewById(R.id.logout_btn);
+		myCar= (LinearLayout) getView().findViewById(R.id.layout7);
 		File file= new File("/data/data/cn.edu.uzz.activity.book/shared_prefs","user.xml");
 		if(file.exists())
 		{
@@ -62,11 +63,13 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 		switch (view.getId()){
 			case R.id.layout2:
 				startActivity(new Intent(getActivity(),LikeListAvtivity.class));
+				((Activity) getContext()).overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				break;
 			case R.id.layout1:
 				break;
 			case R.id.layout3:
 				startActivity(new Intent(getActivity(),MySubActivity.class));
+				((Activity) getContext()).overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				break;
 			case R.id.logout_btn:
 				File file= new File("/data/data/cn.edu.uzz.activity.book/shared_prefs","user.xml");
@@ -82,10 +85,12 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 					System.exit(0);
 				}else{
 					startActivity(new Intent(getActivity(),LoginActivity.class));
+					((Activity) getContext()).overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				}
 				break;
 			case R.id.layout7:
 				startActivity(new Intent(getActivity(),CarActivity.class));
+				((Activity) getContext()).overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 			default:
 				break;
 		}

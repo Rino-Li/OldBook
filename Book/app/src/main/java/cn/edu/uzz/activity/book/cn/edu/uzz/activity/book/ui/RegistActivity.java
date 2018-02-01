@@ -18,7 +18,6 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 
 /**
@@ -42,10 +41,10 @@ public class RegistActivity extends Activity{
     }
 
     private void init() {
-        reg_account=findViewById(R.id.input_account);
-        reg_pwd=findViewById(R.id.input_pwd);
-        reg_confirm_pwd=findViewById(R.id.repeat_pwd);
-        registBtn=findViewById(R.id.regist);
+        reg_account= (EditText) findViewById(R.id.input_account);
+        reg_pwd= (EditText) findViewById(R.id.input_pwd);
+        reg_confirm_pwd= (EditText) findViewById(R.id.repeat_pwd);
+        registBtn= (Button) findViewById(R.id.regist);
         registBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

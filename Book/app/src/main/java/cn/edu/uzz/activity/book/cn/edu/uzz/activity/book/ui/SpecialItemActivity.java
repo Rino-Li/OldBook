@@ -31,7 +31,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Books;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.BitmapCache;
@@ -75,21 +74,21 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 	}
 
 	private void initView() {
-		book_pic = findViewById(R.id.item_image);
-		book_name = findViewById(R.id.item_name);
-		book_writer = findViewById(R.id.item_writer);
-		book_publish = findViewById(R.id.item_publish);
-		book_version = findViewById(R.id.item_version);
-		book_isbn = findViewById(R.id.item_isbn);
-		book_price = findViewById(R.id.item_price);
-		book_time = findViewById(R.id.item_time);
-		item_return = findViewById(R.id.item_return);
-		book_like = findViewById(R.id.item_like);
-		book_like_word = findViewById(R.id.item_like_word);
-		book_like_image = findViewById(R.id.item_like_image);
-		book_sub = findViewById(R.id.item_subscribe);
-		book_rent = findViewById(R.id.item_rent);
-		like_word=findViewById(R.id.item_like_word);
+		book_pic = (NetworkImageView) findViewById(R.id.item_image);
+		book_name = (TextView) findViewById(R.id.item_name);
+		book_writer = (TextView) findViewById(R.id.item_writer);
+		book_publish = (TextView) findViewById(R.id.item_publish);
+		book_version = (TextView) findViewById(R.id.item_version);
+		book_isbn = (TextView) findViewById(R.id.item_isbn);
+		book_price = (TextView) findViewById(R.id.item_price);
+		book_time = (TextView) findViewById(R.id.item_time);
+		item_return = (ImageView) findViewById(R.id.item_return);
+		book_like = (LinearLayout) findViewById(R.id.item_like);
+		book_like_word = (TextView) findViewById(R.id.item_like_word);
+		book_like_image = (ImageButton) findViewById(R.id.item_like_image);
+		book_sub = (Button) findViewById(R.id.item_subscribe);
+		book_rent = (Button) findViewById(R.id.item_rent);
+		like_word= (TextView) findViewById(R.id.item_like_word);
 
 		Intent intent=getIntent();
 		type=intent.getIntExtra("type",0);
@@ -214,6 +213,7 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 		switch (view.getId()) {
 			case R.id.item_return:
 				finish();
+				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				break;
 			case R.id.item_like:
 				if(like_word.getText().toString().equals("收藏")){getLikeBook();}

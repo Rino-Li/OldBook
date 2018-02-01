@@ -1,5 +1,6 @@
 package cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,7 +52,6 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 	int type1;
 	private Banner banner;
 	private List<String> images=new ArrayList<>();
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState)
@@ -63,17 +63,17 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initView();
-		mListView=getView().findViewById(R.id.listviewmain);
+		mListView= (ListView) getView().findViewById(R.id.listviewmain);
 		type1=getbookstype1();
 		new NewsAsyncTask().execute(URL+type1);
 		mListView.setOnItemClickListener(this);
 	}
 
 	private void initView() {
-		saomaBtn=getView().findViewById(R.id.saoyisao);
-		booktypesBtn=getView().findViewById(R.id.booktypes);
-		newbookBtn=getView().findViewById(R.id.newbook);
-		banner=getView().findViewById(R.id.banner);
+		saomaBtn= (ImageView) getView().findViewById(R.id.saoyisao);
+		booktypesBtn= (ImageView) getView().findViewById(R.id.booktypes);
+		newbookBtn= (ImageView) getView().findViewById(R.id.newbook);
+		banner= (Banner) getView().findViewById(R.id.banner);
 		saomaBtn.setOnClickListener(this);
 		booktypesBtn.setOnClickListener(this);
 		newbookBtn.setOnClickListener(this);
@@ -101,6 +101,7 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 		intent.putExtra("book",obj);
 		intent.setClass(getActivity(),BookItemActivity.class);
 		startActivity(intent);
+		((Activity) getContext()).overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 	}
 
 	@Override
@@ -108,12 +109,18 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 		switch (view.getId()){
 			case R.id.booktypes:
 				startActivity(new Intent(getActivity(),TypesActivity.class));
+				((Activity) getContext()).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				((Activity) getContext()).overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 				break;
 			case R.id.newbook:
 				startActivity(new Intent(getActivity(),LoginActivity.class));
+				((Activity) getContext()).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				((Activity) getContext()).overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 				break;
 			case R.id.saoyisao:
 				startActivityForResult(new Intent(getActivity(), CaptureActivity.class),0);
+				((Activity) getContext()).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				((Activity) getContext()).overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 				break;
 			default:
 				break;
@@ -245,6 +252,8 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 			}
 		}
 	}
+
+
 }
 
 

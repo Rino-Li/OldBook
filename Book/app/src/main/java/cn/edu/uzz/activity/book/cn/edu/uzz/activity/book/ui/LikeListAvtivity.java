@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -31,23 +33,25 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Like;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.LikeAdapter;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.ReFlashListView;
 
 
 /**
  * Created by 10616 on 2017/12/3.
  */
 
-public class LikeListAvtivity extends Activity implements AdapterView.OnItemClickListener,View.OnClickListener{
-    private ListView listView;
+public class LikeListAvtivity extends Activity implements AdapterView.OnItemClickListener,View.OnClickListener,ReFlashListView.IReflashListener {
+    private ReFlashListView listView;
     List<Like> book_list;
     private static  String URL="http://123.206.230.120/Book/getlikeServ?account=";
     String account;
     private ImageView like_return;
 	LikeAdapter adapter;
+	private TextView like_fail_text;
+	private ImageView like_fail_img;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +71,10 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
     }
 
 	private void initView() {
-    	like_return=findViewById(R.id.like_return);
-		listView=findViewById(R.id.likelist);
+    	like_return= (ImageView) findViewById(R.id.like_return);
+		listView= (ReFlashListView) findViewById(R.id.likelist);
+		like_fail_text=findViewById(R.id.like_fail_text);
+		like_fail_img=findViewById(R.id.like_fail_img);
 		like_return.setOnClickListener(this);
 	}
 
@@ -77,6 +83,7 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
 		switch (view.getId()){
 			case R.id.like_return:
 				finish();
+				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				break;
 			default:
 				break;
@@ -91,9 +98,10 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
 		intent.putExtra("id",obj.getBookid());
 		intent.setClass(LikeListAvtivity.this,SpecialItemActivity.class);//后期改成特殊的 book页面
 		startActivity(intent);
-    }
+		overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+	}
 
-    class NewsAsyncTask extends AsyncTask<String, Void, List<Like>> implements LikeAdapter.CallBack ,AdapterView.OnItemClickListener{
+	class NewsAsyncTask extends AsyncTask<String, Void, List<Like>> implements LikeAdapter.CallBack ,AdapterView.OnItemClickListener{
 
         @Override
         protected List<Like> doInBackground(String... strings) {
@@ -124,6 +132,7 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
 			intent.putExtra("id",obj.getBookid());
 			intent.setClass(LikeListAvtivity.this,SpecialItemActivity.class);//后期改成特殊的 book页面
 			startActivity(intent);
+			overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 		}
 	}
 
@@ -139,13 +148,19 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
             try {
                 jsonObject=new JSONObject(jsonString);
                 JSONArray jsonArray=jsonObject.getJSONArray("json");
-                if (jsonArray.length()==0){
-                	Intent intent=new Intent();
-                	intent.putExtra("title","我的收藏");
-                	intent.putExtra("main","收藏");
-                	intent.setClass(LikeListAvtivity.this,NullActivity.class);
-                	startActivity(intent);
-                	finish();
+                if (jsonArray.length()!=0){
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							mHandler.post(new Runnable() {
+								@Override
+								public void run() {
+									like_fail_img.setVisibility(View.INVISIBLE);
+									like_fail_text.setVisibility(View.INVISIBLE);
+								}
+							});
+						}
+					}).start();
 				}
                 for (int i=0;i<jsonArray.length();i++){
                     jsonObject=jsonArray.getJSONObject(i);
@@ -224,4 +239,42 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
 		super.onStop();
 		DemoApplication.getHttpQueues().cancelAll("likelist");
 	}
+
+	@Override
+	public void onReflash() {
+		// TODO Auto-generated method stub\
+		Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				//获取最新数据
+				setReflashData();
+
+
+				//通知界面显示
+				//showList(apk_list);
+				//通知listview 刷新数据完毕；
+				listView.reflashComplete();
+			}
+		}, 2000);
+	}
+
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if (msg.what == 100) {
+			}
+		}
+	};
+
+	private void setReflashData() {
+		listView.setAdapter(null);
+		new NewsAsyncTask().execute(URL+account);
+
+	}
+
+
 }

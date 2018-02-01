@@ -44,8 +44,8 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
 	}
 
 	private void initView() {
-		listView=findViewById(R.id.searchlist);
-		returnBtn=findViewById(R.id.search_return);
+		listView= (ListView) findViewById(R.id.searchlist);
+		returnBtn= (ImageView) findViewById(R.id.search_return);
 		returnBtn.setOnClickListener(this);
 		listView.setOnItemClickListener(this);
 	}
@@ -55,6 +55,7 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
 		switch (view.getId()){
 			case R.id.search_return:
 				finish();
+				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				break;
 			default:
 				break;

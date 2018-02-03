@@ -31,10 +31,11 @@
             android:layout_centerHorizontal="true"
             />
         <TextView
+            android:id="@+id/changepwd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="修改资料"
+            android:text="修改密码"
             android:textColor="@color/standardwhite"
             android:textSize="15dp"
             android:layout_alignParentRight="true"
@@ -52,36 +53,30 @@
         android:layout_height="40dp"
         android:paddingLeft="10dp"
         >
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-             />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:text="学号"
+            android:text="账号："
             android:textColor="@color/standardgreen"
             android:textSize="20dp" />
 
         <TextView
-            android:id="@+id/stu_id"
+            android:id="@+id/u_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@null"
             android:paddingLeft="10dp"
-            android:textColor="#000000"
+            android:textColor="@color/standardgreen"
             android:gravity="left"
             android:textSize="20dp"
             />
     </LinearLayout>
 
     <LinearLayout
-        android:background="@drawable/line"
+        android:background="@drawable/green_line"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
@@ -90,33 +85,27 @@
         android:layout_height="40dp"
         android:paddingLeft="10dp"
         >
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-             />
         <TextView
             android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:textColor="#b0b0b0"
+            android:textColor="@color/standardgreen"
             android:layout_marginLeft="10dp"
             android:textSize="20dp"
-            android:text="姓名"/>
+            android:text="昵称："/>
 
         <TextView
-            android:id="@+id/stu_name"
+            android:id="@+id/u_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@null"
             android:paddingLeft="10dp"
-            android:textColor="#000000"
+            android:textColor="@color/standardgreen"
             android:gravity="left"
             android:textSize="20dp"
             />
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -124,39 +113,61 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/line"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-             />
-
+        android:background="@drawable/green_line"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
         <TextView
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="性别"
-            android:textColor="#b0b0b0"
+            android:text="姓名 ："
+            android:textColor="@color/standardgreen"
             android:textSize="20dp" />
 
         <TextView
-            android:id="@+id/stu_sex"
+            android:id="@+id/u_truthname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@null"
             android:gravity="left"
             android:paddingLeft="10dp"
-            android:textColor="#000000"
+            android:textColor="@color/standardgreen"
+            android:textSize="20dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/green_line"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="性别："
+            android:textColor="@color/standardgreen"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/u_sex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:textColor="@color/standardgreen"
             android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
-        android:background="@drawable/line"
+        android:background="@drawable/green_line"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
@@ -165,26 +176,21 @@
         android:layout_height="40dp"
         android:paddingLeft="10dp"
         >
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-             />
         <TextView
             android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:textColor="#b0b0b0"
+            android:textColor="@color/standardgreen"
             android:layout_marginLeft="10dp"
             android:textSize="20dp"
-            android:text="电话"/>
+            android:text="手机："/>
 
         <TextView
-            android:id="@+id/stu_tel"
+            android:id="@+id/u_tel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:textColor="#000000"
+            android:textColor="@color/standardgreen"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
             android:gravity="left"
@@ -194,34 +200,28 @@
 
     <LinearLayout
         android:layout_marginTop="10dp"
-        android:background="@drawable/line"
+        android:background="@drawable/green_line"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-             />
-
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:textColor="#b0b0b0"
+            android:textColor="@color/standardgreen"
             android:textSize="20dp"
-            android:text="学院"/>
+            android:text="年龄："/>
 
         <TextView
-            android:id="@+id/stu_depart"
+            android:id="@+id/u_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:textColor="#000000"
+            android:textColor="@color/standardgreen"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
             android:gravity="left"
@@ -230,34 +230,28 @@
     </LinearLayout>
     <LinearLayout
         android:layout_marginTop="10dp"
-        android:background="@drawable/line"
+        android:background="@drawable/green_line"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-             />
-
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:textColor="#b0b0b0"
+            android:textColor="@color/standardgreen"
             android:textSize="20dp"
-            android:text="专业"/>
+            android:text="地址："/>
 
         <TextView
-            android:id="@+id/stu_major"
+            android:id="@+id/u_addr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:textColor="#000000"
+            android:textColor="@color/standardgreen"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
             android:gravity="left"
@@ -276,16 +270,14 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/change_my_pwd"
+            android:id="@+id/change_my_infor"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="修改密码"
+            android:layout_height="30dp"
+            android:text="修改资料"
             android:layout_alignParentRight="true"
             android:layout_marginRight="30dp"
             android:background="@drawable/buttonshape"
-            android:textColor="#ffffff"
-
-
+            android:textColor="@color/standardwhite"
             />
     </RelativeLayout>
 

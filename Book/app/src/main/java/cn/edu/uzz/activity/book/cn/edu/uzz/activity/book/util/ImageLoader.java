@@ -148,7 +148,7 @@ public class ImageLoader {
         protected Bitmap doInBackground(String... strings) {
             String url=strings[0];
             //从网络获取图片
-            Bitmap bitmap=getBitmapFromUrl(url);
+			Bitmap bitmap=getBitmapFromUrl(url);
             if(bitmap!=null){
                 //将不在缓存的图片加入缓存
                 addBitmapToCache(url,bitmap);

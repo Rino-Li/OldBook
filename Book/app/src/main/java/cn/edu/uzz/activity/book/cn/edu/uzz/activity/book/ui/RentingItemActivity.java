@@ -1,11 +1,12 @@
 package cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.ui;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -30,17 +31,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.DemoApplication;
+import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Books;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.BitmapCache;
 
-/**
- * Created by 10616 on 2017/12/8.
- */
-
-public class SpecialItemActivity extends Activity implements View.OnClickListener {
+public class RentingItemActivity extends AppCompatActivity implements View.OnClickListener{
 	private NetworkImageView book_pic;
 	private TextView book_name;
 	private TextView book_writer;
@@ -65,32 +64,35 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 	private static String  substatus;
 	private static String rentstatus;
 	StringBuffer time;
+	private TextView startCount;
+	private int recLen = 11;
+	Timer timer = new Timer();
 
 	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.item);
+		setContentView(R.layout.activity_renting_item);
 		initView();
-
 	}
 
 	private void initView() {
-		book_pic = (NetworkImageView) findViewById(R.id.item_image);
-		book_name = (TextView) findViewById(R.id.item_name);
-		book_writer = (TextView) findViewById(R.id.item_writer);
-		book_publish = (TextView) findViewById(R.id.item_publish);
-		book_version = (TextView) findViewById(R.id.item_version);
-		book_isbn = (TextView) findViewById(R.id.item_isbn);
-		book_price = (TextView) findViewById(R.id.item_price);
-		book_time = (TextView) findViewById(R.id.item_time);
-		item_return = (ImageView) findViewById(R.id.item_return);
-		book_like = (LinearLayout) findViewById(R.id.item_like);
-		book_like_word = (TextView) findViewById(R.id.item_like_word);
-		book_like_image = (ImageButton) findViewById(R.id.item_like_image);
-		book_sub = (Button) findViewById(R.id.item_subscribe);
-		book_rent = (Button) findViewById(R.id.item_rent);
-		like_word= (TextView) findViewById(R.id.item_like_word);
-
+		book_pic = (NetworkImageView) findViewById(R.id.renting_item_image);
+		book_name = (TextView) findViewById(R.id.renting_item_name);
+		book_writer = (TextView) findViewById(R.id.renting_item_writer);
+		book_publish = (TextView) findViewById(R.id.renting_item_publish);
+		book_version = (TextView) findViewById(R.id.renting_item_version);
+		book_isbn = (TextView) findViewById(R.id.renting_item_isbn);
+		book_price = (TextView) findViewById(R.id.renting_item_price);
+		book_time = (TextView) findViewById(R.id.renting_item_time);
+		item_return = (ImageView) findViewById(R.id.renting_item_return);
+		book_like = (LinearLayout) findViewById(R.id.renting_item_like);
+		book_like_word = (TextView) findViewById(R.id.renting_item_like_word);
+		book_like_image = (ImageButton) findViewById(R.id.renting_item_like_image);
+		book_sub = (Button) findViewById(R.id.renting_item_subscribe);
+		book_rent = (Button) findViewById(R.id.renting_item_rent);
+		like_word= (TextView) findViewById(R.id.renting_item_like_word);
+		startCount=findViewById(R.id.renting_time);
+		timer.schedule(task, 1000, 1000);
 		Intent intent=getIntent();
 		type=intent.getIntExtra("type",0);
 		id=intent.getIntExtra("id",0);
@@ -139,8 +141,6 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
-
 			}
 
 
@@ -148,15 +148,55 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
 
-				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
 		});
 		//3请求加入队列
-		request.setTag("specialbook");
+		request.setTag("rentingbook");
 		queue.add(request);
 
 	}
 
+	private void getImage(String image_name) {
+		RequestQueue mQueue = Volley.newRequestQueue(getApplicationContext());
+		ImageLoader imageLoader = new ImageLoader(mQueue, new BitmapCache());
+		book_pic.setDefaultImageResId(R.drawable.ic_launcher);
+		book_pic.setErrorImageResId(R.drawable.ic_launcher);
+		book_pic.setImageUrl(image_name,
+				imageLoader);
+	}
+
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.item_return:
+				finish();
+				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+				break;
+			case R.id.item_like:
+				if(like_word.getText().toString().equals("收藏")){getLikeBook();}
+				else {cancelLikeBook();}
+				break;
+			case R.id.item_rent:
+				if (book_rent.getText().toString().equals("已借阅")){
+					Toast.makeText(RentingItemActivity.this,"对不起，此书已被借阅",Toast.LENGTH_SHORT).show();
+				}else {
+					Rent();
+				}
+				break;
+			case R.id.item_subscribe:
+				if(checksub()==1){
+					Toast.makeText(RentingItemActivity.this,"预定成功，请在24小时内借阅此书",Toast.LENGTH_SHORT).show();
+				}else if(checksub()==2){
+					Toast.makeText(RentingItemActivity.this,"抱歉，此书已被预订",Toast.LENGTH_SHORT).show();
+				}else if(checksub()==3){
+					Toast.makeText(RentingItemActivity.this,"抱歉，此书正在被借阅",Toast.LENGTH_SHORT).show();
+				}
+				break;
+			default:
+				break;
+		}
+	}
 
 	private void check() {
 		//1创建请求队列
@@ -191,67 +231,17 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
 
-				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
 		});
 		//3请求加入队列
-		request.setTag("specialbook");
+		request.setTag("rentingbook");
 		queue.add(request);
-
-	}
-
-	private void getImage(String image_name) {
-		RequestQueue mQueue = Volley.newRequestQueue(getApplicationContext());
-		ImageLoader imageLoader = new ImageLoader(mQueue, new BitmapCache());
-		book_pic.setDefaultImageResId(R.drawable.ic_launcher);
-		book_pic.setErrorImageResId(R.drawable.ic_launcher);
-		book_pic.setImageUrl(image_name,
-				imageLoader);
-	}
-
-	@Override
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.item_return:
-				finish();
-				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
-				break;
-			case R.id.item_like:
-				if(like_word.getText().toString().equals("收藏")){getLikeBook();}
-				else {cancelLikeBook();}
-				break;
-			case R.id.item_rent:
-				if (book_rent.getText().toString().equals("已借阅")){
-					Toast.makeText(SpecialItemActivity.this,"对不起，此书已被借阅",Toast.LENGTH_SHORT).show();
-				}else {
-					Rent();
-				}
-				break;
-			case R.id.item_subscribe:
-				if(checksub()==1){
-					Toast.makeText(SpecialItemActivity.this,"预定成功，请在24小时内借阅此书",Toast.LENGTH_SHORT).show();
-				}else if(checksub()==2){
-					Toast.makeText(SpecialItemActivity.this,"抱歉，此书已被预订",Toast.LENGTH_SHORT).show();
-				}else if(checksub()==3){
-					Toast.makeText(SpecialItemActivity.this,"抱歉，此书正在被借阅",Toast.LENGTH_SHORT).show();
-				}
-				break;
-			default:
-				break;
-		}
-	}
-
-	private void Rent() {
-		if (book_sub.getText().toString().equals("预定")){
-			showDatePickDlg();
-		}else {
-			checkRent();
-		}
 	}
 
 	protected void showDatePickDlg() {
 		Calendar calendar = Calendar.getInstance();
-		DatePickerDialog datePickerDialog = new DatePickerDialog(SpecialItemActivity.this, new DatePickerDialog.OnDateSetListener() {
+		DatePickerDialog datePickerDialog = new DatePickerDialog(RentingItemActivity.this, new DatePickerDialog.OnDateSetListener() {
 			@Override
 			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 				time=new StringBuffer().append(year).append("-").append(monthOfYear+1).append("-").append(dayOfMonth);
@@ -261,9 +251,9 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 					String now=sdf.format(new java.util.Date());
 					Date datenow=sdf.parse(now);
 					if (dateend.getTime()<datenow.getTime()){
-						Toast.makeText(SpecialItemActivity.this,"请选择正确的日期",Toast.LENGTH_SHORT).show();
+						Toast.makeText(RentingItemActivity.this,"请选择正确的日期",Toast.LENGTH_SHORT).show();
 					}else{
-						Toast.makeText(SpecialItemActivity.this,"您选择的时间为："+time,Toast.LENGTH_SHORT).show();//测试阶段使用 ，成功后注释掉
+						Toast.makeText(RentingItemActivity.this,"您选择的时间为："+time,Toast.LENGTH_SHORT).show();//测试阶段使用 ，成功后注释掉
 						rentBook();
 					}
 				} catch (ParseException e) {
@@ -272,7 +262,14 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			}
 		}, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 		datePickerDialog.show();
+	}
 
+	private void Rent() {
+		if (book_sub.getText().toString().equals("预定")){
+			showDatePickDlg();
+		}else {
+			checkRent();
+		}
 	}
 
 	private void checkRent() {
@@ -288,7 +285,7 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 					if (resultCode == 1) {
 						showDatePickDlg();
 					}else if (resultCode==2){
-						Toast.makeText(SpecialItemActivity.this,"此书已被其他用户预定，请等候",Toast.LENGTH_SHORT).show();
+						Toast.makeText(RentingItemActivity.this,"此书已被其他用户预定，请等候",Toast.LENGTH_SHORT).show();
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -302,11 +299,11 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
 
-				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
 		});
 		//3请求加入队列
-		request.setTag("specialbook");
+		request.setTag("rentingbook");
 		queue.add(request);
 	}
 
@@ -322,11 +319,11 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 				try {
 					int resultCode = response.getInt("resultCode");
 					if (resultCode == 1) {
-						Toast.makeText(SpecialItemActivity.this,"已添加到借阅车，请在30分钟内确认借阅",Toast.LENGTH_SHORT).show();
+						Toast.makeText(RentingItemActivity.this,"已添加到借阅车，请在30分钟内确认借阅",Toast.LENGTH_SHORT).show();
 					}else if (resultCode==2){
-						Toast.makeText(SpecialItemActivity.this,"添加到借阅车失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						Toast.makeText(RentingItemActivity.this,"添加到借阅车失败，请稍后再试！",Toast.LENGTH_SHORT).show();
 					}else if (resultCode==3){
-						Toast.makeText(SpecialItemActivity.this,"此书已被添加，勿重复添加",Toast.LENGTH_SHORT).show();
+						Toast.makeText(RentingItemActivity.this,"此书已被添加，勿重复添加",Toast.LENGTH_SHORT).show();
 					}
 
 				} catch (JSONException e) {
@@ -341,11 +338,11 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
 
-				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
 		});
 		//3请求加入队列
-		request.setTag("specialbook");
+		request.setTag("rentingbook");
 		queue.add(request);
 	}
 
@@ -373,7 +370,7 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 					if (resultCode == 1||resultCode==2) {
 						book_sub.setText("已预订");
 					}else if (resultCode==3){
-						Toast.makeText(SpecialItemActivity.this,"预定失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						Toast.makeText(RentingItemActivity.this,"预定失败，请稍后再试！",Toast.LENGTH_SHORT).show();
 					}
 
 				} catch (JSONException e) {
@@ -388,11 +385,11 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
 
-				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
 		});
 		//3请求加入队列
-		request.setTag("specialbook");
+		request.setTag("rentingbook");
 		queue.add(request);
 	}
 
@@ -407,11 +404,11 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 				try {
 					int resultCode = response.getInt("resultCode");
 					if (resultCode == 1||resultCode==3) {
-						Toast.makeText(SpecialItemActivity.this,"取消收藏成功",Toast.LENGTH_SHORT).show();
+						Toast.makeText(RentingItemActivity.this,"取消收藏成功",Toast.LENGTH_SHORT).show();
 						book_like_image.setImageResource(R.drawable.book_like_normal);
 						book_like_word.setText("收藏");
 					}else if (resultCode==2){
-						Toast.makeText(SpecialItemActivity.this,"取消收藏失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						Toast.makeText(RentingItemActivity.this,"取消收藏失败，请稍后再试！",Toast.LENGTH_SHORT).show();
 					}
 
 				} catch (JSONException e) {
@@ -426,11 +423,11 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
 
-				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
 		});
 		//3请求加入队列
-		request.setTag("specialbook");
+		request.setTag("rentingbook");
 		queue.add(request);
 
 	}
@@ -446,11 +443,11 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 				try {
 					int resultCode = response.getInt("resultCode");
 					if (resultCode == 1) {
-						Toast.makeText(SpecialItemActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
+						Toast.makeText(RentingItemActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
 						book_like_image.setImageResource(R.drawable.book_like_selected);
 						book_like_word.setText("已收藏");
 					}else if (resultCode==2){
-						Toast.makeText(SpecialItemActivity.this,"收藏失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						Toast.makeText(RentingItemActivity.this,"收藏失败，请稍后再试！",Toast.LENGTH_SHORT).show();
 					}
 
 				} catch (JSONException e) {
@@ -463,11 +460,11 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
 
-				Toast.makeText(SpecialItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
 		});
 		//3请求加入队列
-		request.setTag("specialbook");
+		request.setTag("rentingbook");
 		queue.add(request);
 		return true;
 	}
@@ -475,6 +472,30 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 	@Override
 	protected void onStop() {
 		super.onStop();
-		DemoApplication.getHttpQueues().cancelAll("specialbook");
+		DemoApplication.getHttpQueues().cancelAll("rentingbook");
 	}
+
+	final Handler handler = new Handler(){
+		@Override
+		public void handleMessage(Message msg){
+			switch (msg.what) {
+				case 1:
+					startCount.setText(""+recLen);
+					if(recLen < 0){
+						timer.cancel();
+						startCount.setVisibility(View.GONE);
+					}
+			}
+		}
+	};
+
+	TimerTask task = new TimerTask() {
+		@Override
+		public void run() {
+			recLen--;
+			Message message = new Message();
+			message.what = 1;
+			handler.sendMessage(message);
+		}
+	};
 }

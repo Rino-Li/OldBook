@@ -25,6 +25,13 @@
             android:layout_marginLeft="10dp"
             android:textSize="20dp"
             />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignLeft="@+id/address_layout"
+            android:layout_alignRight="@+id/address_layout"
+            android:layout_below="@+id/input_name"
+            android:background="@color/standardgreen" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"

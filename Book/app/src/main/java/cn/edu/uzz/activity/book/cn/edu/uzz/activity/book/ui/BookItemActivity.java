@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import cn.edu.uzz.activity.book.R;
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Books;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.BitmapCache;
 

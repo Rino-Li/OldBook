@@ -14,27 +14,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.uzz.activity.book.R;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.RentCar;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Rent;
 
 /**
- * Created by 10616 on 2017/12/16.
+ * Created by 10616 on 2018/2/3.
  */
 
-public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListener,View.OnClickListener{
-	private List<RentCar> mList;
+public class RentingAdapter extends BaseAdapter implements AbsListView.OnScrollListener{
+	private List<Rent> mList;
 	private LayoutInflater inflater;
-	private CarAdapter.ViewHolder viewHolder;
-	private CarImageLoader mImageLoader;
+	private ViewHolder viewHolder;
+	private RentingImageLoader mImageLoader;
 	private int mStart,mEnd;
 	public static String[] URLS;
 	private boolean mFirstIn;
-	private CallBack mcallBack;
 
-	public CarAdapter(Context context, List<RentCar> data, ListView listView, CallBack callBack) {
+	public RentingAdapter(Context context, List<Rent> data, ListView listView) {
 		this.mList = data;
-		mcallBack=callBack;
 		this.inflater = LayoutInflater.from(context);
-		mImageLoader=new CarImageLoader(listView);
+		mImageLoader=new RentingImageLoader(listView);
 		URLS=new String[data.size()];
 		for (int i=0;i<data.size();i++){
 			URLS[i]=data.get(i).getPicture();
@@ -44,14 +42,9 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 		listView.setOnScrollListener(this);
 	}
 
-	public void refresh(List<RentCar> list) {
+	public void refresh(List<Rent> list) {
 		mList = list;//传入list，然后调用notifyDataSetChanged方法
 		notifyDataSetChanged();
-	}
-
-	@Override
-	public void onClick(View view) {
-		mcallBack.click(view);
 	}
 
 	//定义一个接口用于回调点击事件
@@ -59,7 +52,7 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 		public void click(View v);
 	}
 
-	public void onDateChange(ArrayList<RentCar> like_list) {
+	public void onDateChange(ArrayList<Rent> like_list) {
 		this.mList = like_list;
 		this.notifyDataSetChanged();
 	}
@@ -85,27 +78,22 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		RentCar car = mList.get(position);
+		Rent car = mList.get(position);
 		if (convertView == null) {
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.item_rentcar, null);
-			viewHolder.car_book_name= (TextView) convertView.findViewById(R.id.car_bookname);
-			viewHolder.car_bookpic= (ImageView) convertView.findViewById(R.id.car_bookpic);
-			viewHolder.cancelBtn= (TextView) convertView.findViewById(R.id.cancel_car);
-			viewHolder.car_endtime= (TextView) convertView.findViewById(R.id.car_endtime);
+			convertView = inflater.inflate(R.layout.item_renting, null);
+			viewHolder.reinting_book_name= (TextView) convertView.findViewById(R.id.renting_bookname);
+			viewHolder.renting_bookpic= (ImageView) convertView.findViewById(R.id.renting_bookpic);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		viewHolder.car_bookpic.setImageResource(R.mipmap.ic_launcher);
+		viewHolder.renting_bookpic.setImageResource(R.mipmap.ic_launcher);
 		String url=mList.get(position).getPicture();
-		viewHolder.car_bookpic.setTag(url);
+		viewHolder.renting_bookpic.setTag(url);
 		//new ImageLoader().showImageByAsyncTask(viewHolder.ivIcon,url);
-		mImageLoader.showImageByAsyncTask(viewHolder.car_bookpic,url);
-		viewHolder.car_book_name.setText(mList.get(position).getBookanme());
-		viewHolder.car_endtime.setText("还书日期:"+mList.get(position).getEndtime());
-		viewHolder.cancelBtn.setOnClickListener(this);
-		viewHolder.cancelBtn.setTag(position);
+		mImageLoader.showImageByAsyncTask(viewHolder.renting_bookpic,url);
+		viewHolder.reinting_book_name.setText(mList.get(position).getBookanme());
 		return convertView;
 	}
 
@@ -132,10 +120,10 @@ public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListe
 	}
 
 	class ViewHolder {
-		TextView car_book_name;
-		TextView car_endtime;
-		ImageView car_bookpic;
-		private TextView cancelBtn;
+		TextView reinting_book_name;
+		TextView renting_endtime;
+		ImageView renting_bookpic;
+
 	}
 
 

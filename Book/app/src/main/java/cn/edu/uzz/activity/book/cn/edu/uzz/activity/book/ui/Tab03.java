@@ -27,6 +27,8 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 	private LinearLayout mysub;
 	private Button loginBtn;
 	private LinearLayout myCar;
+	private LinearLayout myInfor;
+	private LinearLayout myRenting;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -45,6 +47,8 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 		mysub= (LinearLayout) getView().findViewById(R.id.layout3);
 		loginBtn= (Button) getView().findViewById(R.id.logout_btn);
 		myCar= (LinearLayout) getView().findViewById(R.id.layout7);
+		myRenting=getView().findViewById(R.id.layout4);
+		myInfor= getView().findViewById(R.id.layout1);
 		File file= new File("/data/data/cn.edu.uzz.activity.book/shared_prefs","user.xml");
 		if(file.exists())
 		{
@@ -56,6 +60,8 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 		myLike.setOnClickListener(this);
 		mysub.setOnClickListener(this);
 		myCar.setOnClickListener(this);
+		myInfor.setOnClickListener(this);
+		myRenting.setOnClickListener(this);
     }
 
 	@Override
@@ -66,6 +72,7 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 				((Activity) getContext()).overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				break;
 			case R.id.layout1:
+				startActivity(new Intent(getActivity(),MyInforActivity.class));
 				break;
 			case R.id.layout3:
 				startActivity(new Intent(getActivity(),MySubActivity.class));
@@ -91,6 +98,11 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 			case R.id.layout7:
 				startActivity(new Intent(getActivity(),CarActivity.class));
 				((Activity) getContext()).overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+				break;
+			case R.id.layout4:
+				startActivity(new Intent(getActivity(),RentingActivity.class));
+				((Activity) getContext()).overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+				break;
 			default:
 				break;
 		}

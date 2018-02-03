@@ -24,6 +24,7 @@ import com.mob.MobSDK;
 import org.json.JSONObject;
 
 import cn.edu.uzz.activity.book.R;
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 

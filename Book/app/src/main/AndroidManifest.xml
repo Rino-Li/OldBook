@@ -25,7 +25,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".cn.edu.uzz.activity.book.ui.DemoApplication"
+        android:name=".DemoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/book_icon"
         android:label="@string/app_name"
@@ -35,8 +35,7 @@
         tools:replace="android:icon,android:theme">
         <activity
             android:name=".cn.edu.uzz.activity.book.ui.MainActivity"
-            android:launchMode="standard">
-        </activity>
+            android:launchMode="standard" />
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -84,6 +83,9 @@
         <activity
             android:name=".cn.edu.uzz.activity.book.ui.TypesActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".cn.edu.uzz.activity.book.ui.MyInforActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <meta-data
             android:name="Mob-AppKey"
@@ -95,9 +97,18 @@
         <activity android:name=".cn.edu.uzz.activity.book.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".cn.edu.uzz.activity.book.ui.NullActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".cn.edu.uzz.activity.book.ui.RentingActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".cn.edu.uzz.activity.book.ui.RentingItemActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

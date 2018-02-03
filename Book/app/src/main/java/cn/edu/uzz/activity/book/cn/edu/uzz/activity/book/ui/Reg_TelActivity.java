@@ -47,10 +47,7 @@ public class Reg_TelActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg_tel);
-
         init();
-
-
         android.support.v7.app.ActionBar actionBar=getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
@@ -199,9 +196,6 @@ public class Reg_TelActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void findTel(String tel){
-
-
-
         if (!judgePhoneNums(tel)) {
             return;
         } // 2. 通过sdk发送短信验证

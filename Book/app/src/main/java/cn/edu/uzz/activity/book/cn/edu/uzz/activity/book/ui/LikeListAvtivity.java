@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.uzz.activity.book.R;
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Like;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.LikeAdapter;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.ReFlashListView;
@@ -58,7 +59,7 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
         setContentView(R.layout.activity_mylike);
         initView();
         SharedPreferences pre=getSharedPreferences("user",MODE_PRIVATE);
-        account=pre.getString("account","");
+		account=pre.getString("account","");
         if(account.equals("")){
         	Intent intent=new Intent();
         	intent.putExtra("title","我的收藏");

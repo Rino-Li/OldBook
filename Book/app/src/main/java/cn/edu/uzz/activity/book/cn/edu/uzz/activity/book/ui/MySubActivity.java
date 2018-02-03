@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.uzz.activity.book.R;
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Subscribe;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.SubAdapter;
 

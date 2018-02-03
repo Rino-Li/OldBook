@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.edu.uzz.activity.book.R;
+import cn.edu.uzz.activity.book.DemoApplication;
 
 /**
  * Created by 10616 on 2017/11/2.

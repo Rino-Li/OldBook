@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.uzz.activity.book.R;
+import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.RentCar;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.CarAdapter;
 
@@ -99,13 +100,13 @@ public class CarActivity extends Activity implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()){
 			case R.id.jinruerweima:
-						Intent intent=new Intent();
+				Intent intent=new Intent();
 						/*intent.putExtra("idlist",getId());
 						intent.putExtra("typelist",getType());*/
-						intent.putExtra("booklist",jsonString);
-						intent.setClass(CarActivity.this,ErweimaActivity.class);
-						startActivity(intent);
-						finish();
+				intent.putExtra("booklist",jsonString);
+				intent.setClass(CarActivity.this,ErweimaActivity.class);
+				startActivity(intent);
+				finish();
 				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				break;
 			case R.id.car_return:

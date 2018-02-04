@@ -113,6 +113,7 @@ public class RentingActivity extends AppCompatActivity implements View.OnClickLi
 			Intent intent=new Intent();
 			intent.putExtra("type",obj.getBooktype());
 			intent.putExtra("id",obj.getBookid());
+			intent.putExtra("enddate",obj.getEndtime());
 			intent.setClass(RentingActivity.this,RentingItemActivity.class);//后期改成特殊的 book页面
 			startActivity(intent);
 			overridePendingTransition(R.anim.anim_in,R.anim.anim_out);

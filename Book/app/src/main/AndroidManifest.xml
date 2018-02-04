@@ -86,7 +86,17 @@
         <activity
             android:name=".cn.edu.uzz.activity.book.ui.MyInforActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
+        <activity
+            android:name=".cn.edu.uzz.activity.book.ui.NullActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".cn.edu.uzz.activity.book.ui.RentingActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".cn.edu.uzz.activity.book.ui.RentingItemActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".cn.edu.uzz.activity.book.ui.RentHistoryActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <meta-data
             android:name="Mob-AppKey"
             android:value="2216245c23ed4" />
@@ -101,14 +111,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".cn.edu.uzz.activity.book.ui.NullActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".cn.edu.uzz.activity.book.ui.RentingActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".cn.edu.uzz.activity.book.ui.RentingItemActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+
     </application>
 
 </manifest>

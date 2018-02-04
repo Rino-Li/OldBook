@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -288,7 +289,8 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
 
     private void rentBook() {
         String  timeend=time.toString();
-        //1创建请求队列
+		Log.e("BBBB","enddate is "+timeend);
+		//1创建请求队列
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         //2创建请求
         JsonObjectRequest request = new JsonObjectRequest(

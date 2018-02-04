@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">啃书应用</string>
+    <string name="app_name">啃书</string>
     <string name="search_hint">热门搜索</string>
     <string name="search_cancel">取消</string>
     <string name="search_verify">搜索</string>

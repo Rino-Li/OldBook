@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -65,8 +66,16 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 	private static String rentstatus;
 	StringBuffer time;
 	private TextView startCount;
-	private int recLen = 11;
-	Timer timer = new Timer();
+	private int recLen;
+	private Timer timer = new Timer();
+	private String enddate;
+	String t;
+
+	Date now1=new Date();
+	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	String now;
+	Date d1;
+	Date d2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,15 +101,17 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		book_rent = (Button) findViewById(R.id.renting_item_rent);
 		like_word= (TextView) findViewById(R.id.renting_item_like_word);
 		startCount=findViewById(R.id.renting_time);
-		timer.schedule(task, 1000, 1000);
+
+
+
 		Intent intent=getIntent();
 		type=intent.getIntExtra("type",0);
 		id=intent.getIntExtra("id",0);
+		enddate=intent.getStringExtra("enddate");
 		SharedPreferences pre=getSharedPreferences("user",MODE_PRIVATE);
 		account=pre.getString("account","");
 
 		getBook(type,id);
-
 
 
 		//设置点击监听
@@ -113,6 +124,26 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		//1.检测该用户是否收藏此书，若已收藏，则显示已收藏
 		//2.检测书籍状态，显示是否被借阅或被预定
 		check();
+		Time();
+		timer.schedule(task, 1000, 1000);
+	}
+
+	private void Time() {
+		now=df.format(now1);
+		try {
+			d1=df.parse(now);
+			Log.e("BBBB", String.valueOf(d1+"  is  d1 "));
+			d2=df.parse(enddate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		if(d1.getTime()<d2.getTime()){
+			//说明用户借书超期
+			long l=d2.getTime()-d1.getTime();
+			recLen= (int) l;
+		}else{
+			startCount.setText("此书已到期，请尽快与管理员联系");
+		}
 	}
 
 	private void getBook(int type,int id) {
@@ -169,22 +200,23 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
-			case R.id.item_return:
+			case R.id.renting_item_return:
+				timer.cancel();
 				finish();
 				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				break;
-			case R.id.item_like:
+			case R.id.renting_item_like:
 				if(like_word.getText().toString().equals("收藏")){getLikeBook();}
 				else {cancelLikeBook();}
 				break;
-			case R.id.item_rent:
+			case R.id.renting_item_rent:
 				if (book_rent.getText().toString().equals("已借阅")){
 					Toast.makeText(RentingItemActivity.this,"对不起，此书已被借阅",Toast.LENGTH_SHORT).show();
 				}else {
 					Rent();
 				}
 				break;
-			case R.id.item_subscribe:
+			case R.id.renting_item_subscribe:
 				if(checksub()==1){
 					Toast.makeText(RentingItemActivity.this,"预定成功，请在24小时内借阅此书",Toast.LENGTH_SHORT).show();
 				}else if(checksub()==2){
@@ -480,19 +512,32 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		public void handleMessage(Message msg){
 			switch (msg.what) {
 				case 1:
-					startCount.setText(""+recLen);
+					//startCount.setText(print(recLen));
+					startCount.setText(t);
 					if(recLen < 0){
 						timer.cancel();
-						startCount.setVisibility(View.GONE);
+						startCount.setText("此书已到期，请尽快与管理员联系");
 					}
 			}
 		}
 	};
 
+	private void print(int rec) {
+		Log.e("BBBB",rec+"    rec");
+		long day=rec/(24*60*60*1000);
+		long hour=(rec/(60*60*1000)-day*24-13);
+		long min=((rec/(60*1000))-day*24*60-hour*60-780);
+		long s=(rec/1000-day*24*60*60-hour*60*60-min*60-780*60);
+		t=""+day+"天"+hour+"小时"+min+"分"+s+"秒";
+		Log.e("BBBB",s+"");
+	}
+
 	TimerTask task = new TimerTask() {
 		@Override
 		public void run() {
-			recLen--;
+			recLen=recLen-1000;
+			print(recLen);
+			Log.e("BBBB",recLen+"");
 			Message message = new Message();
 			message.what = 1;
 			handler.sendMessage(message);

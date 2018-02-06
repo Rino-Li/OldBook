@@ -24,7 +24,7 @@ import java.util.List;
 
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Books;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.MyAdapter;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.adapter.MyAdapter;
 
 public class SearchResultActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemClickListener{
 

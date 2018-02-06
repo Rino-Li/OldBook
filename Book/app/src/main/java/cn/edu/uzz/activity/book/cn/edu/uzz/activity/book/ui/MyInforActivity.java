@@ -42,6 +42,8 @@ public class MyInforActivity extends Activity implements View.OnClickListener{
 		addr=findViewById(R.id.u_addr);
 		changePwdBtn=findViewById(R.id.changepwd);
 		changeInforBtn=findViewById(R.id.change_my_infor);
+		changeInforBtn.setOnClickListener(this);
+		changePwdBtn.setOnClickListener(this);
 		SharedPreferences pre=getSharedPreferences("user",MODE_PRIVATE);
 		if(pre.getString("account","").equals("")){
 			Intent intent=new Intent();

@@ -36,7 +36,7 @@ import java.util.List;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Like;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.LikeAdapter;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.adapter.LikeAdapter;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.ReFlashListView;
 
 

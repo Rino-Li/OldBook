@@ -38,7 +38,7 @@ import java.util.List;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.RentCar;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.CarAdapter;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.adapter.CarAdapter;
 
 /**
  * Created by 10616 on 2017/12/22.

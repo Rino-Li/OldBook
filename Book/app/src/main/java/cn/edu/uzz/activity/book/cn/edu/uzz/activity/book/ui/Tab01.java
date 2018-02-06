@@ -34,8 +34,8 @@ import java.util.Random;
 
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Books;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.GlideImageLoader;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.MyAdapter;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.loader.GlideImageLoader;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.adapter.MyAdapter;
 
 import static android.app.Activity.RESULT_OK;
 

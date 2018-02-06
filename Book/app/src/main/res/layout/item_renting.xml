@@ -12,7 +12,7 @@
         android:layout_marginLeft="20dp"/>
     <TextView
         android:id="@+id/renting_bookname"
-        android:layout_width="200dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:text="123"
         android:layout_toRightOf="@+id/renting_bookpic"
@@ -23,5 +23,13 @@
         android:textColor="@drawable/item_color"
         android:layout_centerVertical="true"
         />
+    <TextView
+        android:id="@+id/suggest"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/mlcfenhongse"
+        android:textSize="15sp"/>
 
 </RelativeLayout>

@@ -23,8 +23,8 @@ import cn.smssdk.SMSSDK;
  */
 
 public class Reg_TelActivity extends AppCompatActivity implements View.OnClickListener{
-    String APPKEY = "2216245c23ed4";
-    String APPSECRETE = "8407c2da25d4cdfcdbad0043b99907c4";
+    String APPKEY = "241892b00a2b0";
+    String APPSECRETE = "919963c5e41f95af58cb44f83a0c3b3d";
 
     // 手机号输入框
     private EditText inputtel;
@@ -41,7 +41,7 @@ public class Reg_TelActivity extends AppCompatActivity implements View.OnClickLi
 
 
     //
-    int i = 60;
+	int i = 60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

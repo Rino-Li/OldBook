@@ -29,6 +29,8 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 	private LinearLayout myCar;
 	private LinearLayout myInfor;
 	private LinearLayout myRenting;
+	private LinearLayout myHistory;
+	private LinearLayout mySuggest;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -49,6 +51,8 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 		myCar= (LinearLayout) getView().findViewById(R.id.layout7);
 		myRenting=getView().findViewById(R.id.layout4);
 		myInfor= getView().findViewById(R.id.layout1);
+		myHistory=getView().findViewById(R.id.layout6);
+		mySuggest=getView().findViewById(R.id.layout8);
 		File file= new File("/data/data/cn.edu.uzz.activity.book/shared_prefs","user.xml");
 		if(file.exists())
 		{
@@ -62,6 +66,8 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 		myCar.setOnClickListener(this);
 		myInfor.setOnClickListener(this);
 		myRenting.setOnClickListener(this);
+		myHistory.setOnClickListener(this);
+		mySuggest.setOnClickListener(this);
     }
 
 	@Override
@@ -102,6 +108,13 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 			case R.id.layout4:
 				startActivity(new Intent(getActivity(),RentingActivity.class));
 				((Activity) getContext()).overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+				break;
+			case R.id.layout6:
+				startActivity(new Intent(getActivity(),RentHistoryActivity.class));
+				((Activity) getContext()).overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+				break;
+			case R.id.layout8:
+				//发起会话
 				break;
 			default:
 				break;

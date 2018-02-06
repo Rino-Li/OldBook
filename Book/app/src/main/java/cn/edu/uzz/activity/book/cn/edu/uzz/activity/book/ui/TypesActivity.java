@@ -24,8 +24,8 @@ import java.util.List;
 
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.CategoryBean;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.HomeAdapter;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.MenuAdapter;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.adapter.HomeAdapter;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.adapter.MenuAdapter;
 
 /**
  * Created by 10616 on 2017/11/23.

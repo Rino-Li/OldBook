@@ -26,10 +26,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.uzz.activity.book.DemoApplication;
 import cn.edu.uzz.activity.book.R;
+import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.adapter.RentingAdapter;
 import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.entity.Rent;
-import cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.RentingAdapter;
 
 public class RentingActivity extends AppCompatActivity implements View.OnClickListener{
 	private String account;
@@ -181,15 +180,5 @@ public class RentingActivity extends AppCompatActivity implements View.OnClickLi
 			e.printStackTrace();
 		}
 		return result;
-	}
-
-	private void getEnddate(){
-
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		DemoApplication.getHttpQueues().cancelAll("car");
 	}
 }

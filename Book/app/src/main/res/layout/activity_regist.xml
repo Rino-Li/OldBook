@@ -27,7 +27,7 @@
                 android:hint="请输入昵称"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="@color/standardgreen"
                 />
 
@@ -60,7 +60,7 @@
                 android:layout_gravity="center"
                 android:password="true"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="@color/standardgreen"
                 />
         </LinearLayout>
@@ -92,7 +92,7 @@
                 android:layout_gravity="center"
                 android:password="true"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textColor="@color/standardgreen"
                 />
         </LinearLayout>

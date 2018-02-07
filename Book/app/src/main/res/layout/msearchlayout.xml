@@ -42,12 +42,12 @@
                 android:id="@+id/shadowview"
                 layout="@layout/shadow_set_layout" />
 
-            <cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.FlowLayout
+            <cn.edu.uzz.activity.book.util.FlowLayout
                 android:padding="10dp"
                 android:id="@+id/id_flowlayouthot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            </cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.FlowLayout>
+            </cn.edu.uzz.activity.book.util.FlowLayout>
 
 
             <RelativeLayout
@@ -91,7 +91,7 @@
                 android:id="@+id/shadowview"
                 layout="@layout/shadow_set_layout" />
 
-            <cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.selfSearchGridView
+            <cn.edu.uzz.activity.book.util.selfSearchGridView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/gridviewolddata"
@@ -100,7 +100,7 @@
                 android:padding="10dp"
                 >
 
-            </cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.selfSearchGridView>
+            </cn.edu.uzz.activity.book.util.selfSearchGridView>
 
         </LinearLayout>
 

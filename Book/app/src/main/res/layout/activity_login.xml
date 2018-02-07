@@ -63,7 +63,7 @@
                 android:textColor="@color/standardwhite"
                 android:textColorHint="@color/standardwhite"
                 android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
         <View
@@ -113,7 +113,7 @@
                 android:textColor="@color/standardwhite"
                 android:textColorHint="@color/standardwhite"
                 android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
         <View
@@ -174,7 +174,7 @@
                 android:layout_marginBottom="30dp"
                 android:text="登录即代表阅读并同意"
                 android:textColor="@color/standardwhite"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -183,7 +183,7 @@
                 android:layout_toRightOf="@+id/text1"
                 android:text="服务条款"
                 android:textColor="@color/standardgreen"
-                android:textSize="15dp"/>
+                android:textSize="15sp"/>
         </LinearLayout>
 
     </RelativeLayout>

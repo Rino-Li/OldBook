@@ -26,7 +26,7 @@
             android:layout_gravity="center"
             android:text="我的资料"
             android:textColor="@color/standardwhite"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             />
@@ -46,7 +46,7 @@
         android:layout_centerHorizontal="true"
         android:text="请先登录哟"
         android:textColor="@color/standardgreen"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_marginTop="10dp"
         android:textStyle="bold"/>
     <Button

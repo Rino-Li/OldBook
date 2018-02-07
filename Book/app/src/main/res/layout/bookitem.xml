@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="75dp"
     android:background="@drawable/layout_background">
     <ImageView
         android:id="@+id/bookpic"
@@ -28,14 +28,14 @@
         android:text="555"
         android:layout_marginRight="20dp"
         android:textColor="@color/standardgreen"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:layout_centerVertical="true"
         />
     <TextView
         android:id="@+id/bookwriter"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:textSize="8dp"
+        android:textSize="8sp"
         android:text="123232331232"
         android:textColor="#505050"
         android:layout_below="@+id/bookname"
@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textSize="8dp"
+        android:textSize="8sp"
         android:text="555"
         android:layout_below="@+id/bookwriter"
         android:layout_alignLeft="@+id/bookname"
@@ -57,11 +57,11 @@
     <TextView
         android:id="@+id/bookversion"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="12dp"
         android:layout_below="@+id/bookpublish"
         android:text="暂无"
         android:layout_alignLeft="@+id/bookwriter"
         android:layout_marginTop="5dp"
-        android:textSize="8dp"
+        android:textSize="8sp"
         />
 </RelativeLayout>

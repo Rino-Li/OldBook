@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:text="个人中心"
             android:textColor="@color/standardwhite"
-            android:textSize="20dp"
+            android:textSize="20sp"
             />
 
     </LinearLayout>
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="我的资料"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="@color/standardgreen"
                 android:paddingLeft="10dp"
                 android:layout_weight="1"/>
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="我的收藏"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="@color/standardgreen"
                 android:paddingLeft="10dp"
                 android:layout_weight="1"/>
@@ -101,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="我的预定"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="@color/standardgreen"
                 android:paddingLeft="10dp"
                 android:layout_weight="1"/>
@@ -130,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="我的借阅"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="@color/standardgreen"
                 android:paddingLeft="10dp"
                 android:layout_weight="1"/>
@@ -160,7 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="借阅历史"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="@color/standardgreen"
                 android:paddingLeft="10dp"
                 android:layout_weight="1"/>
@@ -192,7 +192,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="购物小车"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="@color/standardgreen"
                 android:paddingLeft="10dp"
                 android:layout_weight="1"/>
@@ -223,7 +223,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="联系客服"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="@color/standardgreen"
                 android:paddingLeft="10dp"
                 android:layout_weight="1"/>
@@ -252,7 +252,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="关于我们"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="@color/standardgreen"
                 android:paddingLeft="10dp"
                 android:layout_weight="1"/>

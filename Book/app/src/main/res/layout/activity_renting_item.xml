@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.ui.RentingItemActivity">
+    tools:context=".ui.RentingItemActivity">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -26,7 +26,7 @@
             android:layout_gravity="center"
             android:text="图书详情"
             android:textColor="@color/standardwhite"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             />
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/renting_item_image"
         android:layout_marginTop="10dp"
         />
@@ -80,7 +80,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/renting_item_name"
         android:layout_marginTop="10dp"
         />
@@ -97,7 +97,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/renting_item_writer"
         android:layout_marginTop="10dp"
         />
@@ -114,7 +114,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/renting_item_publish"
         android:layout_marginTop="10dp"
         />
@@ -131,7 +131,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/renting_item_version"
         android:layout_marginTop="10dp"
         />
@@ -148,7 +148,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/renting_item_isbn"
         android:layout_marginTop="10dp"
         />
@@ -166,7 +166,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/renting_item_price"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_marginTop="10dp"/>
     <TextView
         android:id="@+id/renting_time"
@@ -175,7 +175,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/renting_item_time"
-        android:textSize="35dp"
+        android:textSize="35sp"
         android:textColor="@color/mlcfenhongse"
         android:layout_marginTop="10dp"/>
     <LinearLayout

@@ -32,7 +32,7 @@
         android:padding="10dp"
         android:textColor="@color/standardwhite"
         android:background="@drawable/buttonshape"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"

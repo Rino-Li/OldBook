@@ -15,15 +15,15 @@
             android:layout_gravity="center"
             android:text="图书分类"
             android:textColor="@color/standardwhite"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             />
     </RelativeLayout>
-    <cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.mSearchLayout
+    <cn.edu.uzz.activity.book.util.mSearchLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/msearchlayout"
         android:layout_marginTop="10dp"
-        ></cn.edu.uzz.activity.book.cn.edu.uzz.activity.book.util.mSearchLayout>
+        ></cn.edu.uzz.activity.book.util.mSearchLayout>
 </LinearLayout>

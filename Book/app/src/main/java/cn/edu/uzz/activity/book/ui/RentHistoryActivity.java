@@ -1,0 +1,186 @@
+package cn.edu.uzz.activity.book.ui;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.edu.uzz.activity.book.R;
+import cn.edu.uzz.activity.book.adapter.HistoryAdapter;
+import cn.edu.uzz.activity.book.entity.Rent;
+
+public class RentHistoryActivity extends AppCompatActivity implements View.OnClickListener {
+
+	private String account;
+	private ListView mListView;
+	private List<Rent> book_list;
+	private HistoryAdapter historyAdapter;
+	private static  String URL="http://123.206.230.120/Book/gethistoryServ?account=";
+	private TextView history_fail_text;
+	private ImageView history_fail_img;
+	private ImageView history_return;
+	private JSONArray jsonArray;
+	private String jsonString;
+	private int length;
+	NewsAsyncTask newsAsyncTask;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_rent_history);
+		initView();
+		SharedPreferences pre=getSharedPreferences("user",MODE_PRIVATE);
+		account=pre.getString("account","");
+		if(account.equals("")){
+			Intent intent=new Intent();
+			intent.putExtra("title","借阅历史");
+			intent.setClass(RentHistoryActivity.this,NoLoginActivity.class);
+			startActivity(intent);
+			finish();
+		}
+		newsAsyncTask.execute(URL+account);
+	}
+
+	private void initView() {
+		history_return= (ImageView) findViewById(R.id.history_return);
+		history_return.setOnClickListener(this);
+		mListView= (ListView) findViewById(R.id.history_list);
+		history_fail_text= (TextView) findViewById(R.id.history_fail_text);
+		history_fail_img= (ImageView) findViewById(R.id.history_fail_img);
+		newsAsyncTask=new NewsAsyncTask();
+	}
+
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if (msg.what == 100) {
+			}
+		}
+	};
+
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()){
+			case R.id.history_return:
+				finish();
+				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+				break;
+			default:
+				break;
+		}
+	}
+
+	class NewsAsyncTask extends AsyncTask<String, Void, List<Rent>> implements AdapterView.OnItemClickListener{
+
+		@Override
+		protected List<Rent> doInBackground(String... strings) {
+			return getJsonDate(strings[0]);
+		}
+
+		@Override
+		protected void onPostExecute(List<Rent> book) {
+			super.onPostExecute(book);
+			historyAdapter=new HistoryAdapter(RentHistoryActivity.this,book,mListView);
+			mListView.setAdapter(historyAdapter);
+			mListView.setOnItemClickListener(this);
+		}
+
+		@Override
+		public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+			Rent obj=book_list.get(position);
+			Intent intent=new Intent();
+			intent.putExtra("type",obj.getBooktype());
+			intent.putExtra("id",obj.getBookid());
+			intent.putExtra("enddate",obj.getEndtime());
+			intent.setClass(RentHistoryActivity.this,RentingItemActivity.class);//后期改成特殊的 book页面
+			startActivity(intent);
+			overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+		}
+	}
+
+	private List<Rent> getJsonDate(String URL) {
+		book_list=new ArrayList<>();
+		try {
+			jsonString=readStream(new URL(URL).openStream());
+			JSONObject jsonObject;
+			Rent books;
+			try {
+				jsonObject=new JSONObject(jsonString);
+				jsonArray=jsonObject.getJSONArray("json");
+				length=jsonArray.length();
+				if (jsonArray.length()!=0){
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							mHandler.post(new Runnable() {
+								@Override
+								public void run() {
+									history_fail_img.setVisibility(View.INVISIBLE);
+									history_fail_text.setVisibility(View.INVISIBLE);
+								}
+							});
+						}
+					}).start();
+				}
+				for (int i=0;i<jsonArray.length();i++){
+					jsonObject=jsonArray.getJSONObject(i);
+					books=new Rent();
+					books.setAccount(jsonObject.getString("account"));
+					books.setPicture(jsonObject.getString("picture"));
+					books.setBookid(jsonObject.getInt("bookid"));
+					books.setBooktype(jsonObject.getInt("booktype"));
+					books.setBookanme(jsonObject.getString("bookname"));
+					books.setEndtime(jsonObject.getString("enddate"));
+					books.setNowdate(jsonObject.getString("nowdate"));
+					book_list.add(books);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return book_list;
+	}
+
+	private String readStream(InputStream is){
+		InputStreamReader isr;
+		String result="";
+		try {
+			String line="";
+			isr=new InputStreamReader(is,"utf-8");
+			BufferedReader br=new BufferedReader(isr);
+			while ((line=br.readLine())!=null){
+				result+=line;
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+}

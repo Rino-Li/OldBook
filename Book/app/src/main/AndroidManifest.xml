@@ -25,7 +25,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".DemoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/book_icon"
         android:label="@string/app_name"
@@ -34,68 +33,67 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme">
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.MainActivity"
-            android:launchMode="standard" />
+            android:name="cn.edu.uzz.activity.book.ui.MainActivity" />
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.RegistActivity"
+            android:name="cn.edu.uzz.activity.book.ui.RegistActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.BookItemActivity"
+            android:name="cn.edu.uzz.activity.book.ui.BookItemActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.ForgetPwdActivity"
+            android:name="cn.edu.uzz.activity.book.ui.ForgetPwdActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.Reg_InforActivity"
+            android:name="cn.edu.uzz.activity.book.ui.Reg_InforActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.Reg_TelActivity"
+            android:name="cn.edu.uzz.activity.book.ui.Reg_TelActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.LikeListAvtivity"
+            android:name="cn.edu.uzz.activity.book.ui.LikeListAvtivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.LoginActivity"
+            android:name="cn.edu.uzz.activity.book.ui.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.SpecialItemActivity"
+            android:name="cn.edu.uzz.activity.book.ui.SpecialItemActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.MySubActivity"
+            android:name="cn.edu.uzz.activity.book.ui.MySubActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.NoLoginActivity"
+            android:name="cn.edu.uzz.activity.book.ui.NoLoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.ErweimaActivity"
+            android:name="cn.edu.uzz.activity.book.ui.ErweimaActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.CarActivity"
+            android:name="cn.edu.uzz.activity.book.ui.CarActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.SearchResultActivity"
+            android:name="cn.edu.uzz.activity.book.ui.SearchResultActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.TypesActivity"
+            android:name="cn.edu.uzz.activity.book.ui.TypesActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.MyInforActivity"
+            android:name="cn.edu.uzz.activity.book.ui.MyInforActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.NullActivity"
+            android:name="cn.edu.uzz.activity.book.ui.NullActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.RentingActivity"
+            android:name="cn.edu.uzz.activity.book.ui.RentingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".cn.edu.uzz.activity.book.ui.RentingItemActivity"
+            android:name="cn.edu.uzz.activity.book.ui.RentingItemActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".cn.edu.uzz.activity.book.ui.RentHistoryActivity"
+        <activity android:name="cn.edu.uzz.activity.book.ui.RentHistoryActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <meta-data
             android:name="Mob-AppKey"
@@ -104,7 +102,7 @@
             android:name="Mob-AppSecret"
             android:value="8407c2da25d4cdfcdbad0043b99907c4" />
 
-        <activity android:name=".cn.edu.uzz.activity.book.ui.SplashActivity">
+        <activity android:name="cn.edu.uzz.activity.book.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             android:text="图书详情"
             android:textColor="@color/standardwhite"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             />
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/item_image"
         android:layout_marginTop="10dp"
         />
@@ -77,7 +77,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/item_name"
         android:layout_marginTop="10dp"
         />
@@ -94,7 +94,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/item_writer"
         android:layout_marginTop="10dp"
         />
@@ -111,7 +111,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/item_publish"
         android:layout_marginTop="10dp"
         />
@@ -128,7 +128,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/item_version"
         android:layout_marginTop="10dp"
         />
@@ -145,7 +145,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/item_isbn"
         android:layout_marginTop="10dp"
         />
@@ -163,7 +163,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/item_price"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_marginTop="10dp"/>
 
     <LinearLayout

@@ -5,12 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import cn.edu.uzz.activity.book.R;
+import cn.jpush.android.api.JPushInterface;
 
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
@@ -34,7 +36,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         initView();
         initEvent();
         setSelect(0);
-    }
+		JPushInterface.setAlias(MainActivity.this,"17863203270",null);
+		Log.e("BBBB","修改成功");
+	}
 
     private void initEvent() {
         mTabWeixin.setOnClickListener(this);

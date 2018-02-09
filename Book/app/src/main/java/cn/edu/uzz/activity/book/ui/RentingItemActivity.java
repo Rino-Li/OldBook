@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -131,7 +130,6 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		now=df.format(now1);
 		try {
 			d1=df.parse(now);
-			Log.e("BBBB", String.valueOf(d1+"  is  d1 "));
 			d2=df.parse(enddate);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -517,13 +515,11 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 	};
 
 	private void print(int rec) {
-		Log.e("BBBB",rec+"    rec");
 		long day=rec/(24*60*60*1000);
 		long hour=(rec/(60*60*1000)-day*24-13);
 		long min=((rec/(60*1000))-day*24*60-hour*60-780);
 		long s=(rec/1000-day*24*60*60-hour*60*60-min*60-780*60);
 		t=""+day+"天"+hour+"小时"+min+"分"+s+"秒";
-		Log.e("BBBB",s+"");
 	}
 
 	TimerTask task = new TimerTask() {
@@ -531,7 +527,6 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		public void run() {
 			recLen=recLen-1000;
 			print(recLen);
-			Log.e("BBBB",recLen+"");
 			Message message = new Message();
 			message.what = 1;
 			handler.sendMessage(message);

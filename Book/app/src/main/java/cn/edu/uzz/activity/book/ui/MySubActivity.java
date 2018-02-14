@@ -66,7 +66,7 @@ public class MySubActivity extends Activity implements AdapterView.OnItemClickLi
 			startActivity(intent);
 			finish();
 		}
-		new MySubActivity.NewsAsyncTask().execute(URL+account);
+		new NewsAsyncTask().execute(URL+account);
 		listView.setOnItemClickListener(this);
 	}
 

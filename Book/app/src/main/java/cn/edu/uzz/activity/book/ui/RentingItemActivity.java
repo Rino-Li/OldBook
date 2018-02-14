@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,12 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
@@ -31,6 +33,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -143,17 +147,18 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		}
 	}
 
-	private void getBook(int type,int id) {
+	private void getBook(final int type, final int id) {
 		//1创建请求队列
 		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 		//2创建请求
-		final JsonObjectRequest request = new JsonObjectRequest(
-				"http://123.206.230.120/Book/getbookServ?bookid=" +id+ "&booktype=" + type, null, new Response.Listener<JSONObject>() {
+		final StringRequest request = new StringRequest(Request.Method.POST,
+				"http://123.206.230.120/Book/getbookServ" ,  new Response.Listener<String>() {
 			@Override
-			public void onResponse(JSONObject response) {
+			public void onResponse(String response) {
 				try {
-					int resultCode = response.getInt("resultCode");
-					JSONObject books=response.getJSONObject("books");
+					JSONObject jsonObject=new JSONObject(response);
+					int resultCode = jsonObject.getInt("resultCode");
+					JSONObject books=jsonObject.getJSONObject("books");
 					if (resultCode ==0) {
 						book_name.setText("书名：" + books.getString("name"));
 						bookname=books.getString("name");
@@ -170,17 +175,21 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 					e.printStackTrace();
 				}
 			}
-
-
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-
 				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
-		});
+		}){
+			protected Map<String,String> getParams() {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("bookid", id + "");
+				map.put("booktype", type + "");
+				return map;
+			}
+		};
 		//3请求加入队列
-		request.setTag("rentingbook");
+		request.setTag("specialbook");
 		queue.add(request);
 
 	}
@@ -231,14 +240,15 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		//1创建请求队列
 		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 		//2创建请求
-		JsonObjectRequest request = new JsonObjectRequest(
-				"http://123.206.230.120/Book/checklikeServ?account=" + account +"&type=" + type+"&id="+id, null, new Response.Listener<JSONObject>() {
+		StringRequest request = new StringRequest(Request.Method.POST,
+				"http://123.206.230.120/Book/checklikeServ",  new Response.Listener<String>() {
 			@Override
-			public void onResponse(JSONObject response) {
+			public void onResponse(String response) {
 				try {
-					int resultCode = response.getInt("resultCode");
-					substatus=response.getString("subscribe");
-					rentstatus=response.getString("rentstatus");
+					JSONObject jsonObject=new JSONObject(response);
+					int resultCode = jsonObject.getInt("resultCode");
+					substatus=jsonObject.getString("subscribe");
+					rentstatus=jsonObject.getString("rentstatus");
 					if (resultCode == 1) {
 						book_like_image.setImageResource(R.drawable.book_like_selected);
 						book_like_word.setText("已收藏");
@@ -254,17 +264,23 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 					e.printStackTrace();
 				}
 			}
-
-
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
 
 				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
-		});
+		}){
+			protected Map<String,String> getParams() {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("account", account);
+				map.put("id", id + "");
+				map.put("type", type + "");
+				return map;
+			}
+		};
 		//3请求加入队列
-		request.setTag("rentingbook");
+		request.setTag("book");
 		queue.add(request);
 	}
 
@@ -277,7 +293,7 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 				try {
 					Date dateend=sdf.parse(String.valueOf(time));
-					String now=sdf.format(new java.util.Date());
+					String now=sdf.format(new Date());
 					Date datenow=sdf.parse(now);
 					if (dateend.getTime()<datenow.getTime()){
 						Toast.makeText(RentingItemActivity.this,"请选择正确的日期",Toast.LENGTH_SHORT).show();
@@ -305,12 +321,13 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		//1创建请求队列
 		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 		//2创建请求
-		JsonObjectRequest request = new JsonObjectRequest(
-				"http://123.206.230.120/Book/checksubServ?account=" + account +  "&bookid=" +id+ "&booktype=" + type, null, new Response.Listener<JSONObject>() {
+		StringRequest request = new StringRequest(Request.Method.POST,
+				"http://123.206.230.120/Book/checksubServ",  new Response.Listener<String>() {
 			@Override
-			public void onResponse(JSONObject response) {
+			public void onResponse(String response) {
 				try {
-					int resultCode = response.getInt("resultCode");
+					JSONObject jsonObject=new JSONObject(response);
+					int resultCode = jsonObject.getInt("resultCode");
 					if (resultCode == 1) {
 						showDatePickDlg();
 					}else if (resultCode==2){
@@ -319,59 +336,69 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
-
 			}
-
-
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
 
 				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
-		});
+		}){
+			protected Map<String,String> getParams() {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("account", account);
+				map.put("bookid", id + "");
+				map.put("booktype", type + "");
+				return map;
+			}
+		};
 		//3请求加入队列
-		request.setTag("rentingbook");
+		request.setTag("book");
 		queue.add(request);
 	}
 
 	private void rentBook() {
-		String  timeend=time.toString();
+		final String  timeend=time.toString();
 		//1创建请求队列
 		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 		//2创建请求
-		JsonObjectRequest request = new JsonObjectRequest(
-				"http://123.206.230.120/Book/rentcarServ?account=" + account +  "&bookid=" +id+ "&booktype=" + type+"&bookname="+bookname+"&timeend="+timeend+"&picture="+image_name, null, new Response.Listener<JSONObject>() {
+		StringRequest request = new StringRequest(Request.Method.POST, "http://123.206.230.120/Book/rentcarServ", new Response.Listener<String>() {
 			@Override
-			public void onResponse(JSONObject response) {
+			public void onResponse(String response) {
 				try {
-					int resultCode = response.getInt("resultCode");
+					JSONObject jsonObject=new JSONObject(response);
+					int resultCode = jsonObject.getInt("resultCode");
 					if (resultCode == 1) {
-						Toast.makeText(RentingItemActivity.this,"已添加到借阅车，请在30分钟内确认借阅",Toast.LENGTH_SHORT).show();
+						Toast.makeText(RentingItemActivity.this,"已添加到借阅车，30分钟内请借阅",Toast.LENGTH_SHORT).show();
 					}else if (resultCode==2){
 						Toast.makeText(RentingItemActivity.this,"添加到借阅车失败，请稍后再试！",Toast.LENGTH_SHORT).show();
 					}else if (resultCode==3){
 						Toast.makeText(RentingItemActivity.this,"此书已被添加，勿重复添加",Toast.LENGTH_SHORT).show();
 					}
-
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
-
 			}
-
-
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
 
 				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
-		});
+		}){
+			protected Map<String,String> getParams() {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("account", account);
+				map.put("bookid", id+"");
+				map.put("booktype", type+"");
+				map.put("bookname", bookname);
+				map.put("timeend", timeend);
+				map.put("picture", image_name);
+				return map;
+			}
+		};
 		//3请求加入队列
-		request.setTag("rentingbook");
+		request.setTag("book");
 		queue.add(request);
 	}
 
@@ -390,35 +417,42 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		//1创建请求队列
 		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 		//2创建请求
-		JsonObjectRequest request = new JsonObjectRequest(
-				"http://123.206.230.120/Book/subscribeServ?account=" + account +  "&bookid=" +id+ "&booktype=" + type+"&bookname="+bookname+"&picture="+image_name, null, new Response.Listener<JSONObject>() {
+		StringRequest request = new StringRequest(Request.Method.POST,
+				"http://123.206.230.120/Book/subscribeServ" ,  new Response.Listener<String>() {
 			@Override
-			public void onResponse(JSONObject response) {
+			public void onResponse(String response) {
 				try {
-					int resultCode = response.getInt("resultCode");
+					JSONObject jsonObject=new JSONObject(response);
+					int resultCode = jsonObject.getInt("resultCode");
 					if (resultCode == 1||resultCode==2) {
 						book_sub.setText("已预订");
 					}else if (resultCode==3){
 						Toast.makeText(RentingItemActivity.this,"预定失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						return;
 					}
-
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
-
 			}
-
-
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
 
 				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
-		});
+		}){
+			protected Map<String,String> getParams() {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("account", account);
+				map.put("bookid", id+"");
+				map.put("booktype", type+"");
+				map.put("bookname", bookname);
+				map.put("picture", image_name);
+				return map;
+			}
+		};
 		//3请求加入队列
-		request.setTag("rentingbook");
+		request.setTag("book");
 		queue.add(request);
 	}
 
@@ -426,12 +460,13 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		//1创建请求队列
 		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 		//2创建请求
-		JsonObjectRequest request = new JsonObjectRequest(
-				"http://123.206.230.120/Book/cancellikeServ?account=" + account +  "&bookid=" +id+ "&booktype=" + type, null, new Response.Listener<JSONObject>() {
+		StringRequest request = new StringRequest(Request.Method.POST,
+				"http://123.206.230.120/Book/cancellikeServ?account=" + account +  "&bookid=" +id+ "&booktype=" + type, new Response.Listener<String>() {
 			@Override
-			public void onResponse(JSONObject response) {
+			public void onResponse(String response) {
 				try {
-					int resultCode = response.getInt("resultCode");
+					JSONObject jsonObject=new JSONObject(response);
+					int resultCode = jsonObject.getInt("resultCode");
 					if (resultCode == 1||resultCode==3) {
 						Toast.makeText(RentingItemActivity.this,"取消收藏成功",Toast.LENGTH_SHORT).show();
 						book_like_image.setImageResource(R.drawable.book_like_normal);
@@ -439,38 +474,45 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 					}else if (resultCode==2){
 						Toast.makeText(RentingItemActivity.this,"取消收藏失败，请稍后再试！",Toast.LENGTH_SHORT).show();
 					}
-
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
-
 			}
-
-
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-
 				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
-		});
+		}){
+			protected Map<String,String> getParams() {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("account", account);
+				map.put("bookid", id+"");
+				map.put("booktype", type+"");
+				return map;
+			}
+		};
 		//3请求加入队列
-		request.setTag("rentingbook");
+		request.setTag("book");
 		queue.add(request);
 
 	}
 
 	public boolean getLikeBook() {
+		if (account==""){
+			Toast.makeText(RentingItemActivity.this,"请先登录",Toast.LENGTH_SHORT).show();
+			return false;
+		}
 		//1创建请求队列
 		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 		//2创建请求
-		JsonObjectRequest request = new JsonObjectRequest(
-				"http://123.206.230.120/Book/likeServ?account=" + account + "&bookname=" + bookname + "&bookid=" +id+ "&booktype=" + type+"&picture="+image_name, null, new Response.Listener<JSONObject>() {
+		StringRequest request = new StringRequest(Request.Method.POST,
+				"http://123.206.230.120/Book/likeServ",  new Response.Listener<String>() {
 			@Override
-			public void onResponse(JSONObject response) {
+			public void onResponse(String response) {
 				try {
-					int resultCode = response.getInt("resultCode");
+					JSONObject jsonObject=new JSONObject(response);
+					int resultCode = jsonObject.getInt("resultCode");
 					if (resultCode == 1) {
 						Toast.makeText(RentingItemActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
 						book_like_image.setImageResource(R.drawable.book_like_selected);
@@ -478,22 +520,31 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 					}else if (resultCode==2){
 						Toast.makeText(RentingItemActivity.this,"收藏失败，请稍后再试！",Toast.LENGTH_SHORT).show();
 					}
-
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 			}
-
-
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-
+				Log.e("VolleyError---", volleyError.getMessage(), volleyError);
+				byte[] htmlBodyBytes = volleyError.networkResponse.data;  //回应的报文的包体内容
+				Log.e("VolleyError body---->", new String(htmlBodyBytes), volleyError);
 				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
 			}
-		});
+		}){
+			protected Map<String,String> getParams() {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("account", account);
+				map.put("bookid", id+"");
+				map.put("booktype", type+"");
+				map.put("bookname", bookname);
+				map.put("picture", image_name);
+				return map;
+			}
+		};
 		//3请求加入队列
-		request.setTag("rentingbook");
+		request.setTag("book");
 		queue.add(request);
 		return true;
 	}

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ import java.util.List;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.entity.Like;
 import cn.edu.uzz.activity.book.loader.LikeImageLoader;
-import cn.edu.uzz.activity.book.util.ReFlashListView;
 
 /**
  * Created by 10616 on 2017/12/3.
@@ -24,14 +24,14 @@ import cn.edu.uzz.activity.book.util.ReFlashListView;
 public class LikeAdapter extends BaseAdapter implements AbsListView.OnScrollListener,View.OnClickListener{
 	private List<Like> mList;
 	private LayoutInflater inflater;
-	private LikeAdapter.ViewHolder viewHolder;
+	private ViewHolder viewHolder;
 	private LikeImageLoader mImageLoader;
 	private int mStart,mEnd;
 	public static String[] URLS;
 	private boolean mFirstIn;
 	private CallBack mcallBack;
 
-	public LikeAdapter(Context context, List<Like> data, ReFlashListView listView, CallBack callBack) {
+	public LikeAdapter(Context context, List<Like> data, ListView listView, CallBack callBack) {
 		this.mList = data;
 		mcallBack=callBack;
 		this.inflater = LayoutInflater.from(context);
@@ -88,14 +88,14 @@ public class LikeAdapter extends BaseAdapter implements AbsListView.OnScrollList
 		// TODO Auto-generated method stub
 		Like like = mList.get(position);
 		if (convertView == null) {
-			viewHolder = new LikeAdapter.ViewHolder();
+			viewHolder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.activity_likelist, null);
 			viewHolder.book_name= (TextView) convertView.findViewById(R.id.like_name);
 			viewHolder.book_pic= (ImageView) convertView.findViewById(R.id.like_pic);
 			viewHolder.cancelBtn= (TextView) convertView.findViewById(R.id.cancel_like);
 			convertView.setTag(viewHolder);
 		} else {
-			viewHolder = (LikeAdapter.ViewHolder) convertView.getTag();
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		viewHolder.book_pic.setImageResource(R.mipmap.ic_launcher);
 		String url=mList.get(position).getPicture();

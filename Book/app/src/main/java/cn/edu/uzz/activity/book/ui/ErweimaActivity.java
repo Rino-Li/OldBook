@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -78,7 +77,6 @@ public class ErweimaActivity extends Activity{
 	}
 
 	public void make(){
-		Log.e("BBBB",bookString);
 		Bitmap bitmap= EncodingUtils.createQRCode(bookString,256,256,null);
 		ewm.setImageBitmap(bitmap);
 		BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background);

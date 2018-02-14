@@ -54,7 +54,7 @@ public class SplashActivity extends Activity {
 					finish();
 				}*/
 				Intent intent = new Intent();
-				intent.setClass(SplashActivity.this, cn.edu.uzz.activity.book.ui.MainActivity.class);
+				intent.setClass(SplashActivity.this, MainActivity.class);
 				startActivity(intent);
 				finish();
 				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);

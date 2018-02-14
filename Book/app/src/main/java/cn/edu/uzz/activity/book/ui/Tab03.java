@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -79,6 +80,7 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 				break;
 			case R.id.layout1:
 				startActivity(new Intent(getActivity(),MyInforActivity.class));
+				((Activity) getContext()).overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				break;
 			case R.id.layout3:
 				startActivity(new Intent(getActivity(),MySubActivity.class));
@@ -94,7 +96,8 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 							.getLaunchIntentForPackage(getActivity().getPackageName());
 					PendingIntent restartIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
 					AlarmManager mgr = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-					mgr.set(AlarmManager.RTC, System.currentTimeMillis()+500 , restartIntent); // 1秒钟后重启应用
+					Toast.makeText(getActivity(),"系统重启中，请稍等",Toast.LENGTH_LONG).show();
+					mgr.set(AlarmManager.RTC, System.currentTimeMillis()+5 , restartIntent);
 					System.exit(0);
 				}else{
 					startActivity(new Intent(getActivity(),LoginActivity.class));

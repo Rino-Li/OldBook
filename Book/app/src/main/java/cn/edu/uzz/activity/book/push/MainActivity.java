@@ -173,7 +173,7 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 	private void setCostomMsg(String msg){
 		 if (null != msgText) {
 			 msgText.setText(msg);
-			 msgText.setVisibility(android.view.View.VISIBLE);
+			 msgText.setVisibility(View.VISIBLE);
          }
 	}
 

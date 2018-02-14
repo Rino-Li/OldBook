@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,15 +37,14 @@ import java.util.List;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.adapter.LikeAdapter;
 import cn.edu.uzz.activity.book.entity.Like;
-import cn.edu.uzz.activity.book.util.ReFlashListView;
 
 
 /**
  * Created by 10616 on 2017/12/3.
  */
 
-public class LikeListAvtivity extends Activity implements AdapterView.OnItemClickListener,View.OnClickListener,ReFlashListView.IReflashListener {
-    private ReFlashListView listView;
+public class LikeListAvtivity extends Activity implements AdapterView.OnItemClickListener,View.OnClickListener {
+
     List<Like> book_list;
     private static  String URL="http://123.206.230.120/Book/getlikeServ?account=";
     String account;
@@ -52,6 +52,7 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
 	LikeAdapter adapter;
 	private TextView like_fail_text;
 	private ImageView like_fail_img;
+	private ListView listView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +73,7 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
 
 	private void initView() {
     	like_return= (ImageView) findViewById(R.id.like_return);
-		listView= (ReFlashListView) findViewById(R.id.likelist);
+		listView= (ListView) findViewById(R.id.likelist);
 		like_fail_text=findViewById(R.id.like_fail_text);
 		like_fail_img=findViewById(R.id.like_fail_img);
 		like_return.setOnClickListener(this);
@@ -146,7 +147,7 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
             JSONObject jsonObject;
             Like likes;
             try {
-                jsonObject=new JSONObject(jsonString);
+				jsonObject=new JSONObject(jsonString);
                 JSONArray jsonArray=jsonObject.getJSONArray("json");
                 if (jsonArray.length()!=0){
 					new Thread(new Runnable() {
@@ -233,30 +234,6 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
 		request.setTag("likelist");
 		queue.add(request);
 	}
-
-
-
-	@Override
-	public void onReflash() {
-		// TODO Auto-generated method stub\
-		Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				//获取最新数据
-				setReflashData();
-
-
-				//通知界面显示
-				//showList(apk_list);
-				//通知listview 刷新数据完毕；
-				listView.reflashComplete();
-			}
-		}, 2000);
-	}
-
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -265,12 +242,4 @@ public class LikeListAvtivity extends Activity implements AdapterView.OnItemClic
 			}
 		}
 	};
-
-	private void setReflashData() {
-		listView.setAdapter(null);
-		new NewsAsyncTask().execute(URL+account);
-
-	}
-
-
 }

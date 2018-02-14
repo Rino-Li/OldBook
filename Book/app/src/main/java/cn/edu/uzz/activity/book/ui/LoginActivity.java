@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.edu.uzz.activity.book.R;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by 10616 on 2017/11/2.
@@ -48,7 +50,7 @@ public class LoginActivity extends Activity {
 		loginBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				String account=user_account.getText().toString();
+				final String account=user_account.getText().toString();
 				String pwd=user_pwd.getText().toString();
 				//1创建请求队列
 				RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -63,6 +65,9 @@ public class LoginActivity extends Activity {
 								getInfor();
 								Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
 								startActivity(new Intent(LoginActivity.this, MainActivity.class));
+								JPushInterface.setAlias(LoginActivity.this,account,null);
+								/*这里不能忘记修改*/
+								Log.e("BBBB","修改成功");
 								finish();
 								overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 							} else if (resultCode == 4) {

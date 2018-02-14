@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.edu.uzz.activity.book.R;
@@ -25,6 +26,7 @@ public class MyInforActivity extends Activity implements View.OnClickListener{
 	private TextView truthname;
 	private TextView changePwdBtn;
 	private Button changeInforBtn;
+	private ImageView infor_return;
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,12 +44,14 @@ public class MyInforActivity extends Activity implements View.OnClickListener{
 		addr=findViewById(R.id.u_addr);
 		changePwdBtn=findViewById(R.id.changepwd);
 		changeInforBtn=findViewById(R.id.change_my_infor);
+		infor_return=findViewById(R.id.infor_return);
+		infor_return.setOnClickListener(this);
 		changeInforBtn.setOnClickListener(this);
 		changePwdBtn.setOnClickListener(this);
 		SharedPreferences pre=getSharedPreferences("user",MODE_PRIVATE);
 		if(pre.getString("account","").equals("")){
 			Intent intent=new Intent();
-			intent.putExtra("title","我的收藏");
+			intent.putExtra("title","我的资料");
 			intent.setClass(MyInforActivity.this,NoLoginActivity.class);
 			startActivity(intent);
 			finish();
@@ -69,6 +73,9 @@ public class MyInforActivity extends Activity implements View.OnClickListener{
 				break;
 			case R.id.changepwd:
 				startActivity(new Intent(MyInforActivity.this,NullActivity.class));
+				break;
+			case R.id.infor_return:
+				finish();
 				break;
 			default:
 				break;

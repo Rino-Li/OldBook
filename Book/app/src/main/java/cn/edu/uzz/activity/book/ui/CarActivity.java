@@ -58,6 +58,7 @@ public class CarActivity extends Activity implements View.OnClickListener {
 	private int length;
 	private JSONArray jsonArray;
 	private String jsonString;
+	private int symbol=0;
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -99,14 +100,16 @@ public class CarActivity extends Activity implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()){
 			case R.id.jinruerweima:
-				Intent intent=new Intent();
-						/*intent.putExtra("idlist",getId());
-						intent.putExtra("typelist",getType());*/
-				intent.putExtra("booklist",jsonString);
-				intent.setClass(CarActivity.this,ErweimaActivity.class);
-				startActivity(intent);
-				finish();
-				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+				if (Check()){
+					Intent intent=new Intent();
+					intent.putExtra("booklist",jsonString);
+					intent.setClass(CarActivity.this,ErweimaActivity.class);
+					startActivity(intent);
+					finish();
+					overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+				}else {
+					Toast.makeText(CarActivity.this,"您的购物车还没有添加借阅哦",Toast.LENGTH_SHORT).show();
+				}
 				break;
 			case R.id.car_return:
 				finish();
@@ -117,6 +120,13 @@ public class CarActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
+	private boolean  Check() {
+		if (symbol==1){
+			return true;
+		}else {
+			return false;
+		}
+	}
 
 
 	class NewsAsyncTask extends AsyncTask<String, Void, List<RentCar>> implements CarAdapter.CallBack ,AdapterView.OnItemClickListener{
@@ -199,6 +209,7 @@ public class CarActivity extends Activity implements View.OnClickListener {
 				jsonArray=jsonObject.getJSONArray("json");
 				length=jsonArray.length();
 				if (jsonArray.length()!=0){
+					symbol=1;
 					new Thread(new Runnable() {
 						@Override
 						public void run() {

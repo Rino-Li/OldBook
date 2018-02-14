@@ -24,7 +24,7 @@ import cn.edu.uzz.activity.book.loader.CarImageLoader;
 public class CarAdapter extends BaseAdapter implements AbsListView.OnScrollListener,View.OnClickListener{
 	private List<RentCar> mList;
 	private LayoutInflater inflater;
-	private CarAdapter.ViewHolder viewHolder;
+	private ViewHolder viewHolder;
 	private CarImageLoader mImageLoader;
 	private int mStart,mEnd;
 	public static String[] URLS;

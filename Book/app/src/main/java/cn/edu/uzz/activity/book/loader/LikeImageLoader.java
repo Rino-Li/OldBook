@@ -20,7 +20,6 @@ import java.util.Set;
 
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.adapter.LikeAdapter;
-import cn.edu.uzz.activity.book.util.ReFlashListView;
 
 /**
  * Created by 10616 on 2017/12/5.
@@ -34,7 +33,7 @@ public class LikeImageLoader {
 	private ListView mListView;
 	private Set<NewsAsyncTask> mTask;
 
-	public LikeImageLoader(ReFlashListView listView){
+	public LikeImageLoader(ListView listView){
 		mListView=listView;
 		mTask=new HashSet<>();
 		int maxMemory= (int) Runtime.getRuntime().maxMemory();
@@ -112,7 +111,7 @@ public class LikeImageLoader {
 	}
 
 	public void loadImages(int start,int end){
-		for (int i=start;i<end-1;i++){
+		for (int i=start;i<end;i++){
 			String url= LikeAdapter.URLS[i];
 			//从缓存中取出对应图片
 			Bitmap bitmap=getBitmapFromCache(url);

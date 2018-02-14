@@ -79,7 +79,7 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 		booktypesBtn= (ImageView) getView().findViewById(R.id.booktypes);
 		newbookBtn= (ImageView) getView().findViewById(R.id.newbook);
 		banner= (Banner) getView().findViewById(R.id.banner);
-		pullToRefreshLayout = (PullToRefreshLayout) getView().findViewById(R.id.activity_main);
+		pullToRefreshLayout = (PullToRefreshLayout) getView().findViewById(R.id.pull_main);
 		saomaBtn.setOnClickListener(this);
 		booktypesBtn.setOnClickListener(this);
 		newbookBtn.setOnClickListener(this);
@@ -98,7 +98,6 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 				new Handler().postDelayed(new Runnable() {
 					@Override
 					public void run() {
-
 						pullToRefreshLayout.finishRefresh();
 					}
 				},2000);
@@ -137,7 +136,7 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 				((Activity) getContext()).overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 				break;
 			case R.id.newbook:
-				startActivity(new Intent(getActivity(),LoginActivity.class));
+				startActivity(new Intent(getActivity(),NullActivity.class));
 				((Activity) getContext()).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 				((Activity) getContext()).overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 				break;
@@ -277,32 +276,6 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 			}
 		}
 	}
-
-
-	/*pullToRefreshLayout.setRefreshListener(new BaseRefreshListener() {
-		@Override
-		public void refresh() {
-			new Handler().postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					// 结束刷新
-					pullToRefreshLayout.finishRefresh();
-				}
-			}, 2000);
-		}
-
-		@Override
-		public void loadMore() {
-			new Handler().postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					// 结束加载更多
-					pullToRefreshLayout.finishLoadMore();
-				}
-			}, 2000);
-		}
-	});*/
-
 }
 
 

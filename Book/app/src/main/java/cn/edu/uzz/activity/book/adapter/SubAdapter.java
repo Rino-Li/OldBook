@@ -24,7 +24,7 @@ import cn.edu.uzz.activity.book.loader.SubImageLoader;
 public class SubAdapter extends BaseAdapter implements AbsListView.OnScrollListener,View.OnClickListener{
 private List<Subscribe> mList;
 private LayoutInflater inflater;
-private SubAdapter.ViewHolder viewHolder;
+private ViewHolder viewHolder;
 private SubImageLoader mImageLoader;
 private int mStart,mEnd;
 public static String[] URLS;
@@ -88,14 +88,14 @@ public interface CallBack{
 		// TODO Auto-generated method stub
 		Subscribe subscribe = mList.get(position);
 		if (convertView == null) {
-			viewHolder = new SubAdapter.ViewHolder();
+			viewHolder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.item_sub, null);
 			viewHolder.book_name= (TextView) convertView.findViewById(R.id.sub_name);
 			viewHolder.book_pic= (ImageView) convertView.findViewById(R.id.sub_pic);
 			viewHolder.cancelBtn= (TextView) convertView.findViewById(R.id.cancel_sub);
 			convertView.setTag(viewHolder);
 		} else {
-			viewHolder = (SubAdapter.ViewHolder) convertView.getTag();
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		viewHolder.book_pic.setImageResource(R.mipmap.ic_launcher);
 		String url=mList.get(position).getPicture();

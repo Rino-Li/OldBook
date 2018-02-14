@@ -117,7 +117,7 @@ public class SubImageLoader {
 			Bitmap bitmap=getBitmapFromCache(url);
 			//若缓存没有，则加载
 			if(bitmap==null){
-				SubImageLoader.NewsAsyncTask task=new SubImageLoader.NewsAsyncTask(url);
+				NewsAsyncTask task=new NewsAsyncTask(url);
 				task.execute(url);
 				mTask.add(task);
 
@@ -130,7 +130,7 @@ public class SubImageLoader {
 
 	public void cancelAllTasks() {
 		if(mTask!=null){
-			for (SubImageLoader.NewsAsyncTask task:mTask){
+			for (NewsAsyncTask task:mTask){
 				task.cancel(false);
 			}
 		}

@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -48,7 +47,7 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
     // 注册按钮
     private Button commitBtn;
 
-    private TextView phonenum;
+
 
     //
     int i = 60;
@@ -76,7 +75,6 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
         inputCodeEt = (EditText) findViewById(R.id.login_input_code_et);
         requestCodeBtn = (Button) findViewById(R.id.login_request_code_btn);
         commitBtn = (Button) findViewById(R.id.login_commit_btn);
-        phonenum= (TextView) findViewById(R.id.phonenum);
         requestCodeBtn.setOnClickListener(this);
         commitBtn.setOnClickListener(this);
 
@@ -110,7 +108,7 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.login_commit_btn:
                 //将收到的验证码和手机号提交再次核对
-                SMSSDK.submitVerificationCode("86", phonenum.getText().toString(), inputCodeEt
+                SMSSDK.submitVerificationCode("86", inputaccount.getText().toString(), inputCodeEt
                         .getText().toString());
                 break;
         }
@@ -140,9 +138,7 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
                         Intent intent = new Intent(ForgetPwdActivity.this,
                                 MainActivity.class);
                         startActivity(intent);
-
-                        //findstuInfor(inputaccount.getText().toString());
-                        //intent.putExtra("stu_id",inputaccount.getText().toString());
+                        findInfor(inputaccount.getText().toString());
                         finish();
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         Toast.makeText(getApplicationContext(), "正在获取验证码",
@@ -209,24 +205,23 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
         super.onDestroy();
     }
 
-    public void findTel(String stu_account){
-        phonenum.setText("17863203270");
-        /*RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+    public void findTel(final String account){
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         //2创建请求
         JsonObjectRequest request=new JsonObjectRequest(
-                "http://123.206.230.120/SchoolLife/findtelServ?stu_account="+stu_account , null, new Response.Listener<JSONObject>() {
+                "http://123.206.230.120/Book/findtelServ?account="+account , null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 try {
-                    int code = jsonObject.getInt("resultCode");
-                    if(code==0){
-                        String phone=jsonObject.getString("phone");
-                        phonenum.setText(phone);*/
-                        String phone="17863203270";
-                        if (!judgePhoneNums(phone)) {
+                    int code = jsonObject.getInt("code");
+                    if (code==1){
+                    	Toast.makeText(ForgetPwdActivity.this,"此号码未注册",Toast.LENGTH_SHORT).show();
+                    	return;
+					} else if(code==0){
+                        if (!judgePhoneNums(account)) {
                             return;
                         } // 2. 通过sdk发送短信验证
-                        SMSSDK.getVerificationCode("86", phone);
+                        SMSSDK.getVerificationCode("86", account);
                         // 3. 把按钮变成不可点击，并且显示倒计时（正在获取）
                         requestCodeBtn.setClickable(false);
                         requestCodeBtn.setText("重新发送(" + i + ")");
@@ -248,7 +243,7 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
                             }
                         }).start();
 
-                    /*}
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -259,54 +254,49 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
             }
         });
         //3请求加入队列
-        queue.add(request);*/
+        queue.add(request);
     }
 
-    public void findstuInfor(final String stu_account){
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest request=new JsonObjectRequest(
-                "http://123.206.230.120/SchoolLife/findstuinforServ?stu_account="+stu_account , null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                try {
-                    int code = jsonObject.getInt("resultCode");
-                    if (code == 0) {
-                        String id = jsonObject.getString("id");
-                        String name = jsonObject.getString("name");
-                        String sex = jsonObject.getString("sex");
-                        String tel = jsonObject.getString("tel");
-                        String depart = jsonObject.getString("depart");
-                        String major = jsonObject.getString("major");
-                        SharedPreferences pre=getSharedPreferences("stu_account",MODE_PRIVATE);
-                        SharedPreferences.Editor editor=pre.edit();
-                        editor.remove("stu_account");
-                        editor.remove("name");
-                        editor.remove("sex");
-                        editor.remove("tel");
-                        editor.remove("depart");
-                        editor.remove("major");
-                        editor.putString("stu_account",stu_account);
-                        editor.putString("name",name);
-                        editor.putString("sex",sex);
-                        editor.putString("tel",tel);
-                        editor.putString("depart",depart);
-                        editor.putString("major",major);
-                        editor.commit();
-                    }else{
-                        Toast.makeText(ForgetPwdActivity.this,"获取失败",Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(ForgetPwdActivity.this,"获取失败",Toast.LENGTH_SHORT).show();
-            }
-        });
-        request.setTag("forgetpwd");
-        queue.add(request);
+    public void findInfor(final String account){
+		RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+		JsonObjectRequest request=new JsonObjectRequest(
+				"http://123.206.230.120/Book/findinforServ?account="+account , null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject jsonObject) {
+				try {
+					int code = jsonObject.getInt("resultCode");
+					if (code == 0) {
+						String username = jsonObject.getString("username");
+						String sex = jsonObject.getString("usersex");
+						String tel = jsonObject.getString("phone");
+						String address = jsonObject.getString("addr");
+						String age = jsonObject.getString("userage");
+						String name=jsonObject.getString("name");
+						SharedPreferences pre=getSharedPreferences("user",MODE_PRIVATE);
+						SharedPreferences.Editor editor=pre.edit();
+						editor.putString("username",username);
+						editor.putString("account",account);
+						editor.putString("sex",sex);
+						editor.putString("truthname",name);
+						editor.putString("tel",tel);
+						editor.putString("address",address);
+						editor.putString("age",age);
+						editor.commit();
+					}else{
+						Toast.makeText(ForgetPwdActivity.this,"个人信息获取失败",Toast.LENGTH_SHORT).show();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+				Toast.makeText(ForgetPwdActivity.this,"个人信息获取失败",Toast.LENGTH_SHORT).show();
+			}
+		});
+		request.setTag("login");
+		queue.add(request);
     }
 
 

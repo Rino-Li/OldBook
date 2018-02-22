@@ -170,47 +170,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/standardgreen"
+        android:background="#00000000"
         >
         <LinearLayout
             android:id="@+id/item_like"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
             android:orientation="vertical" >
 
             <ImageButton
                 android:id="@+id/item_like_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#00000000"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@color/standardwhite"
                 android:clickable="false"
+                android:scaleType="centerCrop"
                 android:src="@drawable/book_like_normal" />
-
             <TextView
                 android:id="@+id/item_like_word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="收藏"
-                android:textColor="#ffffff" />
+                android:textSize="10sp"
+                android:textColor="@color/standardgreen" />
         </LinearLayout>
         <Button
             android:id="@+id/item_subscribe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#04DD98"
+            android:background="@color/standardwhite"
             android:layout_weight="1"
             android:text="预约"
+            style="?android:attr/borderlessButtonStyle"
             android:textColor="@color/standardgreen"/>
         <Button
             android:id="@+id/item_rent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#5AF580"
+            android:layout_height="40dp"
+            android:background="@drawable/buttonshape"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:text="借阅"
-            android:textColor="@color/standardgreen"/>
+            android:textColor="@color/standardwhite"/>
 
     </LinearLayout>
 </RelativeLayout>

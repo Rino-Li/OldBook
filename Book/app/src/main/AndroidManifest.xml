@@ -112,7 +112,8 @@
         <!-- For test only 测试状态通知栏，需要打开的Activity -->
         <activity
             android:name="cn.edu.uzz.activity.book.push.TestActivity"
-            android:exported="false" >
+            android:exported="false"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="jpush.testAction" />
 

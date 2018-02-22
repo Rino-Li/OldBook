@@ -23,6 +23,7 @@
             android:background="@null"
             android:hint="请输入手机号"
             android:layout_gravity="center"
+            android:inputType="number"
             android:textSize="20sp"
             android:layout_marginLeft="10dp"
             android:textColor="@color/standardgreen"
@@ -36,12 +37,7 @@
         android:layout_below="@+id/number"
         android:background="@color/standardgreen" />
 
-    <TextView
-        android:id="@+id/phonenum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/accounttext"
-        android:layout_alignTop="@+id/accounttext"/>
+
 
     <RelativeLayout
         android:id="@+id/input_layout"
@@ -62,6 +58,7 @@
             android:background="@null"
             android:hint="请输入验证码"
             android:textSize="20sp"
+            android:inputType="number"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             android:textColor="@color/standardgreen"

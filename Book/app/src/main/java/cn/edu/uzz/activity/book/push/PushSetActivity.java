@@ -111,7 +111,8 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(PushSetActivity.this);
         builder.statusBarDrawable = R.drawable.ic_launcher;
         builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  //设置为点击后自动消失
-        builder.notificationDefaults = Notification.DEFAULT_SOUND;  //设置为铃声（ Notification.DEFAULT_SOUND）或者震动（ Notification.DEFAULT_VIBRATE）
+        builder.notificationDefaults = Notification.DEFAULT_SOUND| Notification.DEFAULT_VIBRATE
+				| Notification.DEFAULT_LIGHTS;  //设置为铃声（ Notification.DEFAULT_SOUND）或者震动（ Notification.DEFAULT_VIBRATE）
         JPushInterface.setPushNotificationBuilder(1, builder);
         Toast.makeText(PushSetActivity.this, "Basic Builder - 1", Toast.LENGTH_SHORT).show();
     }

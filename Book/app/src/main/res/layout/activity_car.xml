@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             android:text="借阅小车"
             android:textColor="@color/standardwhite"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             />

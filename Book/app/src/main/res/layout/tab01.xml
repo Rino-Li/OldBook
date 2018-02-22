@@ -56,7 +56,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -174,8 +173,8 @@
                     android:cacheColorHint="#00000000"
                     android:padding="5dp"
                     android:scrollbars="none"
-                    android:divider="#00000000"
-                    android:dividerHeight="4dp"></ListView>
+                    android:divider="@null"
+                    android:dividerHeight="10dp"></ListView>
             </RelativeLayout>
         </ScrollView>
     </com.jwenfeng.library.pulltorefresh.PullToRefreshLayout>

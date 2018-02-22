@@ -127,9 +127,11 @@ public class Reg_TelActivity extends AppCompatActivity implements View.OnClickLi
                         Intent intent=new Intent();
                         intent.putExtra("phone",inputtel.getText().toString());
                         intent.setClass(Reg_TelActivity.this,
-                                RegistActivity.class);
+                                Reg_InforActivity.class);
                         startActivity(intent);
                         finish();
+						overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+						overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         Toast.makeText(getApplicationContext(), "正在获取验证码",
                                 Toast.LENGTH_SHORT).show();

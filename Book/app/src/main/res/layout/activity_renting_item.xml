@@ -26,20 +26,12 @@
             android:layout_gravity="center"
             android:text="图书详情"
             android:textColor="@color/standardwhite"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             />
 
     </RelativeLayout>
-    <!--<ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:scaleType="centerCrop"
-        android:id="@+id/item_image"
-        android:layout_below="@+id/item_title"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"/>-->
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/renting_item_image"
         android:layout_width="150dp"
@@ -63,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:layout_below="@+id/renting_item_image"
         android:layout_marginTop="10dp"
         />
@@ -80,7 +72,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:layout_below="@+id/renting_item_name"
         android:layout_marginTop="10dp"
         />
@@ -97,7 +89,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:layout_below="@+id/renting_item_writer"
         android:layout_marginTop="10dp"
         />
@@ -114,7 +106,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:layout_below="@+id/renting_item_publish"
         android:layout_marginTop="10dp"
         />
@@ -131,7 +123,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:layout_below="@+id/renting_item_version"
         android:layout_marginTop="10dp"
         />
@@ -148,7 +140,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:layout_below="@+id/renting_item_isbn"
         android:layout_marginTop="10dp"
         />
@@ -166,7 +158,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/renting_item_price"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:layout_marginTop="10dp"/>
     <TextView
         android:id="@+id/renting_time"
@@ -175,14 +167,14 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/renting_item_time"
-        android:textSize="35sp"
-        android:textColor="@color/mlcfenhongse"
+        android:textSize="16sp"
+        android:textColor="@color/standardgreen"
         android:layout_marginTop="10dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/standardgreen"
+        android:background="@color/standardwhite"
         >
         <LinearLayout
             android:id="@+id/renting_item_like"
@@ -194,10 +186,11 @@
 
             <ImageButton
                 android:id="@+id/renting_item_like_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:background="#00000000"
                 android:clickable="false"
+                android:scaleType="centerCrop"
                 android:src="@drawable/book_like_normal" />
 
             <TextView
@@ -205,24 +198,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="收藏"
-                android:textColor="#ffffff" />
+                android:textColor="@color/standardgreen" />
         </LinearLayout>
+
         <Button
             android:id="@+id/renting_item_subscribe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#04DD98"
+            android:background="@color/standardwhite"
             android:layout_weight="1"
             android:text="预约"
+            style="?android:attr/borderlessButtonStyle"
             android:textColor="@color/standardgreen"/>
         <Button
             android:id="@+id/renting_item_rent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#5AF580"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/buttonshape"
             android:layout_weight="1"
             android:text="借阅"
-            android:textColor="@color/standardgreen"/>
+            android:textColor="@color/standardwhite"/>
 
     </LinearLayout>
 </RelativeLayout>

@@ -2,13 +2,14 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
-    android:background="@drawable/layout_background">
+    android:layout_height="80dp"
+    android:background="@drawable/card_background_selector">
     <ImageView
         android:id="@+id/bookpic"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginLeft="7dp"/>
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="7dp"
+        android:layout_centerVertical="true"/>
     <TextView
         android:id="@+id/bookname"
         android:layout_width="180dp"

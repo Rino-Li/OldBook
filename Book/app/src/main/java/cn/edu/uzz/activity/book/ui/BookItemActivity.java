@@ -1,14 +1,12 @@
 package cn.edu.uzz.activity.book.ui;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,13 +21,15 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.codbking.widget.DatePickDialog;
+import com.codbking.widget.OnSureLisener;
+import com.codbking.widget.bean.DateType;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,7 +66,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
     Books book;
     private static String  substatus;
     private static String rentstatus;
-    StringBuffer time;
+    String time;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -235,29 +235,40 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
 			Toast.makeText(BookItemActivity.this,"请先登录",Toast.LENGTH_SHORT).show();
 			return;
 		}
-        Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = new DatePickerDialog(BookItemActivity.this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                time=new StringBuffer().append(year).append("-").append(monthOfYear+1).append("-").append(dayOfMonth);
-                SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-                try {
-                    Date dateend=sdf.parse(String.valueOf(time));
-                    String now=sdf.format(new Date());
-                    Date datenow=sdf.parse(now);
-                    if (dateend.getTime()<datenow.getTime()){
-                        Toast.makeText(BookItemActivity.this,"请选择正确的日期",Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(BookItemActivity.this,"您选择的时间为："+time,Toast.LENGTH_SHORT).show();//测试阶段使用 ，成功后注释掉
-                        rentBook();
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
-
+		DatePickDialog dialog = new DatePickDialog(this);
+		//设置上下年分限制
+		dialog.setYearLimt(5);
+		//设置标题
+		dialog.setTitle("啃书应用");
+		//设置类型
+		dialog.setType(DateType.TYPE_YMD);
+		//设置消息体的显示格式，日期格式
+		dialog.setMessageFormat("yyyy-MM-dd");
+		//设置选择回调
+		dialog.setOnChangeLisener(null);
+		//设置点击确定按钮回调
+		dialog.setOnSureLisener(new OnSureLisener() {
+			@Override
+			public void onSure(Date onedate) {
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					time=sdf.format(onedate);
+					Date dateend=sdf.parse(time);
+					String now=sdf.format(new Date());
+					Date datenow=sdf.parse(now);
+					if (dateend.getTime()<datenow.getTime()){
+						Toast.makeText(BookItemActivity.this,"请选择正确的日期",Toast.LENGTH_SHORT).show();
+					}else{
+						//Toast.makeText(BookItemActivity.this,"您选择的时间为："+time,Toast.LENGTH_SHORT).show();
+						// 测试阶段使用 ，成功后注释掉
+						rentBook();
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		dialog.show();
     }
 
     private void checkRent() {

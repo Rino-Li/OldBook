@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:textCursorDrawable="@drawable/green_cursor"
             android:background="@null"
-            android:hint="请输入学号"
+            android:hint="请输入手机号"
+            android:inputType="number"
             android:layout_gravity="center"
             android:textSize="20sp"
             android:layout_marginLeft="10dp"
@@ -34,28 +35,14 @@
         android:layout_alignRight="@+id/number"
         android:layout_below="@+id/number"
         android:background="@color/standardgreen" />
-    <TextView
-        android:id="@+id/accounttext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="您绑定的手机号为："
-        android:layout_below="@+id/number"
-        android:layout_alignLeft="@+id/number"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"/>
-    <TextView
-        android:id="@+id/phonenum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/accounttext"
-        android:layout_alignTop="@+id/accounttext"/>
+
 
     <RelativeLayout
         android:id="@+id/input_layout"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_below="@+id/accounttext"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/number"
+        android:layout_marginTop="20dp"
         android:layout_alignLeft="@+id/number"
         android:layout_marginRight="24.3dp"
         android:background="@drawable/line"
@@ -68,6 +55,7 @@
             android:textCursorDrawable="@drawable/green_cursor"
             android:background="@null"
             android:hint="请输入验证码"
+            android:inputType="number"
             android:textSize="20sp"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"

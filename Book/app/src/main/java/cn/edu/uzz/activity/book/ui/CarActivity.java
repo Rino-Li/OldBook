@@ -9,12 +9,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -38,6 +39,7 @@ import java.util.List;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.adapter.CarAdapter;
 import cn.edu.uzz.activity.book.entity.RentCar;
+import xyz.bboylin.universialtoast.UniversalToast;
 
 /**
  * Created by 10616 on 2017/12/22.
@@ -108,7 +110,7 @@ public class CarActivity extends Activity implements View.OnClickListener {
 					finish();
 					overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
 				}else {
-					Toast.makeText(CarActivity.this,"您的购物车还没有添加借阅哦",Toast.LENGTH_SHORT).show();
+					UniversalToast.makeText(CarActivity.this, "您的购物车还没有添加借阅哦", UniversalToast.LENGTH_SHORT).showWarning();
 				}
 				break;
 			case R.id.car_return:
@@ -142,6 +144,7 @@ public class CarActivity extends Activity implements View.OnClickListener {
 			carAdapter=new CarAdapter(CarActivity.this,book,mListView,this);
 			mListView.setAdapter(carAdapter);
 			mListView.setOnItemClickListener(this);
+			setListViewHeightBasedOnChildren(mListView);
 		}
 
 		@Override
@@ -175,11 +178,11 @@ public class CarActivity extends Activity implements View.OnClickListener {
 				try {
 					int resultCode = response.getInt("resultCode");
 					if (resultCode == 1||resultCode==3) {
-						Toast.makeText(CarActivity.this,"借阅车删除成功",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(CarActivity.this, "借阅车删除成功", UniversalToast.LENGTH_SHORT).showSuccess();
 						book_list.remove(position);
 						carAdapter.refresh(book_list);
 					}else if (resultCode==2){
-						Toast.makeText(CarActivity.this,"借阅车删除失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(CarActivity.this, "借阅车删除失败，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -188,8 +191,7 @@ public class CarActivity extends Activity implements View.OnClickListener {
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-
-				Toast.makeText(CarActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(CarActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 			}
 		});
 		//3请求加入队列
@@ -262,5 +264,28 @@ public class CarActivity extends Activity implements View.OnClickListener {
 		return result;
 	}
 
+	//计算listview高度
+	public void setListViewHeightBasedOnChildren(ListView listView) {
+		// 获取ListView对应的Adapter
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter == null) {
+			return;
+		}
 
+		int totalHeight = 0;
+		for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
+			// listAdapter.getCount()返回数据项的数目
+			View listItem = listAdapter.getView(i, null, listView);
+			// 计算子项View 的宽高
+			listItem.measure(0, 0);
+			// 统计所有子项的总高度
+			totalHeight += listItem.getMeasuredHeight();
+		}
+
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight+ (listView.getDividerHeight() * (listAdapter.getCount() + 1));
+		// listView.getDividerHeight()获取子项间分隔符占用的高度
+		// params.height最后得到整个ListView完整显示需要的高度
+		listView.setLayoutParams(params);
+	}
 }

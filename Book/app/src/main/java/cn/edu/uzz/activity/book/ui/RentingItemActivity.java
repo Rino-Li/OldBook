@@ -15,7 +15,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,6 +40,7 @@ import java.util.TimerTask;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.entity.Books;
 import cn.edu.uzz.activity.book.util.BitmapCache;
+import xyz.bboylin.universialtoast.UniversalToast;
 
 public class RentingItemActivity extends AppCompatActivity implements View.OnClickListener{
 	private NetworkImageView book_pic;
@@ -178,7 +178,7 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(RentingItemActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 			}
 		}){
 			protected Map<String,String> getParams() {
@@ -217,18 +217,25 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 				break;
 			case R.id.renting_item_rent:
 				if (book_rent.getText().toString().equals("已借阅")){
-					Toast.makeText(RentingItemActivity.this,"对不起，此书已被借阅",Toast.LENGTH_SHORT).show();
+					UniversalToast.makeText(RentingItemActivity.this, "抱歉，此书已被借阅", UniversalToast.LENGTH_SHORT).showWarning();
 				}else {
 					Rent();
 				}
 				break;
 			case R.id.renting_item_subscribe:
 				if(checksub()==1){
-					Toast.makeText(RentingItemActivity.this,"预定成功，请在24小时内借阅此书",Toast.LENGTH_SHORT).show();
+					UniversalToast.makeText(RentingItemActivity.this, "预定成功", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
+							.setClickCallBack("查看", new View.OnClickListener() {
+								@Override
+								public void onClick(View view) {
+									startActivity(new Intent(RentingItemActivity.this,MySubActivity.class));
+								}
+							})
+							.showSuccess();
 				}else if(checksub()==2){
-					Toast.makeText(RentingItemActivity.this,"抱歉，此书已被预订",Toast.LENGTH_SHORT).show();
+					UniversalToast.makeText(RentingItemActivity.this, "抱歉，此书已被预订", UniversalToast.LENGTH_SHORT).showWarning();
 				}else if(checksub()==3){
-					Toast.makeText(RentingItemActivity.this,"抱歉，此书正在被借阅",Toast.LENGTH_SHORT).show();
+					UniversalToast.makeText(RentingItemActivity.this, "抱歉，此书正在被借阅", UniversalToast.LENGTH_SHORT).showWarning();
 				}
 				break;
 			default:
@@ -267,8 +274,7 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-
-				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(RentingItemActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 			}
 		}){
 			protected Map<String,String> getParams() {
@@ -296,9 +302,9 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 					String now=sdf.format(new Date());
 					Date datenow=sdf.parse(now);
 					if (dateend.getTime()<datenow.getTime()){
-						Toast.makeText(RentingItemActivity.this,"请选择正确的日期",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(RentingItemActivity.this, "请选择正确的日期", UniversalToast.LENGTH_SHORT).showWarning();
 					}else{
-						Toast.makeText(RentingItemActivity.this,"您选择的时间为："+time,Toast.LENGTH_SHORT).show();//测试阶段使用 ，成功后注释掉
+						//Toast.makeText(RentingItemActivity.this,"您选择的时间为："+time,Toast.LENGTH_SHORT).show();//测试阶段使用 ，成功后注释掉
 						rentBook();
 					}
 				} catch (ParseException e) {
@@ -331,7 +337,7 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 					if (resultCode == 1) {
 						showDatePickDlg();
 					}else if (resultCode==2){
-						Toast.makeText(RentingItemActivity.this,"此书已被其他用户预定，请等候",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(RentingItemActivity.this, "此书已被其他用户预定", UniversalToast.LENGTH_SHORT).showWarning();
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -340,8 +346,7 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-
-				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(RentingItemActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 			}
 		}){
 			protected Map<String,String> getParams() {
@@ -369,11 +374,18 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 					JSONObject jsonObject=new JSONObject(response);
 					int resultCode = jsonObject.getInt("resultCode");
 					if (resultCode == 1) {
-						Toast.makeText(RentingItemActivity.this,"已添加到借阅车，30分钟内请借阅",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(RentingItemActivity.this, "添加成功", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
+								.setClickCallBack("查看", new View.OnClickListener() {
+									@Override
+									public void onClick(View view) {
+										startActivity(new Intent(RentingItemActivity.this,CarActivity.class));
+									}
+								})
+								.showSuccess();
 					}else if (resultCode==2){
-						Toast.makeText(RentingItemActivity.this,"添加到借阅车失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(RentingItemActivity.this, "添加到借阅车失败，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 					}else if (resultCode==3){
-						Toast.makeText(RentingItemActivity.this,"此书已被添加，勿重复添加",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(RentingItemActivity.this, "此书已被添加，勿重复添加", UniversalToast.LENGTH_SHORT).showWarning();
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -382,8 +394,7 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-
-				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(RentingItemActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 			}
 		}){
 			protected Map<String,String> getParams() {
@@ -427,7 +438,7 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 					if (resultCode == 1||resultCode==2) {
 						book_sub.setText("已预订");
 					}else if (resultCode==3){
-						Toast.makeText(RentingItemActivity.this,"预定失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(RentingItemActivity.this, "预定失败，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 						return;
 					}
 				} catch (JSONException e) {
@@ -437,8 +448,7 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-
-				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(RentingItemActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 			}
 		}){
 			protected Map<String,String> getParams() {
@@ -468,11 +478,11 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 					JSONObject jsonObject=new JSONObject(response);
 					int resultCode = jsonObject.getInt("resultCode");
 					if (resultCode == 1||resultCode==3) {
-						Toast.makeText(RentingItemActivity.this,"取消收藏成功",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(RentingItemActivity.this, "取消收藏成功", UniversalToast.LENGTH_SHORT).showSuccess();
 						book_like_image.setImageResource(R.drawable.book_like_normal);
 						book_like_word.setText("收藏");
 					}else if (resultCode==2){
-						Toast.makeText(RentingItemActivity.this,"取消收藏失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(RentingItemActivity.this, "取消收藏失败，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -481,7 +491,7 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(RentingItemActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 			}
 		}){
 			protected Map<String,String> getParams() {
@@ -500,7 +510,14 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 
 	public boolean getLikeBook() {
 		if (account==""){
-			Toast.makeText(RentingItemActivity.this,"请先登录",Toast.LENGTH_SHORT).show();
+			UniversalToast.makeText(RentingItemActivity.this, "请先登录", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
+					.setClickCallBack("查看", new View.OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							startActivity(new Intent(RentingItemActivity.this,LoginActivity.class));
+						}
+					})
+					.showWarning();
 			return false;
 		}
 		//1创建请求队列
@@ -514,11 +531,18 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 					JSONObject jsonObject=new JSONObject(response);
 					int resultCode = jsonObject.getInt("resultCode");
 					if (resultCode == 1) {
-						Toast.makeText(RentingItemActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(RentingItemActivity.this, "收藏成功", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
+								.setClickCallBack("查看", new View.OnClickListener() {
+									@Override
+									public void onClick(View view) {
+										startActivity(new Intent(RentingItemActivity.this,LikeListAvtivity.class));
+									}
+								})
+								.showSuccess();
 						book_like_image.setImageResource(R.drawable.book_like_selected);
 						book_like_word.setText("已收藏");
 					}else if (resultCode==2){
-						Toast.makeText(RentingItemActivity.this,"收藏失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(RentingItemActivity.this, "收藏失败，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -530,7 +554,7 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 				Log.e("VolleyError---", volleyError.getMessage(), volleyError);
 				byte[] htmlBodyBytes = volleyError.networkResponse.data;  //回应的报文的包体内容
 				Log.e("VolleyError body---->", new String(htmlBodyBytes), volleyError);
-				Toast.makeText(RentingItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(RentingItemActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 			}
 		}){
 			protected Map<String,String> getParams() {

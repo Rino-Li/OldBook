@@ -33,7 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/sub_title"
         android:padding="10dp"
-        android:scrollbars="none"></ListView>
+        android:scrollbars="none"
+        android:divider="@null"
+        android:dividerHeight="10dp"></ListView>
     <ImageView
         android:id="@+id/sub_fail_img"
         android:layout_width="wrap_content"

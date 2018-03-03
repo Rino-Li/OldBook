@@ -36,7 +36,9 @@
         android:layout_below="@id/car_title"
         android:choiceMode="multipleChoice"
         android:scrollbars="none"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:divider="@null"
+        android:dividerHeight="10dp">
     </ListView>
     <Button
         android:id="@+id/jinruerweima"

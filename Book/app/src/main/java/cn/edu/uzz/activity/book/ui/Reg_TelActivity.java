@@ -10,21 +10,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.mob.MobSDK;
 
 import cn.edu.uzz.activity.book.R;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
+import xyz.bboylin.universialtoast.UniversalToast;
 
 /**
  * Created by 10616 on 2017/11/4.
  */
 
 public class Reg_TelActivity extends AppCompatActivity implements View.OnClickListener{
-    String APPKEY = "241892b00a2b0";
-    String APPSECRETE = "919963c5e41f95af58cb44f83a0c3b3d";
+    String APPKEY = "245253300b8c5";
+    String APPSECRETE = "b3c33f3aab1477bab646dd6a516d3fda";
 
     // 手机号输入框
     private EditText inputtel;
@@ -122,8 +122,7 @@ public class Reg_TelActivity extends AppCompatActivity implements View.OnClickLi
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     // 短信注册成功后，返回MainActivity,然后提示
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
-                        Toast.makeText(getApplicationContext(), "提交验证码成功",
-                                Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(getApplicationContext(), "提交验证码成功", UniversalToast.LENGTH_SHORT).showSuccess();
                         Intent intent=new Intent();
                         intent.putExtra("phone",inputtel.getText().toString());
                         intent.setClass(Reg_TelActivity.this,
@@ -133,8 +132,7 @@ public class Reg_TelActivity extends AppCompatActivity implements View.OnClickLi
 						overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 						overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                        Toast.makeText(getApplicationContext(), "正在获取验证码",
-                                Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(getApplicationContext(), "正在获取验证码", UniversalToast.LENGTH_SHORT).showSuccess();
                     } else {
                         ((Throwable) data).printStackTrace();
                     }
@@ -154,7 +152,7 @@ public class Reg_TelActivity extends AppCompatActivity implements View.OnClickLi
                 && isMobileNO(phoneNums)) {
             return true;
         }
-        Toast.makeText(this, "手机号码输入有误！", Toast.LENGTH_SHORT).show();
+		UniversalToast.makeText(this, "手机号码输入有误", UniversalToast.LENGTH_SHORT).showError();
         return false;
     }
 

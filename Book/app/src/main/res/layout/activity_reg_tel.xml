@@ -96,5 +96,13 @@
         android:background="@drawable/buttonshape"
         android:text="确认"
         android:textColor="@color/standardwhite"/>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="注：为确保正常获取验证码此过程请勿连接WiFi"
+        android:layout_below="@+id/login_commit_btn"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="15sp"
+        android:textColor="@color/mlcred"/>
 </RelativeLayout>

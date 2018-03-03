@@ -1,6 +1,7 @@
 package cn.edu.uzz.activity.book.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,6 +38,7 @@ import java.util.Map;
 import cn.edu.uzz.activity.book.R;
 import cn.edu.uzz.activity.book.entity.Books;
 import cn.edu.uzz.activity.book.util.BitmapCache;
+import xyz.bboylin.universialtoast.UniversalToast;
 
 /**
  * Created by 10616 on 2017/11/25.
@@ -201,20 +203,35 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.item_rent:
                 if (book_rent.getText().toString().equals("已借阅")){
-                    Toast.makeText(BookItemActivity.this,"对不起，此书已被借阅",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BookItemActivity.this,"抱歉，此书已被借阅",Toast.LENGTH_SHORT).show();
                 }else {
                     Rent();
                 }
                 break;
             case R.id.item_subscribe:
                 if(checksub()==1){
-                    Toast.makeText(BookItemActivity.this,"预定成功，请在24小时内借阅此书",Toast.LENGTH_SHORT).show();
+					UniversalToast.makeText(BookItemActivity.this, "预定成功", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
+							.setClickCallBack("查看", new View.OnClickListener() {
+								@Override
+								public void onClick(View view) {
+									startActivity(new Intent(BookItemActivity.this,MySubActivity.class));
+								}
+							})
+							.showSuccess();
                 }else if(checksub()==2){
-                    Toast.makeText(BookItemActivity.this,"抱歉，此书已被预订",Toast.LENGTH_SHORT).show();
+					UniversalToast.makeText(BookItemActivity.this, "抱歉，此书已被预订", UniversalToast.LENGTH_SHORT).showWarning();
                 }else if(checksub()==3){
-                    Toast.makeText(BookItemActivity.this,"抱歉，此书正在被借阅",Toast.LENGTH_SHORT).show();
+					UniversalToast.makeText(BookItemActivity.this, "抱歉，此书正在被借阅", UniversalToast.LENGTH_SHORT).showWarning();
                 }else if (checksub()==4){
-					Toast.makeText(BookItemActivity.this,"请先登录",Toast.LENGTH_SHORT).show();
+					UniversalToast.makeText(BookItemActivity.this, "请先登录", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
+							.setClickCallBack("查看", new View.OnClickListener() {
+								@Override
+								public void onClick(View view) {
+									startActivity(new Intent(BookItemActivity.this,LoginActivity.class));
+								}
+							})
+							.showWarning();
+
 				}
                 break;
             default:
@@ -232,14 +249,21 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
 
     protected void showDatePickDlg() {
 		if (account==""){
-			Toast.makeText(BookItemActivity.this,"请先登录",Toast.LENGTH_SHORT).show();
+			UniversalToast.makeText(BookItemActivity.this, "请先登录", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
+					.setClickCallBack("查看", new View.OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							startActivity(new Intent(BookItemActivity.this,LoginActivity.class));
+						}
+					})
+					.showWarning();
 			return;
 		}
 		DatePickDialog dialog = new DatePickDialog(this);
 		//设置上下年分限制
 		dialog.setYearLimt(5);
 		//设置标题
-		dialog.setTitle("啃书应用");
+		dialog.setTitle("请选择您的还书日期");
 		//设置类型
 		dialog.setType(DateType.TYPE_YMD);
 		//设置消息体的显示格式，日期格式
@@ -257,7 +281,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
 					String now=sdf.format(new Date());
 					Date datenow=sdf.parse(now);
 					if (dateend.getTime()<datenow.getTime()){
-						Toast.makeText(BookItemActivity.this,"请选择正确的日期",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(BookItemActivity.this, "请选择正确的日期", UniversalToast.LENGTH_SHORT).showWarning();
 					}else{
 						//Toast.makeText(BookItemActivity.this,"您选择的时间为："+time,Toast.LENGTH_SHORT).show();
 						// 测试阶段使用 ，成功后注释掉
@@ -285,7 +309,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
                     if (resultCode == 1) {
                         showDatePickDlg();
                     }else if (resultCode==2){
-                        Toast.makeText(BookItemActivity.this,"此书已被其他用户预定，请等候",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(BookItemActivity.this, "此书已被其他用户预定", UniversalToast.LENGTH_SHORT).showWarning();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -294,8 +318,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
-                Toast.makeText(BookItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(BookItemActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
             }
         }){
 			protected Map<String,String> getParams() {
@@ -323,11 +346,18 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
 					JSONObject jsonObject=new JSONObject(response);
                     int resultCode = jsonObject.getInt("resultCode");
                     if (resultCode == 1) {
-                        Toast.makeText(BookItemActivity.this,"已添加到借阅车，30分钟内请借阅",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(BookItemActivity.this, "添加成功", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
+								.setClickCallBack("查看", new View.OnClickListener() {
+									@Override
+									public void onClick(View view) {
+										startActivity(new Intent(BookItemActivity.this,CarActivity.class));
+									}
+								})
+								.showSuccess();
                     }else if (resultCode==2){
-                        Toast.makeText(BookItemActivity.this,"添加到借阅车失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(BookItemActivity.this, "添加失败，请稍后再试！", UniversalToast.LENGTH_SHORT).showError();
                     }else if (resultCode==3){
-                        Toast.makeText(BookItemActivity.this,"此书已被添加，勿重复添加",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(BookItemActivity.this, "此书已被添加，勿重复添加", UniversalToast.LENGTH_SHORT).showWarning();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -336,8 +366,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
-                Toast.makeText(BookItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(BookItemActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
             }
         }){
 			protected Map<String,String> getParams() {
@@ -385,7 +414,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
                     if (resultCode == 1||resultCode==2) {
                         book_sub.setText("已预订");
                     }else if (resultCode==3){
-                        Toast.makeText(BookItemActivity.this,"预定失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(BookItemActivity.this, "预定失败，请稍后再试！", UniversalToast.LENGTH_SHORT).showError();
                         return;
                     }
                 } catch (JSONException e) {
@@ -395,8 +424,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
-                Toast.makeText(BookItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(BookItemActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
             }
         }){
 			protected Map<String,String> getParams() {
@@ -426,11 +454,11 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
                 	JSONObject jsonObject=new JSONObject(response);
                     int resultCode = jsonObject.getInt("resultCode");
                     if (resultCode == 1||resultCode==3) {
-                        Toast.makeText(BookItemActivity.this,"取消收藏成功",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(BookItemActivity.this, "取消收藏成功", UniversalToast.LENGTH_SHORT).showSuccess();
                         book_like_image.setImageResource(R.drawable.book_like_normal);
                         book_like_word.setText("收藏");
                     }else if (resultCode==2){
-                        Toast.makeText(BookItemActivity.this,"取消收藏失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(BookItemActivity.this, "取消收藏失败，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -439,7 +467,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(BookItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(BookItemActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
             }
         }){
 			protected Map<String,String> getParams() {
@@ -457,7 +485,14 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
 
     public boolean getLikeBook() {
 		if (account==""){
-			Toast.makeText(BookItemActivity.this,"请先登录",Toast.LENGTH_SHORT).show();
+			UniversalToast.makeText(BookItemActivity.this, "请先登录", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
+					.setClickCallBack("查看", new View.OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							startActivity(new Intent(BookItemActivity.this,LoginActivity.class));
+						}
+					})
+					.showWarning();
 			return false;
 		}
         //1创建请求队列
@@ -471,11 +506,18 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
                 	JSONObject jsonObject=new JSONObject(response);
                     int resultCode = jsonObject.getInt("resultCode");
                     if (resultCode == 1) {
-                        Toast.makeText(BookItemActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(BookItemActivity.this, "收藏成功", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
+								.setClickCallBack("查看", new View.OnClickListener() {
+									@Override
+									public void onClick(View view) {
+										startActivity(new Intent(BookItemActivity.this,LikeListAvtivity.class));
+									}
+								})
+								.showSuccess();
                         book_like_image.setImageResource(R.drawable.book_like_selected);
                         book_like_word.setText("已收藏");
                     }else if (resultCode==2){
-                        Toast.makeText(BookItemActivity.this,"收藏失败，请稍后再试！",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(BookItemActivity.this, "收藏失败，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -487,7 +529,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
 				Log.e("VolleyError---", volleyError.getMessage(), volleyError);
 				byte[] htmlBodyBytes = volleyError.networkResponse.data;  //回应的报文的包体内容
 				Log.e("VolleyError body---->", new String(htmlBodyBytes), volleyError);
-                Toast.makeText(BookItemActivity.this,"网络异常，请稍后再试",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(BookItemActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
             }
         }){
 			protected Map<String,String> getParams() {

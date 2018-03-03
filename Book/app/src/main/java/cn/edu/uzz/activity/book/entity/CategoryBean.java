@@ -52,7 +52,8 @@ public class CategoryBean implements Serializable {
         private String moreUniversalNavigator;
         private List<DataListBean> dataList;
 
-        public String getType() {
+
+		public String getType() {
             return type;
         }
 

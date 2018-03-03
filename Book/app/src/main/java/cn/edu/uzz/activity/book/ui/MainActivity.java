@@ -1,16 +1,23 @@
 package cn.edu.uzz.activity.book.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import java.io.File;
 
 import cn.edu.uzz.activity.book.R;
+import cn.edu.uzz.activity.book.util.GuideView;
 
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
@@ -25,6 +32,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private Fragment mTab01;
     private Fragment mTab02;
     private Fragment mTab03;
+
+    private GuideView guideView1;
+	private GuideView guideView2;
+	private GuideView guideView3;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -32,11 +43,90 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         initView();
+		File file= new File("/data/data/cn.edu.uzz.activity.book/shared_prefs","wel.xml");
+		if(!file.exists())
+		{
+			initYD();
+		}
         initEvent();
         setSelect(0);
 	}
 
-    private void initEvent() {
+	private void initYD() {
+
+		SharedPreferences pre=getSharedPreferences("wel",MODE_PRIVATE);
+		SharedPreferences.Editor editor=pre.edit();
+		editor.putString("username","123");
+		editor.commit();
+
+		final ImageView iv3 = new ImageView(this);
+		iv3.setImageResource(R.drawable.img_new_task_guide);
+		RelativeLayout.LayoutParams params3 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		iv3.setLayoutParams(params3);
+
+		final ImageView iv2 = new ImageView(this);
+		iv2.setImageResource(R.drawable.img_new_task_search);
+		RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		iv2.setLayoutParams(params2);
+
+		final ImageView iv1 = new ImageView(this);
+		iv1.setImageResource(R.drawable.img_new_task_main);
+		RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		iv1.setLayoutParams(params1);
+
+		guideView1 = GuideView.Builder
+				.newInstance(this)
+				.setTargetView(mTabWeixin)//设置目标
+				.setCustomGuideView(iv1)
+				.setDirction(GuideView.Direction.TOP)
+				.setShape(GuideView.MyShape.ELLIPSE)   // 设置圆形显示区域，
+				.setBgColor(getResources().getColor(R.color.shadow))
+				.setOnclickListener(new GuideView.OnClickCallback() {
+					@Override
+					public void onClickedGuideView() {
+						guideView1.hide();
+						guideView2.show();
+					}
+				})
+				.build();
+
+		guideView2 = GuideView.Builder
+				.newInstance(this)
+				.setTargetView(mTabFrd)//设置目标
+				.setCustomGuideView(iv2)
+				.setDirction(GuideView.Direction.TOP)
+				.setShape(GuideView.MyShape.ELLIPSE)   // 设置圆形显示区域，
+				.setBgColor(getResources().getColor(R.color.shadow))
+				.setOnclickListener(new GuideView.OnClickCallback() {
+					@Override
+					public void onClickedGuideView() {
+						guideView2.hide();
+						guideView3.show();
+					}
+				})
+				.build();
+
+
+
+		guideView3 = GuideView.Builder
+				.newInstance(this)
+				.setTargetView(mTabAddress)//设置目标
+				.setCustomGuideView(iv3)
+				.setDirction(GuideView.Direction.TOP)
+				.setShape(GuideView.MyShape.ELLIPSE)   // 设置圆形显示区域，
+				.setBgColor(getResources().getColor(R.color.shadow))
+				.setOnclickListener(new GuideView.OnClickCallback() {
+					@Override
+					public void onClickedGuideView() {
+						guideView3.hide();
+					}
+				})
+				.build();
+
+		guideView1.show();
+	}
+
+	private void initEvent() {
         mTabWeixin.setOnClickListener(this);
         mTabFrd.setOnClickListener(this);
         mTabAddress.setOnClickListener(this);
@@ -147,4 +237,5 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mImgAddress.setImageResource(R.drawable.book_tabthree_normal);
 
     }
+
 }

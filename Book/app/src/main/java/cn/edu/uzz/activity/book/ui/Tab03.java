@@ -1,9 +1,6 @@
 package cn.edu.uzz.activity.book.ui;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.io.File;
 
 import cn.edu.uzz.activity.book.R;
+import xyz.bboylin.universialtoast.UniversalToast;
 
 /**
  * Created by 10616 on 2017/11/17.
@@ -90,14 +87,9 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 				File file= new File("/data/data/cn.edu.uzz.activity.book/shared_prefs","user.xml");
 				if(file.exists())
 				{
+					UniversalToast.makeText(getActivity(), "系统重启中，请稍等", UniversalToast.LENGTH_SHORT).showWarning();
 					file.delete();
 					loginBtn.setText("登录");
-					Intent intent = getActivity().getPackageManager()
-							.getLaunchIntentForPackage(getActivity().getPackageName());
-					PendingIntent restartIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
-					AlarmManager mgr = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-					Toast.makeText(getActivity(),"系统重启中，请稍等",Toast.LENGTH_LONG).show();
-					mgr.set(AlarmManager.RTC, System.currentTimeMillis()+5 , restartIntent);
 					System.exit(0);
 				}else{
 					startActivity(new Intent(getActivity(),LoginActivity.class));

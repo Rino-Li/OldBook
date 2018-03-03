@@ -33,7 +33,7 @@ import cn.edu.uzz.activity.book.adapter.MenuAdapter;
 
 public class TypesActivity extends Activity{
 	private List<String> menuList = new ArrayList<>();
-	private List<String> typeList=new ArrayList<>();
+	private List<String> urlList=new ArrayList<>();
 	private List<CategoryBean.DataBean> homeList = new ArrayList<>();
 	private List<Integer> showTitle;
 

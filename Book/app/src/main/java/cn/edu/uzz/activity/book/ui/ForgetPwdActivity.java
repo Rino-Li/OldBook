@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,6 +24,7 @@ import org.json.JSONObject;
 import cn.edu.uzz.activity.book.R;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
+import xyz.bboylin.universialtoast.UniversalToast;
 
 
 /**
@@ -32,8 +32,8 @@ import cn.smssdk.SMSSDK;
  */
 
 public class ForgetPwdActivity extends AppCompatActivity implements View.OnClickListener{
-    String APPKEY = "2216245c23ed4";
-    String APPSECRETE = "8407c2da25d4cdfcdbad0043b99907c4";
+    String APPKEY = "245253300b8c5";
+    String APPSECRETE = "b3c33f3aab1477bab646dd6a516d3fda";
 
     // 手机号输入框
     private EditText inputaccount;
@@ -133,16 +133,14 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     // 短信注册成功后，返回MainActivity,然后提示
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
-                        Toast.makeText(getApplicationContext(), "提交验证码成功",
-                                Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(getApplicationContext(), "提交验证码成功", UniversalToast.LENGTH_SHORT).showSuccess();
                         Intent intent = new Intent(ForgetPwdActivity.this,
                                 MainActivity.class);
                         startActivity(intent);
                         findInfor(inputaccount.getText().toString());
                         finish();
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                        Toast.makeText(getApplicationContext(), "正在获取验证码",
-                                Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(getApplicationContext(), "正在获取验证码", UniversalToast.LENGTH_SHORT).showSuccess();
                     } else {
                         ((Throwable) data).printStackTrace();
                     }
@@ -162,7 +160,7 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
                 && isMobileNO(phoneNums)) {
             return true;
         }
-        Toast.makeText(this, "手机号码输入有误！", Toast.LENGTH_SHORT).show();
+		UniversalToast.makeText(this, "手机号码输入有误", UniversalToast.LENGTH_SHORT).showError();
         return false;
     }
 
@@ -215,7 +213,7 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
                 try {
                     int code = jsonObject.getInt("code");
                     if (code==1){
-                    	Toast.makeText(ForgetPwdActivity.this,"此号码未注册",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(ForgetPwdActivity.this, "此号码未注册", UniversalToast.LENGTH_SHORT).showError();
                     	return;
 					} else if(code==0){
                         if (!judgePhoneNums(account)) {
@@ -283,7 +281,7 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
 						editor.putString("age",age);
 						editor.commit();
 					}else{
-						Toast.makeText(ForgetPwdActivity.this,"个人信息获取失败",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(ForgetPwdActivity.this, "个人信息获取失败", UniversalToast.LENGTH_SHORT).showError();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -292,7 +290,7 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-				Toast.makeText(ForgetPwdActivity.this,"个人信息获取失败",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(ForgetPwdActivity.this, "个人信息获取失败", UniversalToast.LENGTH_SHORT).showError();
 			}
 		});
 		request.setTag("login");

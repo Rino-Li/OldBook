@@ -1,6 +1,7 @@
 package cn.edu.uzz.activity.book.ui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,6 +17,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +29,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.edu.uzz.activity.book.R;
+import cn.jpush.android.api.JPushInterface;
+import xyz.bboylin.universialtoast.UniversalToast;
 
 /**
  * Created by 10616 on 2017/11/2.
@@ -41,6 +47,7 @@ public class RegistActivity extends Activity{
     private String truthname;
     private String address;
     private String age;
+	private ProgressDialog mDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +83,7 @@ public class RegistActivity extends Activity{
         String user_pwd=reg_pwd.getText().toString();
         String con_pwd=reg_confirm_pwd.getText().toString();
         if(!user_pwd.equals(con_pwd)){
-            Toast.makeText(this,"两次密码输入不相符",Toast.LENGTH_SHORT).show();
+			UniversalToast.makeText(this, "两次密码输入不相符", UniversalToast.LENGTH_SHORT).showError();
         }else {
 			commitInfor();
         }
@@ -91,16 +98,10 @@ public class RegistActivity extends Activity{
 					JSONObject jsonObject=new JSONObject(s);
 					int resultCode=jsonObject.getInt("resultCode");
 					if (resultCode==1){
-						Toast.makeText(RegistActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
 						Infor();
-						Intent intent=new Intent();
-						intent.setClass(RegistActivity.this,MainActivity.class);
-						startActivity(intent);
-						finish();
-						overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-						overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+						signin(account,"123");
 					}else if(resultCode==2){
-						Toast.makeText(RegistActivity.this, "已注册，请登录！", Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(RegistActivity.this, "已注册，请登录", UniversalToast.LENGTH_SHORT).showWarning();
 						startActivity(new Intent(RegistActivity.this,LoginActivity.class));
 						finish();
 						overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -113,7 +114,7 @@ public class RegistActivity extends Activity{
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-				Toast.makeText(RegistActivity.this,"系统错误",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(RegistActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
 				Log.e("VolleyError---", volleyError.getMessage(), volleyError);
 				byte[] htmlBodyBytes = volleyError.networkResponse.data;  //回应的报文的包体内容
 				Log.e("VolleyError body---->", new String(htmlBodyBytes), volleyError);
@@ -141,15 +142,15 @@ public class RegistActivity extends Activity{
         String user_pwd=reg_pwd.getText().toString();
         String con_pwd=reg_confirm_pwd.getText().toString();
         if (user_account.equals("")) {
-            Toast.makeText(this, "请填写昵称", Toast.LENGTH_SHORT).show();
+			UniversalToast.makeText(this, "请填写昵称", UniversalToast.LENGTH_SHORT).showWarning();
             return false;
         }
         if (user_pwd.equals("")) {
-            Toast.makeText(this, "请填写密码", Toast.LENGTH_SHORT).show();
+			UniversalToast.makeText(this, "请填写密码", UniversalToast.LENGTH_SHORT).showWarning();
             return false;
         }
         if (con_pwd.equals("")) {
-            Toast.makeText(this, "请填写确认密码", Toast.LENGTH_SHORT).show();
+			UniversalToast.makeText(this, "请填写确认密码", UniversalToast.LENGTH_SHORT).showWarning();
             return false;
         }
 
@@ -168,5 +169,133 @@ public class RegistActivity extends Activity{
 		editor.putString("age",age);
 		editor.commit();
 	}
+	private void signin(final String username,final String password) {
+		// 注册是耗时过程，所以要显示一个dialog来提示下用户
+		mDialog = new ProgressDialog(this);
+		mDialog.setMessage("注册中，请稍后...");
+		mDialog.show();
 
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+
+					EMClient.getInstance().createAccount(username, password);
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							if (!RegistActivity.this.isFinishing()) {
+								mDialog.dismiss();
+							}
+							EMClient.getInstance().contactManager().aysncAddContact("abcde", "AAAAAA", new EMCallBack() {
+								@Override
+								public void onSuccess() {
+									Log.d("BBBB", "添加成功");
+								}
+
+								@Override
+								public void onError(int i, String s) {
+									Log.d("BBBB", "加好友失败" + s);
+								}
+
+								@Override
+								public void onProgress(int i, String s) {
+
+								}
+							});
+							UniversalToast.makeText(RegistActivity.this, "注册成功", UniversalToast.LENGTH_SHORT).showSuccess();
+							login(username);
+
+						}
+					});
+				} catch (final HyphenateException e) {
+					e.printStackTrace();
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							if (!RegistActivity.this.isFinishing()) {
+								mDialog.dismiss();
+							}
+							/**
+							 * 关于错误码可以参考官方api详细说明
+							 * http://www.easemob.com/apidoc/android/chat3.0/classcom_1_1hyphenate_1_1_e_m_error.html
+							 */
+							int errorCode = e.getErrorCode();
+							String message = e.getMessage();
+							Log.d("lzan13", String.format("sign up - errorCode:%d, errorMsg:%s", errorCode, e.getMessage()));
+							switch (errorCode) {
+								// 网络错误
+								case EMError.NETWORK_ERROR:
+									UniversalToast.makeText(RegistActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
+									//Toast.makeText(RegistActivity.this, "网络错误 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+									break;
+								// 用户已存在
+								case EMError.USER_ALREADY_EXIST:
+									UniversalToast.makeText(RegistActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
+									//Toast.makeText(RegistActivity.this, "用户已存在 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+									break;
+								// 参数不合法，一般情况是username 使用了uuid导致，不能使用uuid注册
+								case EMError.USER_ILLEGAL_ARGUMENT:
+									UniversalToast.makeText(RegistActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
+									//Toast.makeText(RegistActivity.this, "参数不合法，一般情况是username 使用了uuid导致，不能使用uuid注册 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+									break;
+								// 服务器未知错误
+								case EMError.SERVER_UNKNOWN_ERROR:
+									UniversalToast.makeText(RegistActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
+									//Toast.makeText(RegistActivity.this, "服务器未知错误 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+									break;
+								case EMError.USER_REG_FAILED:
+									UniversalToast.makeText(RegistActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
+									//Toast.makeText(RegistActivity.this, "账户注册失败 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+									break;
+								default:
+									UniversalToast.makeText(RegistActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
+									//Toast.makeText(RegistActivity.this, "ml_sign_up_failed code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+									break;
+							}
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+
+	public void login(final String account){
+		EMClient.getInstance().login(account, "123", new EMCallBack() {
+
+			@Override
+			public void onSuccess() {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						startActivity(new Intent(RegistActivity.this, MainActivity.class));
+						JPushInterface.setAlias(RegistActivity.this,account,null);
+						Log.e("BBBB","修改成功");
+					}
+				});
+				Intent intent=new Intent();
+				intent.setClass(RegistActivity.this, MainActivity.class);
+				startActivity(intent);
+				finish();
+				overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+			}
+
+			@Override
+			public void onProgress(int progress, String status) {
+
+			}
+
+			@Override
+			public void onError(int code, String error) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						UniversalToast.makeText(RegistActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
+					}
+				});
+			}
+		});
+	}
 }

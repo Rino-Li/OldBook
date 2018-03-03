@@ -49,7 +49,7 @@ import static android.app.Activity.RESULT_OK;
 public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,View.OnClickListener{
 	private ListView mListView;
 	private static  String URL="http://123.206.230.120/Book/getoldlistServ?type1=";
-	List<Books> book_list;
+	List<Books> book_list=new ArrayList<>();;
 	private ImageView saomaBtn;
 	private ImageView booktypesBtn;
 	private ImageView newbookBtn;
@@ -57,6 +57,8 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 	private Banner banner;
 	private List<String> images=new ArrayList<>();
 	private PullToRefreshLayout pullToRefreshLayout;
+	private MyAdapter adapter;
+	NewsAsyncTask newsAsyncTask=new NewsAsyncTask();
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState)
@@ -70,7 +72,7 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 		initView();
 		mListView= (ListView) getView().findViewById(R.id.listviewmain);
 		type1=getbookstype1();
-		new NewsAsyncTask().execute(URL+type1);
+		newsAsyncTask.execute(URL+type1);
 		mListView.setOnItemClickListener(this);
 	}
 
@@ -161,14 +163,13 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 		@Override
 		protected void onPostExecute(List<Books> book) {
 			super.onPostExecute(book);
-			MyAdapter adapter=new MyAdapter(getActivity(),book,mListView);
+			adapter=new MyAdapter(getActivity(),book,mListView);
 			mListView.setAdapter(adapter);
 			setListViewHeightBasedOnChildren(mListView);
 		}
 	}
 
 	private List<Books> getJsonDate(String URL) {
-		book_list=new ArrayList<>();
 		try {
 			String jsonString=readStream(new URL(URL).openStream());
 			JSONObject jsonObject;
@@ -200,7 +201,6 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 			e.printStackTrace();
 		}
 		return book_list;
-
 	}
 
 	private String readStream(InputStream is){
@@ -249,7 +249,7 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 		}
 
 		ViewGroup.LayoutParams params = listView.getLayoutParams();
-		params.height = totalHeight+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		params.height = totalHeight+ (listView.getDividerHeight() * (listAdapter.getCount() + 1));
 		// listView.getDividerHeight()获取子项间分隔符占用的高度
 		// params.height最后得到整个ListView完整显示需要的高度
 		listView.setLayoutParams(params);

@@ -10,19 +10,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.edu.uzz.activity.book.R;
 import cn.jpush.android.api.JPushInterface;
+import xyz.bboylin.universialtoast.UniversalToast;
 
 /**
  * Created by 10616 on 2017/11/2.
@@ -63,32 +65,25 @@ public class LoginActivity extends Activity {
 							int resultCode = response.getInt("resultCode");
 							if (resultCode == 3) {
 								getInfor();
-								Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-								startActivity(new Intent(LoginActivity.this, MainActivity.class));
-								JPushInterface.setAlias(LoginActivity.this,account,null);
+								String account=user_account.getText().toString();
+								login(account);
 								/*这里不能忘记修改*/
-								Log.e("BBBB","修改成功");
-								finish();
-								overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+								//Log.e("BBBB","修改成功");
 							} else if (resultCode == 4) {
-								Toast.makeText(LoginActivity.this, "密码错误，请重新输入！", Toast.LENGTH_SHORT).show();
+								UniversalToast.makeText(LoginActivity.this, "密码错误，请重新输入", UniversalToast.LENGTH_SHORT).showError();
 							} else if (resultCode == 2) {
-								Toast.makeText(LoginActivity.this, "用户未注册，请先注册！", Toast.LENGTH_SHORT).show();
+								UniversalToast.makeText(LoginActivity.this, "用户未注册，请先注册", UniversalToast.LENGTH_SHORT).showWarning();
 							}
-
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-
-
 					}
 
 
 				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError volleyError) {
-
-						Toast.makeText(LoginActivity.this, "登录失败，请检查网络链接！", Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(LoginActivity.this, "登录失败，请检查网络连接", UniversalToast.LENGTH_SHORT).showError();
 					}
 				});
 				//3请求加入队列
@@ -139,7 +134,7 @@ public class LoginActivity extends Activity {
 						editor.putString("age",age);
 						editor.commit();
 					}else{
-						Toast.makeText(LoginActivity.this,"个人信息获取失败",Toast.LENGTH_SHORT).show();
+						UniversalToast.makeText(LoginActivity.this, "个人信息获取失败", UniversalToast.LENGTH_SHORT).showError();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -148,12 +143,46 @@ public class LoginActivity extends Activity {
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError volleyError) {
-				Toast.makeText(LoginActivity.this,"个人信息获取失败",Toast.LENGTH_SHORT).show();
+				UniversalToast.makeText(LoginActivity.this, "个人信息获取失败", UniversalToast.LENGTH_SHORT).showError();
 			}
 		});
 		request.setTag("login");
 		queue.add(request);
 	}
 
+	public void login(String account){
+		EMClient.getInstance().login(account, "123", new EMCallBack() {
 
+			@Override
+			public void onSuccess() {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						UniversalToast.makeText(LoginActivity.this, "登录成功", UniversalToast.LENGTH_SHORT).showSuccess();
+						startActivity(new Intent(LoginActivity.this, MainActivity.class));
+						JPushInterface.setAlias(LoginActivity.this,user_account.getText().toString(),null);
+						Log.e("BBBB","修改成功");
+					}
+				});
+				Intent intent=new Intent();
+				intent.setClass(LoginActivity.this, MainActivity.class);
+				startActivity(intent);
+				finish();
+				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+			}
+
+			@Override
+			public void onProgress(int progress, String status) {
+
+			}
+
+			@Override
+			public void onError(int code, String error) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						UniversalToast.makeText(LoginActivity.this, "网络异常，请稍后再试", UniversalToast.LENGTH_SHORT).showError();
+					}
+				});
+			}
+		});
+	}
 }

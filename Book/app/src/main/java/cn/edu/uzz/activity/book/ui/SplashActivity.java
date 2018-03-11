@@ -5,8 +5,15 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
+
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+
+import java.io.File;
 
 import cn.edu.uzz.activity.book.R;
 
@@ -54,10 +61,37 @@ public class SplashActivity extends Activity {
 					finish();
 				}*/
 				Intent intent = new Intent();
-				intent.setClass(SplashActivity.this, MainActivity.class);
+				File file= new File("/data/data/cn.edu.uzz.activity.book/shared_prefs","user.xml");
+				if(file.exists()){
+					SharedPreferences pre=getSharedPreferences("user",MODE_PRIVATE);
+					String account=pre.getString("account","");
+					login(account);
+					intent.setClass(SplashActivity.this, MainActivity.class);
+				}else{
+					intent.setClass(SplashActivity.this, MainActivity.class);
+				}
 				startActivity(intent);
 				finish();
 				overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
+			}
+		});
+	}
+
+	private void login(String account) {
+		EMClient.getInstance().login(account, "123", new EMCallBack() {
+			@Override
+			public void onSuccess() {
+				Log.e("BBBB","ok");
+			}
+
+			@Override
+			public void onError(int i, String s) {
+				Log.e("BBBB","error");
+			}
+
+			@Override
+			public void onProgress(int i, String s) {
+
 			}
 		});
 	}

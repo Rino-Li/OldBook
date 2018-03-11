@@ -481,7 +481,7 @@ public class SpecialItemActivity extends Activity implements View.OnClickListene
 	public boolean getLikeBook() {
 		if (account==""){
 			UniversalToast.makeText(SpecialItemActivity.this, "请先登录", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
-					.setClickCallBack("查看", new View.OnClickListener() {
+					.setClickCallBack("登录", new View.OnClickListener() {
 						@Override
 						public void onClick(View view) {
 							startActivity(new Intent(SpecialItemActivity.this,LoginActivity.class));

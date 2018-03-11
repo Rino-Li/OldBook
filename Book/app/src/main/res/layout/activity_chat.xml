@@ -148,10 +148,10 @@
                 android:layout_width="50dp"
                 android:layout_height="32dp"
                 android:layout_marginRight="4dp"
-                android:background="@drawable/chat_send_btn_selector"
+                android:background="@drawable/buttonshape"
                 android:onClick="onClickSendText"
                 android:text="发送"
-                android:textColor="#ffffff"
+                android:textColor="@color/standardwhite"
                 android:textSize="16sp"
                 android:visibility="gone" />
         </LinearLayout>

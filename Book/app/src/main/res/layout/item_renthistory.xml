@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textColor="@color/standardgreen"
-            android:textSize="18sp"
+            android:textSize="10sp"
             android:layout_marginLeft="20dp"
             />
         <TextView
@@ -43,13 +43,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:textSize="10sp"
             android:text="至"/>
         <TextView
             android:id="@+id/renthistory_enddate"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textColor="@color/standardgreen"
-            android:textSize="18sp"
+            android:textSize="10sp"
             />
     </LinearLayout>
 

@@ -29,6 +29,7 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 	private LinearLayout myRenting;
 	private LinearLayout myHistory;
 	private LinearLayout mySuggest;
+	File file= new File("/data/data/cn.edu.uzz.activity.book/shared_prefs","user.xml");
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -51,7 +52,6 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 		myInfor= getView().findViewById(R.id.layout1);
 		myHistory=getView().findViewById(R.id.layout6);
 		mySuggest=getView().findViewById(R.id.layout8);
-		File file= new File("/data/data/cn.edu.uzz.activity.book/shared_prefs","user.xml");
 		if(file.exists())
 		{
 			loginBtn.setText("退出登录");
@@ -110,6 +110,21 @@ public class Tab03 extends Fragment implements View.OnClickListener{
 				break;
 			case R.id.layout8:
 				//发起会话
+				File file2= new File("/data/data/cn.edu.uzz.activity.book/shared_prefs","user.xml");
+				if(file2.exists())
+				{
+					startActivity(new Intent(getActivity(),ChatActivity.class));
+				}else{
+					UniversalToast.makeText(getActivity(), "请先登录", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
+							.setClickCallBack("登录", new View.OnClickListener() {
+								@Override
+								public void onClick(View view) {
+									startActivity(new Intent(getActivity(),LoginActivity.class));
+								}
+							})
+							.showWarning();
+				}
+
 				break;
 			default:
 				break;

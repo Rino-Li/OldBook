@@ -13,7 +13,6 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import com.avos.avoscloud.AVOSCloud;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -48,14 +47,14 @@ public class ExampleApplication extends Application {
          JPushInterface.init(this);     		// 初始化 JPush
 		 Logger.d(TAG, "[ExampleApplication] ok");
 		initHX();
-		initLeanCloud();
+//		initLeanCloud();
 		DbUtils.InitDbUtils(this);
 		initSoundPool();
     }
 
-	private void initLeanCloud() {
-		AVOSCloud.initialize(this,"uegGFiDbKaCaF0r66bDDo6iy-gzGzoHsz","st9EHtxdfyR4eSGW1dalVQPn");
-	}
+//	private void initLeanCloud() {
+//		AVOSCloud.initialize(this,"uegGFiDbKaCaF0r66bDDo6iy-gzGzoHsz","st9EHtxdfyR4eSGW1dalVQPn");
+//	}
 	private void initSoundPool() {
 		//参数1 当前声音池最多缓存多少声音
 		//参数2 声音的类型 通过AudioManager封装  STREAM_MUSIC走媒体声音（音乐 视频 游戏）
@@ -101,7 +100,7 @@ public class ExampleApplication extends Application {
 				//设置通知点击后自动消失
 				bulider.setAutoCancel(true);
 				//设置通知的小图标
-				bulider.setSmallIcon(R.mipmap.message);
+				bulider.setSmallIcon(R.mipmap.book_icon);
 				//设置通知的大标题
 				bulider.setContentTitle("您收到一条未读消息");
 				//消息的内容
@@ -109,7 +108,7 @@ public class ExampleApplication extends Application {
 				//把消息的内容设置到通知的内容中
 				bulider.setContentText(body.getMessage());
 //                设置一个大图标---下拉之后展示的图标
-				bulider.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.avatar6));
+				bulider.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.book_icon));
 				bulider.setContentInfo("来自"+emMessage.getUserName());
 				//给图标设置点击事件
 				Intent mainActivityIntent=new Intent(getApplicationContext(), MainActivity.class);

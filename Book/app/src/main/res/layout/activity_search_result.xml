@@ -38,4 +38,23 @@
         android:layout_below="@+id/search_title"
         android:padding="10dp"
         android:scrollbars="none"></ListView>
+    <ImageView
+        android:id="@+id/search_fail_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/book_fail"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
+    <TextView
+        android:id="@+id/search_fail_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/standardgreen"
+        android:text="暂时没有符合查询的书籍"
+        android:textSize="30sp"
+        android:layout_below="@+id/search_fail_img"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        />
 </RelativeLayout>

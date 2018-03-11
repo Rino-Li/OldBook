@@ -511,7 +511,7 @@ public class RentingItemActivity extends AppCompatActivity implements View.OnCli
 	public boolean getLikeBook() {
 		if (account==""){
 			UniversalToast.makeText(RentingItemActivity.this, "请先登录", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
-					.setClickCallBack("查看", new View.OnClickListener() {
+					.setClickCallBack("登录", new View.OnClickListener() {
 						@Override
 						public void onClick(View view) {
 							startActivity(new Intent(RentingItemActivity.this,LoginActivity.class));

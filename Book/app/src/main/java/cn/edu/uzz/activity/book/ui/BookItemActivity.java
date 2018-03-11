@@ -224,7 +224,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
 					UniversalToast.makeText(BookItemActivity.this, "抱歉，此书正在被借阅", UniversalToast.LENGTH_SHORT).showWarning();
                 }else if (checksub()==4){
 					UniversalToast.makeText(BookItemActivity.this, "请先登录", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
-							.setClickCallBack("查看", new View.OnClickListener() {
+							.setClickCallBack("登录", new View.OnClickListener() {
 								@Override
 								public void onClick(View view) {
 									startActivity(new Intent(BookItemActivity.this,LoginActivity.class));
@@ -250,7 +250,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
     protected void showDatePickDlg() {
 		if (account==""){
 			UniversalToast.makeText(BookItemActivity.this, "请先登录", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
-					.setClickCallBack("查看", new View.OnClickListener() {
+					.setClickCallBack("登录", new View.OnClickListener() {
 						@Override
 						public void onClick(View view) {
 							startActivity(new Intent(BookItemActivity.this,LoginActivity.class));
@@ -486,7 +486,7 @@ public class BookItemActivity extends Activity implements View.OnClickListener {
     public boolean getLikeBook() {
 		if (account==""){
 			UniversalToast.makeText(BookItemActivity.this, "请先登录", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
-					.setClickCallBack("查看", new View.OnClickListener() {
+					.setClickCallBack("登录", new View.OnClickListener() {
 						@Override
 						public void onClick(View view) {
 							startActivity(new Intent(BookItemActivity.this,LoginActivity.class));

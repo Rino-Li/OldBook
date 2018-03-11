@@ -3,11 +3,14 @@ package cn.edu.uzz.activity.book.ui;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,8 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.uzz.activity.book.R;
-import cn.edu.uzz.activity.book.entity.Books;
 import cn.edu.uzz.activity.book.adapter.MyAdapter;
+import cn.edu.uzz.activity.book.entity.Books;
 
 public class SearchResultActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemClickListener{
 
@@ -33,6 +36,8 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
 	private ListView listView;
 	private List<Books> book_list;
 	private static  String URL="http://123.206.230.120/Book/searchServ?searchName=";
+	private TextView search_fail_text;
+	private ImageView search_fail_img;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,8 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
 	private void initView() {
 		listView= (ListView) findViewById(R.id.searchlist);
 		returnBtn= (ImageView) findViewById(R.id.search_return);
+		search_fail_img=findViewById(R.id.search_fail_img);
+		search_fail_text=findViewById(R.id.search_fail_text);
 		returnBtn.setOnClickListener(this);
 		listView.setOnItemClickListener(this);
 	}
@@ -94,6 +101,20 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
 			try {
 				jsonObject=new JSONObject(jsonString);
 				JSONArray jsonArray=jsonObject.getJSONArray("searchlist");
+				if (jsonArray.length()!=0){
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							mHandler.post(new Runnable() {
+								@Override
+								public void run() {
+									search_fail_img.setVisibility(View.INVISIBLE);
+									search_fail_text.setVisibility(View.INVISIBLE);
+								}
+							});
+						}
+					}).start();
+				}
 				for (int i=0;i<jsonArray.length();i++){
 					jsonObject=jsonArray.getJSONObject(i);
 					books=new Books();
@@ -138,4 +159,12 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
 		}
 		return result;
 	}
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if (msg.what == 100) {
+			}
+		}
+	};
 }

@@ -48,5 +48,6 @@
         android:layout_below="@+id/car_bookname"
         android:layout_marginTop="10dp"
         android:text="暂无"
+        android:textColor="@drawable/item_color"
         android:textSize="8sp" />
 </RelativeLayout>

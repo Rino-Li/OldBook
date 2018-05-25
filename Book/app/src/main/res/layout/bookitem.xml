@@ -38,12 +38,12 @@
         android:layout_height="wrap_content"
         android:textSize="8sp"
         android:text="123232331232"
-        android:textColor="#505050"
         android:layout_below="@+id/bookname"
         android:layout_alignLeft="@+id/bookname"
         android:layout_marginTop="5dp"
         android:lines="1"
         android:ellipsize="end"
+        android:textColor="@drawable/item_color"
         />
     <TextView
         android:id="@+id/bookpublish"
@@ -54,6 +54,7 @@
         android:text="555"
         android:layout_below="@+id/bookwriter"
         android:layout_alignLeft="@+id/bookname"
+        android:textColor="@drawable/item_color"
         />
     <TextView
         android:id="@+id/bookversion"
@@ -64,5 +65,6 @@
         android:layout_alignLeft="@+id/bookwriter"
         android:layout_marginTop="5dp"
         android:textSize="8sp"
+        android:textColor="@drawable/item_color"
         />
 </RelativeLayout>

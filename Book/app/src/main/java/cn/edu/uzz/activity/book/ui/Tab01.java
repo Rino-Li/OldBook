@@ -20,6 +20,7 @@ import com.jwenfeng.library.pulltorefresh.BaseRefreshListener;
 import com.jwenfeng.library.pulltorefresh.PullToRefreshLayout;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,6 +93,18 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 		banner.setImageLoader(new GlideImageLoader());
 		//设置图片集合
 		banner.setImages(images);
+		banner.setOnBannerListener(new OnBannerListener() {
+			@Override
+			public void OnBannerClick(int position) {
+				if (position==0){
+					startActivity(new Intent(getActivity(),NullActivity.class));
+				}else if (position==1){
+					startActivity(new Intent(getActivity(),NullActivity.class));
+				}else if(position==2){
+					startActivity(new Intent(getActivity(),NullActivity.class));
+				}
+			}
+		});
 		//banner设置方法全部调用完毕时最后调用
 		banner.start();
 		pullToRefreshLayout.setRefreshListener(new BaseRefreshListener() {
@@ -266,13 +279,16 @@ public class Tab01 extends Fragment implements AdapterView.OnItemClickListener,V
 				jsonObject=new JSONObject(result);
 				int booktype=jsonObject.getInt("booktype");
 				int bookid=jsonObject.getInt("bookid");
+				Log.e("BBBB","booktype="+booktype);
 				Intent intent=new Intent();
 				intent.putExtra("type",booktype);
 				intent.putExtra("id",bookid);
 				intent.setClass(getActivity(),SpecialItemActivity.class);
 				startActivity(intent);
 			} catch (JSONException e) {
-				e.printStackTrace();
+				Intent intent=new Intent();
+				intent.setClass(getActivity(),ZxingErrorActivity.class);
+				startActivity(intent);
 			}
 		}
 	}
